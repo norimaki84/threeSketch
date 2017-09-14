@@ -3,7 +3,7 @@
  * Project:
  * File: Top
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 import Common from './page/Common';
