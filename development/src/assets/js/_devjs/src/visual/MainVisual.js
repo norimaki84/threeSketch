@@ -2,11 +2,12 @@
  * fileOverview:
  * Project:
  * File: Canvas
- * Date: 17/9/23
+ * Date:
  * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
+// import Camera from './Utils/Camera';
 
 'use strict';
 
