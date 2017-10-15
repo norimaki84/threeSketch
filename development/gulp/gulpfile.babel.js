@@ -7,7 +7,6 @@ requireDir('./tasks',{recurse: true});
 //--------------------------------------------------
 //  watch
 //--------------------------------------------------
-
 gulp.task('watch', ()=>{
     gulp.watch([PATH.dev.root + '**/*.ejs',PATH.dev.image + '**/*.svg'],['compileHTML']);
     gulp.watch( PATH.dev.scss + '**/*.scss',['compileSCSS']);
@@ -19,7 +18,6 @@ gulp.task('watch', ()=>{
 //--------------------------------------------------
 //  default
 //--------------------------------------------------
-
 gulp.task('default', [
                         'watch',
                         'compileHTML','compileSCSS',
@@ -35,7 +33,7 @@ gulp.task('publish', (callback)=>{
   return runSequence(
     'clean',
     ['compileHTML','compileSCSS','concatJSLibs'],
-    ['minifyHTML','minifyCSS','minifyJS'],
+    ['minifyHTML','minifyCSS','copyJS'],
     ['copyResource'],
     callback
   );

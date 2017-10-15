@@ -13,7 +13,7 @@ import PATH from '../../config';
 //
 // ************************************************************ -->
 
-var opt = {
+let opt = {
   optimizationLevel: 3,
   // svgoPlugins: [{removeViewBox: false}],
   use: [

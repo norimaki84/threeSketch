@@ -9,12 +9,9 @@ import autoprefixer from "gulp-autoprefixer";
 import sassGlob from 'gulp-sass-glob';
 import PATH from '../../config';
 
-// <!-- ************************************************************
-//
-// complile
-//
-// ************************************************************ -->
-
+// ------------------------------------------------------------
+//  complile
+// ------------------------------------------------------------
 gulp.task("compileSCSS", ()=>{
 
     gulp.src([PATH.dev.scss + '**/*.scss','!' + PATH.dev.scss + '**/!*.scss'])
@@ -27,12 +24,9 @@ gulp.task("compileSCSS", ()=>{
 
 });
 
-// <!-- ************************************************************
-//
-// minify
-//
-// ************************************************************ -->
-
+// ------------------------------------------------------------
+//  minify
+// ------------------------------------------------------------
 gulp.task("minifyCSS", ()=>{
 
     gulp.src(PATH.dev.css + '**/*.css')
@@ -42,24 +36,21 @@ gulp.task("minifyCSS", ()=>{
 
 });
 
-// <!-- ************************************************************
+// ------------------------------------------------------------
+//  styleguide
+// ------------------------------------------------------------
+// gulp.task("styleguide", ()=>{
 //
-// styleguide
-//
-// ************************************************************ -->
-
-gulp.task("styleguide", ()=>{
-
-    return sass(PATH.dev.scss, { 
-            style: 'expanded',
-            compass : true,
-            sourcemap: true
-        })
-        .pipe(plumber())
-        .pipe(gulp.dest('./styleguide'))
-        .pipe(styledocco({
-            out: './styleguide',
-            name: 'My Project',
-            'no-minify': true
-        }))
-});
+//     return sass(PATH.dev.scss, {
+//             style: 'expanded',
+//             compass : true,
+//             sourcemap: true
+//         })
+//         .pipe(plumber())
+//         .pipe(gulp.dest('./styleguide'))
+//         .pipe(styledocco({
+//             out: './styleguide',
+//             name: 'My Project',
+//             'no-minify': true
+//         }))
+// });

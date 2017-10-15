@@ -1,13 +1,13 @@
 // config
-var PROJECT_ROOT = '../';
+let PROJECT_ROOT = '../';
 
-var DEV = 'src/';
+let DEV = 'src/';
 
-var RELEASE = '../htdocs/';
+let RELEASE = '../htdocs/';
 
-var BUILD = 'build/';
+let BUILD = 'build/';
 
-var DEVPATH = {
+let DEVPATH = {
   root : PROJECT_ROOT + DEV,
   ejs : PROJECT_ROOT + DEV + 'assets/ejs/',
   css  : PROJECT_ROOT + DEV + 'assets/css/',
@@ -18,14 +18,14 @@ var DEVPATH = {
   resource : PROJECT_ROOT + DEV + 'assets/resource/',
 };
 
-var RELEASEPATH = {
+let RELEASEPATH = {
   root : PROJECT_ROOT + RELEASE,
   css  : PROJECT_ROOT + RELEASE + 'assets/css/',
   js    : PROJECT_ROOT + RELEASE + 'assets/js/',
   resource : PROJECT_ROOT + RELEASE + 'assets/resource/',
 };
 
-var OTHERPATH = {
+let OTHERPATH = {
   gulp : PROJECT_ROOT + BUILD + 'gulp/',
   webpack : PROJECT_ROOT + BUILD + 'webpack/',
   styleguide  : PROJECT_ROOT + '_styleguide/',
@@ -33,7 +33,7 @@ var OTHERPATH = {
   jsDoc_dist : PROJECT_ROOT + '_jsDoc/',
 };
 
-var PATH = {
+let PATH = {
     root: PROJECT_ROOT,
     dev: DEVPATH,
     release: RELEASEPATH,

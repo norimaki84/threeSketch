@@ -36,26 +36,3 @@ gulp.task('concatJSLibs', ()=>{
         .pipe(gulp.dest(PATH.dev.js + 'common/'));
 
 });
-
-// ------------------------------------------------------------
-// main
-// ------------------------------------------------------------
-gulp.task('concatJS', ()=>{
-
-    var src = [
-                  PATH.dev.devjs + 'src/gb.js',
-
-                  PATH.dev.devjs + 'src/myLibs/**/*.js',
-                  PATH.dev.devjs + 'src/Func/**/*.js',
-                  PATH.dev.devjs + 'src/Layout/**/*.js',
-                  PATH.dev.devjs + 'src/Display/**/*.js',
-
-              ]
-
-    gulp.src(src)
-        .pipe(plumber())
-        // .pipe(babel({presets: [es2015]}))
-        .pipe(concat('bundle.js'))
-        .pipe(gulp.dest(PATH.dev.js + 'common/'));
-
-});

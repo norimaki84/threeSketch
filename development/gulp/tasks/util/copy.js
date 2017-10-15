@@ -9,3 +9,10 @@ gulp.task('copyResource', ()=>{
 
 });
 
+gulp.task('copyJS', ()=>{
+
+	gulp.src([PATH.dev.js + '**/*.js', '!' + PATH.dev.js + '_devjs/**/*'])
+		.pipe(gulp.dest(PATH.release.js));
+
+});
+
