@@ -48,15 +48,6 @@ module.exports = {
 			}
 		]
 	},
-	// // プラグインの設定
-	// plugins: [
-	// 	new webpack.optimize.UglifyJsPlugin({
-	// 		compress: {
-	// 			// console.log（）などのconsole.*系の記述を取り除いて出力する
-	// 			drop_console: true
-	// 		},
-	// 	}),
-	// ],
 	resolve: {
 		modules: [
 			path.join(__dirname, 'node_modules')
