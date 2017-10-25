@@ -37,8 +37,6 @@ export default class DisplayTop {
 
   static run() {
 
-		// window.console.log('static_Run');
-
   }
 
   setEvents() {
