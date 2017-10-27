@@ -7,7 +7,6 @@
  */
 
 
-
 'use strict';
 
 export default class DisplayTop {
@@ -21,20 +20,21 @@ export default class DisplayTop {
 	}
 
 	setup() {
-		const promise = (message, msec) => new Promise((resolve, reject) => {
-			setTimeout(() => {
-				console.log(message);
-				resolve();
-			}, msec);
-		});
-
-		const printMessage = async () => {
-			await promise('hello', 1000);
-			await promise('async', 200);
-			await promise('world', 1000);
-		};
-
-		printMessage();
+		//async/ awaitテスト
+		// const promise = (message, msec) => new Promise((resolve, reject) => {
+		// 	setTimeout(() => {
+		// 		console.log(message);
+		// 		resolve();
+		// 	}, msec);
+		// });
+		//
+		// const printMessage = async () => {
+		// 	await promise('hello', 1000);
+		// 	await promise('async', 200);
+		// 	await promise('world', 1000);
+		// };
+		//
+		// printMessage();
 	}
 
 	onLoad() {

@@ -6,6 +6,7 @@
  * Author:
  */
 
+require("babel-polyfill");
 require('../../libs/OrbitControls.js');
 
 'use strict';
