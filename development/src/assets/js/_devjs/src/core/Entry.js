@@ -2,8 +2,8 @@
  * fileOverview:
  * Project:
  * File: Entry
- * Date:
- * Author:
+ * Date: 17/11/09
+ * Author: Teraguchi
  */
 
 require("babel-polyfill");
