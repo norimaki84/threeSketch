@@ -31,12 +31,14 @@ export default class Floating extends Entry{
 		this.createRenderer = this._createRenderer.bind(this);
 
 		// this.uniforms = {};
-		this.uniforms = {
-			u_time: { type: "f", value: 1.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2() },
-			u_mouse: { type: "v2", value: new THREE.Vector2() }
-		};
+		this.vTexture = null;
 		this.mesh = null;
+		this.uniforms = {
+			// u_time: { type: "f", value: 1.0 },
+			// u_resolution: { type: "v2", value: new THREE.Vector2() },
+			// u_mouse: { type: "v2", value: new THREE.Vector2() },
+			texture: { type: 't', value: this.vTexture }
+		};
 		this.createMesh = this._createMesh.bind(this);
 
     this.onResize = this._onResize.bind(this);
@@ -150,12 +152,26 @@ export default class Floating extends Entry{
 
 	}
 
+	/**
+	 * 画像をロード
+	 * @private
+	 */
+	_loadTexture(image, callback) {
+		const loader = new THREE.TextureLoader();
+		loader.load(image, (texture) => {
+			texture.magFilter = THREE.NearestFilter;
+			texture.minFilter = THREE.NearestFilter;
+			this.texture = texture;
+			// this.mesh = this.createMesh();
+			callback();
+		});
+	}
 
   /**
    * 画像をロード
    * @private
    */
-	_loadTexture(){
+	_attachTexture(){
 
 		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
 			this.scene.add(this.plane.mesh);

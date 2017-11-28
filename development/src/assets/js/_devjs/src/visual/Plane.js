@@ -31,11 +31,11 @@ export default class Plane extends Entry{
 		const loader = new THREE.TextureLoader();
 		loader.load(image, (texture) => {
 			texture.magFilter = THREE.NearestFilter;
-      texture.minFilter = THREE.NearestFilter;
-      this.texture = texture;
-      this.mesh = this.createMesh();
-      callback();
-    });
+			texture.minFilter = THREE.NearestFilter;
+			this.texture = texture;
+			this.mesh = this.createMesh();
+			callback();
+		});
 	}
 
 	_createMesh() {
