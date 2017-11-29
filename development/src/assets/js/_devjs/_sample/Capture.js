@@ -37,7 +37,7 @@ export default class Capture extends THREE.Scene{
 	 */
 	texture(){
 
-	  return this._texture.texture;
+	  return this._texture.texture();
 
   }
 
@@ -47,8 +47,7 @@ export default class Capture extends THREE.Scene{
 	 * @param camera
 	 */
   render(renderer, camera){
-		//this -> オフスクリーンレンダリング用のScene, camera -> オフスクリーンレンダリング用のCamera,
-		//第三引数にはテクスチャを指定
+
     renderer.render(this, camera, this._texture);
 
   }
@@ -61,7 +60,7 @@ export default class Capture extends THREE.Scene{
   size(width, height){
 
     let ratio = window.devicePixelRatio || 1;
-		this._texture.setSize(width * ratio, height * ratio);
+		this._Texture.setSize(width * ratio, height * ratio)
 
   }
 

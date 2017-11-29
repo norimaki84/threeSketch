@@ -6,9 +6,10 @@
  * Author: Teraguchi
  */
 
+'use strict';
+
 import Entry from '../Core/Entry';
 
-'use strict';
 
 export default class Plane extends Entry{
 
