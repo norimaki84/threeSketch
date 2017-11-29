@@ -208,6 +208,7 @@ export default class Floating extends Entry{
 
 		// this.uniforms.u_time.value += 0.05;
 
+		// this.capture.render(this.scene, this.camera);
 		this.renderer.render(this.scene, this.camera);
 
 		requestAnimationFrame( () => {
