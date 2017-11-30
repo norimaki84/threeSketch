@@ -9,8 +9,7 @@
 'use strict';
 
 import Entry from '../Core/Entry';
-import Capture from "./Capture";
-// import Plane from './Plane';
+// import Capture from "./Capture";
 
 export default class Floating extends Entry{
 
@@ -28,31 +27,23 @@ export default class Floating extends Entry{
 		this.renderer = null;
 
 		//オフスクリーンレンダリング
-		this.capture = new Capture();
-		this.capture.init();
-		this.capture.size(512,512);
+		// this.capture = new Capture();
+		// this.capture.init();
+		// this.capture.size(512,512);
 
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
 
-		// this.uniforms = {};
+		this.uniforms = {};
 		this.textureUnit = null;
 		this.mesh = null;
-		this.uniforms = {
-			// u_time: { type: "f", value: 1.0 },
-			// u_resolution: { type: "v2", value: new THREE.Vector2() },
-			// u_mouse: { type: "v2", value: new THREE.Vector2() },
-			// textureUnit: { type: 't', value: this.textureUnit }
-			textureUnit: { type: 't', value: this.capture.texture() }
-		};
 		this.createMesh = this._createMesh.bind(this);
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
 
-		// this.plane = new Plane();
 
   }
 
@@ -61,31 +52,25 @@ export default class Floating extends Entry{
    */
   init(){
 
-    // this.mesh = this.createMesh();
-
-		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-		// 	window.console.log('this.textureUnit', this.textureUnit);
-		// });
-
-
 		this.createCamera();
 		this.createScene();
 		this.createRenderer();
 
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-			window.console.log('this.textureUnit', this.textureUnit);
+			// window.console.log('this.textureUnit', this.textureUnit);
 			this.scene.add(this.mesh);
+			window.addEventListener('resize', () => {
+				this.onResize();
+			}, false);
+			this.onResize();
 			this.Update();
 		});
 
 		// 平行光源
-		const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-		directionalLight.position.set(1, 1, 1);
-		// シーンに追加
-		this.scene.add(directionalLight);
+		// const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
+		// directionalLight.position.set(1, 1, 1);
+		// this.scene.add(directionalLight);
 
-		// this.Update();
-		// this.loadTexture();
   }
 
 
@@ -138,11 +123,13 @@ export default class Floating extends Entry{
 	 * @private
 	 */
 	_createMesh() {
-		// this.uniforms = {
-		// 	u_time: { type: "f", value: 1.0 },
-		// 	u_resolution: { type: "v2", value: new THREE.Vector2() },
-		// 	u_mouse: { type: "v2", value: new THREE.Vector2() }
-		// };
+		this.uniforms = {
+			// u_time: { type: "f", value: 1.0 },
+			// u_resolution: { type: "v2", value: new THREE.Vector2() },
+			// u_mouse: { type: "v2", value: new THREE.Vector2() },
+			textureUnit: { type: 't', value: this.textureUnit }
+			// textureUnit: { type: 't', value: this.capture.texture() }
+		};
 		return new THREE.Mesh(
 			new THREE.PlaneBufferGeometry(512, 512),
 			new THREE.RawShaderMaterial({
@@ -151,26 +138,8 @@ export default class Floating extends Entry{
 				vertexShader: require('../../../../glsl/floating.vert'),
 				fragmentShader: require('../../../../glsl/floating.frag'),
 			})
-			// new THREE.MeshStandardMaterial({color: 0x0000FF})
 		);
 	}
-
-	// _createMesh02() {
-	// 	// this.uniforms = {
-	// 	// 	u_time: { type: "f", value: 1.0 },
-	// 	// 	u_resolution: { type: "v2", value: new THREE.Vector2() },
-	// 	// 	u_mouse: { type: "v2", value: new THREE.Vector2() }
-	// 	// };
-	// 	return new THREE.Mesh(
-	// 		new THREE.PlaneBufferGeometry(2, 2),
-	// 		new THREE.RawShaderMaterial({
-	// 			// new THREE.ShaderMaterial({
-	// 			uniforms: this.uniforms,
-	// 			vertexShader: require('../../../../glsl/floating.vert'),
-	// 			fragmentShader: require('../../../../glsl/floating.frag'),
-	// 		})
-	// 	);
-	// }
 
 	/**
 	 * 更新
@@ -181,6 +150,7 @@ export default class Floating extends Entry{
 		// this.uniforms.u_time.value += 0.05;
 
 		// this.capture.render(this.scene, this.camera);
+
 		this.renderer.render(this.scene, this.camera);
 
 		requestAnimationFrame( () => {
@@ -209,18 +179,18 @@ export default class Floating extends Entry{
    * 画像をロード
    * @private
    */
-	_attachTexture(){
-
-		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
-			this.scene.add(this.plane.mesh);
-			window.addEventListener('resize', () => {
-				this.onResize();
-			}, false);
-			this.onResize();
-			this.Update();
-		});
-
-	}
+	// _attachTexture(){
+	//
+	// 	this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
+	// 		this.scene.add(this.plane.mesh);
+	// 		window.addEventListener('resize', () => {
+	// 			this.onResize();
+	// 		}, false);
+	// 		this.onResize();
+	// 		this.Update();
+	// 	});
+	//
+	// }
 
 
   /**
@@ -229,7 +199,6 @@ export default class Floating extends Entry{
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
-		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
