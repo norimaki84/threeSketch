@@ -36,6 +36,7 @@ export default class Floating extends Entry{
 		this.createRenderer = this._createRenderer.bind(this);
 
 		this.uniforms = {};
+		this.u_time = null;
 		this.textureUnit = null;
 		this.mesh = null;
 		this.createMesh = this._createMesh.bind(this);
@@ -124,8 +125,8 @@ export default class Floating extends Entry{
 	 */
 	_createMesh() {
 		this.uniforms = {
-			// u_time: { type: "f", value: 1.0 },
-			// u_resolution: { type: "v2", value: new THREE.Vector2() },
+			u_time: { type: "f", value: this.u_time },
+			u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
 			// u_mouse: { type: "v2", value: new THREE.Vector2() },
 			textureUnit: { type: 't', value: this.textureUnit }
 			// textureUnit: { type: 't', value: this.capture.texture() }
@@ -147,7 +148,7 @@ export default class Floating extends Entry{
 	 */
 	_Update() {
 
-		// this.uniforms.u_time.value += 0.05;
+		this.uniforms.u_time.value += 0.05;
 
 		// this.capture.render(this.scene, this.camera);
 
