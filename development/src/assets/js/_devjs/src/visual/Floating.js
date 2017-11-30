@@ -1,6 +1,6 @@
 /**
  * fileOverview:
- * Project: GLSLのテスト Floating
+ * Project: GLSL Floating
  * File: Floating
  * Date: 17/11/19
  * Author: Teraguchi
@@ -28,13 +28,9 @@ export default class Floating extends Entry{
 		this.renderer = null;
 
 		//オフスクリーンレンダリング
-		// this.renderTarget = null;
-		// this.subCamera = null;
-		// this.subScene = null;
-
-		// this.capture = new Capture();
-		// this.capture.init();
-		// this.capture.size(512,512);
+		this.capture = new Capture();
+		this.capture.init();
+		this.capture.size(512,512);
 
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
@@ -47,7 +43,8 @@ export default class Floating extends Entry{
 			// u_time: { type: "f", value: 1.0 },
 			// u_resolution: { type: "v2", value: new THREE.Vector2() },
 			// u_mouse: { type: "v2", value: new THREE.Vector2() },
-			texture: { type: 't', value: this.textureUnit }
+			// textureUnit: { type: 't', value: this.textureUnit }
+			textureUnit: { type: 't', value: this.capture.texture() }
 		};
 		this.createMesh = this._createMesh.bind(this);
 
@@ -64,27 +61,7 @@ export default class Floating extends Entry{
    */
   init(){
 
-
-
-    this.mesh = this.createMesh();
-
-		// this.renderTarget = new THREE.WebGLRenderTarget(512, 512, {
-		// 	magFilter: THREE.NearestFilter,
-		// 	minFilter: THREE.NearestFilter,
-		// 	wrapS: THREE.ClampToEdgeWrapping,
-		// 	wrapT: THREE.ClampToEdgeWrapping
-		// });
-
-		// 通常の描画処理（renderTarget への描画用）
-		// this.subScene = new THREE.Scene();
-		// this.subCamera = new THREE.PerspectiveCamera(60, this.renderTarget.width / this.renderTarget.height, 0.1, 1000);
-		// this.subCamera.position.z = 20;
-		//
-		// let texture = THREE.TextureLoader('../../../../assets/resource/img/shibuya01.jpg');
-		// let subGeometry = new THREE.BoxGeometry(10, 10, 10);
-		// let subMaterial = new THREE.MeshBasicMaterial({map: texture, wireframe: false});
-		// let subMesh = new THREE.Mesh(subGeometry, subMaterial);
-		// this.subScene.add(subMesh);
+    // this.mesh = this.createMesh();
 
 		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 		// 	window.console.log('this.textureUnit', this.textureUnit);
@@ -95,15 +72,11 @@ export default class Floating extends Entry{
 		this.createScene();
 		this.createRenderer();
 
-		// 箱を作成
-		// let geometry = new THREE.PlaneGeometry(512, 512, 64, 64);
-		// // const material = new THREE.MeshStandardMaterial({color: 0x0000FF});
-		// const material = new THREE.MeshPhongMaterial({map: this.renderTarget.texture, wireframe: false});
-		// const box = new THREE.Mesh(geometry, material);
-		// // const box = new THREE.Mesh(geometry, this.texture);
-		// this.scene.add(box);
-
-		this.scene.add(this.mesh);
+		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
+			window.console.log('this.textureUnit', this.textureUnit);
+			this.scene.add(this.mesh);
+			this.Update();
+		});
 
 		// 平行光源
 		const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
@@ -111,8 +84,7 @@ export default class Floating extends Entry{
 		// シーンに追加
 		this.scene.add(directionalLight);
 
-		this.Update();
-
+		// this.Update();
 		// this.loadTexture();
   }
 
@@ -228,7 +200,7 @@ export default class Floating extends Entry{
 			texture.magFilter = THREE.NearestFilter;
 			texture.minFilter = THREE.NearestFilter;
 			that.textureUnit = texture;
-			// this.mesh = this.createMesh();
+			this.mesh = this.createMesh();
 			callback();
 		});
 	}
