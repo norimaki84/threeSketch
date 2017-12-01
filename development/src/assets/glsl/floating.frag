@@ -40,6 +40,7 @@ void main(){
     // スクリーン上の座標（0.0 ~ u_resolution）を正規化（-1.0 ~ 1.0）する @@@
     // gl_FragCoord == スクリーン上のピクセル位置 0.0 ~ スクリーンの横幅ピクセル数 => 0.0 ~ 1.0
     vec2 p = (gl_FragCoord.st / u_resolution) * 2.0 - 1.0;
+//    vec2 p = (gl_FragCoord.st * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
 
     // フレームバッファの描画結果をテクスチャから読み出す
     vec4 samplerColor = texture2D(textureUnit, vUv);
