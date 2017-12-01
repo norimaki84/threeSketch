@@ -54,11 +54,12 @@ void main(){
 
     // ホワイトノイズを生成 @@@
     float noise = rnd(gl_FragCoord.st + mod(u_time, 10.0));
+//    dest *= noise * 0.5 + 0.5; // ノイズの値をマイルド化
     dest *= noise * 0.5 + 0.5; // ノイズの値をマイルド化
 
     // ブラウン管モニタのような走査線 @@@
     // abs == 絶対値を取る（全部プラスにする）
-    float scanLine = abs(sin(p.y * 200.0 + u_time * 5.0)) * 0.5 + 0.5;
+    float scanLine = abs(sin(p.y * 30.0 + u_time * 5.0)) * 0.5 + 0.5;
     dest *= scanLine;
 
     // 様々なポストプロセスを乗算して出力する

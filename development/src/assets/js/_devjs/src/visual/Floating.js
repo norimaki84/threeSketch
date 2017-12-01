@@ -48,6 +48,7 @@ export default class Floating extends Entry{
 
   }
 
+
   /**
    * 初期化
    */
