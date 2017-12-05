@@ -59,7 +59,6 @@ export default class Floating extends Entry{
 		this.createRenderer();
 
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-			// window.console.log('this.textureUnit', this.textureUnit);
 			this.scene.add(this.mesh);
 			window.addEventListener('resize', () => {
 				this.onResize();
