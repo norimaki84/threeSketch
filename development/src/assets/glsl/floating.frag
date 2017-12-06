@@ -51,11 +51,10 @@ void main(){
     // ビネット（四隅が暗くなるような演出） @@@
     // length == ベクトルの長さを測る
     float vignette = 1.5 - length(p);
-//    dest *= vignette;
+    //dest *= vignette;
 
     // ホワイトノイズを生成 @@@
     float noise = rnd(gl_FragCoord.st + mod(u_time, 10.0));
-//    dest *= noise * 0.5 + 0.5; // ノイズの値をマイルド化
     dest *= noise * 0.5 + 0.5; // ノイズの値をマイルド化
 
     // ブラウン管モニタのような走査線 @@@
