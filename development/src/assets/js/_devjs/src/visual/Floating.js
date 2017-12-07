@@ -19,10 +19,13 @@ export default class Floating extends Entry{
 
     this.canvas = document.getElementById('webgl-output');
 
-    this.width = document.body.clientWidth;
-    this.height = document.body.clientHeight;
+		// this.width = document.body.clientWidth;
+		// this.height = document.body.clientHeight;
 
-    this.camera = null;
+		this.width = 512;
+		this.height = 512;
+
+		this.camera = null;
     this.scene = null;
 		this.renderer = null;
 
@@ -61,9 +64,9 @@ export default class Floating extends Entry{
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
 			window.addEventListener('resize', () => {
-				this.onResize();
+				// this.onResize();
 			}, false);
-			this.onResize();
+			// this.onResize();
 			this.Update();
 		});
 
@@ -83,7 +86,7 @@ export default class Floating extends Entry{
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 1000;
+    this.camera.position.z = 600;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 

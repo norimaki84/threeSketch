@@ -33,5 +33,6 @@ void main(){
 //  gl_Position = vec4(position, 1.0);
 
 //  vUv = (position.xy + 1.0) * 0.5;
+//  vUv = (position.xy + 1.0) * 1.5;
 
 }
