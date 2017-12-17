@@ -18,6 +18,7 @@ export default class Floating extends Entry{
     super();
 
     this.canvas = document.getElementById('webgl-output');
+		this.canvasEl = $('#top #webgl-output');
 
 		// this.width = document.body.clientWidth;
 		// this.height = document.body.clientHeight;
@@ -37,6 +38,9 @@ export default class Floating extends Entry{
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
+
+		this.updateStrength = this._updateStrength.bind(this);
+		this.draw = this._draw.bind(this);
 
 		this.uniforms = {};
 		this.u_time = null;
@@ -63,19 +67,53 @@ export default class Floating extends Entry{
 
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
+			this.updateStrength();
 			window.addEventListener('resize', () => {
 				// this.onResize();
 			}, false);
 			// this.onResize();
+
 			this.Update();
 		});
 
-		// 平行光源
-		// const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-		// directionalLight.position.set(1, 1, 1);
-		// this.scene.add(directionalLight);
-
   }
+
+	/**
+	 * マウスオーバー・マウスアウトでuniforms変数を更新
+	 * @private
+	 */
+	_updateStrength(){
+		let that = this;
+		this.canvasEl
+			.mouseover(function() {
+				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
+					value: 15,
+					ease: Linear.easeNone,
+					overwrite: true,
+					onUpdate: () => {
+						return that.draw();
+					}
+				});
+			})
+			.mouseout(function() {
+				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
+					value: 0,
+					ease: Linear.easeNone,
+					overwrite: true,
+					onUpdate: () => {
+						return that.draw();
+					}
+				});
+			});
+	}
+
+	/**
+	 * 再描画
+	 * @private
+	 */
+	_draw(){
+		this.renderer.render(this.scene, this.camera);
+	}
 
 
   /**
@@ -116,7 +154,7 @@ export default class Floating extends Entry{
 		});
 
     this.renderer.setClearColor(0xEEEEEE, 1.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    // this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
   }
@@ -129,6 +167,8 @@ export default class Floating extends Entry{
 	_createMesh() {
 		this.uniforms = {
 			u_time: { type: "f", value: this.u_time },
+			strength: { type: "1f", value: 0 },
+			// strength: { type: "f", value: 0.0 },
 			u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
 			// u_mouse: { type: "v2", value: new THREE.Vector2() },
 			textureUnit: { type: 't', value: this.textureUnit }
@@ -137,7 +177,6 @@ export default class Floating extends Entry{
 		return new THREE.Mesh(
 			new THREE.PlaneBufferGeometry(512, 512),
 			new THREE.RawShaderMaterial({
-			// new THREE.ShaderMaterial({
 				uniforms: this.uniforms,
 				vertexShader: require('../../../../glsl/floating.vert'),
 				fragmentShader: require('../../../../glsl/floating.frag'),
@@ -151,7 +190,7 @@ export default class Floating extends Entry{
 	 */
 	_Update() {
 
-		this.uniforms.u_time.value += 0.05;
+		// this.uniforms.u_time.value += 0.05;
 
 		// this.capture.render(this.scene, this.camera);
 
@@ -178,23 +217,6 @@ export default class Floating extends Entry{
 			callback();
 		});
 	}
-
-  /**
-   * 画像をロード
-   * @private
-   */
-	// _attachTexture(){
-	//
-	// 	this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
-	// 		this.scene.add(this.plane.mesh);
-	// 		window.addEventListener('resize', () => {
-	// 			this.onResize();
-	// 		}, false);
-	// 		this.onResize();
-	// 		this.Update();
-	// 	});
-	//
-	// }
 
 
   /**
