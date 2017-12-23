@@ -8,6 +8,7 @@ uniform float u_time;
 uniform float u_amount;
 
 void main() {
+
    float speed = 0.0008;
    float invscale = 1.0 / 3.0;
    
@@ -18,4 +19,5 @@ void main() {
    vec2 distort = (2.0 * (distort1 + distort2) - 2.0) * u_amount;
    
    gl_FragColor = texture2D(u_image, vertex_texCoord + distort);
+
 }
