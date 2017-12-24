@@ -6,8 +6,8 @@
  * Author: Teraguchi
  */
 
-// import Floating from '../visual/Floating';
-import Distort from '../visual/Distort';
+import Floating from '../visual/Floating';
+// import Distort from '../visual/Distort';
 
 
 'use strict';
@@ -16,8 +16,8 @@ export default class DisplayTop {
 
 	constructor() {
 
-		// this.floating = new Floating();
-		this.distort = new Distort();
+		this.floating = new Floating();
+		// this.distort = new Distort();
 
 		this.setup();
 		this.setEvents();
@@ -26,8 +26,8 @@ export default class DisplayTop {
 
 	setup() {
 
-		// this.floating.init();
-		this.distort.init();
+		this.floating.init();
+		// this.distort.init();
 	}
 
 	onLoad() {
