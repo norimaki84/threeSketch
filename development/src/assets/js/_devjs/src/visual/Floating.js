@@ -154,7 +154,7 @@ export default class Floating extends Entry{
 		});
 
     this.renderer.setClearColor(0xEEEEEE, 1.0);
-    // this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
   }
