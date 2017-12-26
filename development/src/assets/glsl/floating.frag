@@ -32,8 +32,6 @@ void main(){
     vec2  fcc = fc - centerOffset;
     float totalWeight = 0.0;
 
-
-
     for(float i = 0.0; i <= 30.0; i++){
         float ppp = getAnimationParam(strength);
 
