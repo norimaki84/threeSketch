@@ -1,16 +1,20 @@
 /**
  * fileOverview:
  * Project:
- * File: DisplayTop
- * Date: 17/9/23
+ * File: DisplayFloating
+ * Date: 17/12/27
  * Author: Teraguchi
  */
 
+import Floating from '../visual/Floating';
+
 'use strict';
 
-export default class DisplayTop {
+export default class DisplayFloating {
 
 	constructor() {
+
+		this.floating = new Floating();
 
 		this.setup();
 		this.setEvents();
@@ -18,6 +22,8 @@ export default class DisplayTop {
 	}
 
 	setup() {
+
+		this.floating.init();
 
 	}
 

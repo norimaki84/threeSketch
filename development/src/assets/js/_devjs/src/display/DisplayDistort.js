@@ -1,16 +1,20 @@
 /**
  * fileOverview:
  * Project:
- * File: DisplayTop
- * Date: 17/9/23
+ * File: DisplayDistort
+ * Date: 17/12/27
  * Author: Teraguchi
  */
 
+import Distort from '../visual/Distort';
+
 'use strict';
 
-export default class DisplayTop {
+export default class DisplayDistort {
 
 	constructor() {
+
+		this.distort = new Distort();
 
 		this.setup();
 		this.setEvents();
@@ -18,6 +22,8 @@ export default class DisplayTop {
 	}
 
 	setup() {
+
+		this.distort.init();
 
 	}
 

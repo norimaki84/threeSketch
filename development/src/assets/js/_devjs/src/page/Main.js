@@ -7,6 +7,9 @@
  */
 
 import DisplayTop from '../Display/DisplayTop';
+import DisplayFloating from '../Display/DisplayFloating';
+import DisplayDistort from '../Display/DisplayDistort';
+import Display3DCarousel from '../Display/Display3DCarousel';
 import DisplayTextureBg from '../Display/DisplayTextureBg';
 import DisplayTextureMovie from '../Display/DisplayTextureMovie';
 
@@ -28,7 +31,7 @@ export default class Main {
   onReady() {
 
     //pageページ別のIDを取得
-    var page = $('body').data('id');
+    const page = $('body').data('id');
 
     window.console.log('現在のページIDは ', page);
 
@@ -40,6 +43,24 @@ export default class Main {
         new DisplayTop();
 
         break;
+
+			case 'Floating':
+
+				new DisplayFloating();
+
+				break;
+
+			case 'Distort':
+
+				new DisplayDistort();
+
+				break;
+
+			case '3DCarousel':
+
+				new Display3DCarousel();
+
+				break;
 
 			case 'textureBg':
 
