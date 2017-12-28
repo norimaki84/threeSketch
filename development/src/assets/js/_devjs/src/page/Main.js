@@ -7,6 +7,7 @@
  */
 
 import DisplayTop from '../Display/DisplayTop';
+import DisplayZoomBlur from '../Display/DisplayZoomBlur';
 import DisplayFloating from '../Display/DisplayFloating';
 import DisplayDistort from '../Display/DisplayDistort';
 import Display3DCarousel from '../Display/Display3DCarousel';
@@ -43,6 +44,12 @@ export default class Main {
         new DisplayTop();
 
         break;
+
+			case 'ZoomBlur':
+
+				new DisplayZoomBlur();
+
+				break;
 
 			case 'Floating':
 

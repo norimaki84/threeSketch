@@ -4,14 +4,10 @@ uniform sampler2D textureUnit;
 uniform float u_time;
 uniform float strength;
 uniform vec2 u_resolution;
-
+uniform float u_ratio;
 uniform float animationParam;
 
 varying vec2 vUv;
-
-const float tFrag = 1.0 / 512.0;
-const float nFrag = 1.0 / 30.0;
-const vec2  centerOffset = vec2(256.0, 256.0);
 
 float rnd(vec3 scale, float seed){
     return fract(sin(dot(gl_FragCoord.stp + seed, scale)) * 43758.5453 + seed);
@@ -22,8 +18,11 @@ float getAnimationParam(float animationParam) {
   return pST;
 }
 
-
 void main(){
+
+    float tFrag = 1.0 / ((u_resolution.x / u_ratio) * u_ratio); //Retina対応
+    float nFrag = 1.0 / 30.0;
+    vec2  centerOffset = vec2(256.0 * u_ratio, 256.0 * u_ratio);  //Retina対応
 
     vec3  destColor = vec3(0.0);
     float random = rnd(vec3(12.9898, 78.233, 151.7182), 0.0);

@@ -1,6 +1,6 @@
 /**
  * fileOverview:
- * Project: GLSL Floating
+ * Project: GLSL ZoomBlur
  * File: Floating
  * Date: 17/11/19
  * Author: Teraguchi
@@ -11,20 +11,21 @@
 import Entry from '../Core/Entry';
 // import Capture from "./Capture";
 
-export default class Floating extends Entry{
+export default class ZoomBlur extends Entry{
 
   constructor() {
 
     super();
 
     this.canvas = document.getElementById('webgl-output');
-		this.canvasEl = $('#Floating #webgl-output');
+		this.canvasEl = $('#ZoomBlur #webgl-output');
 
 		// this.width = document.body.clientWidth;
 		// this.height = document.body.clientHeight;
 
 		this.width = 512;
 		this.height = 512;
+		this.ratio = 1.0;
 
 		this.camera = null;
     this.scene = null;
@@ -64,6 +65,16 @@ export default class Floating extends Entry{
 		this.createCamera();
 		this.createScene();
 		this.createRenderer();
+
+
+		let retina = window.devicePixelRatio;
+		if(retina < 2) {
+			// window.console.log('Retinaディスプレイとかの高解像度ではないんです。');
+			this.ratio = 1.0;
+		} else if(retina >= 2) {
+			// window.console.log('Retinaディスプレイとかの高解像度です！');
+			this.ratio = 2.0;
+		}
 
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
@@ -166,16 +177,14 @@ export default class Floating extends Entry{
 	 */
 	_createMesh() {
 		this.uniforms = {
+			textureUnit: { type: 't', value: this.textureUnit },
 			u_time: { type: "f", value: this.u_time },
 			strength: { type: "1f", value: 0 },
-			// strength: { type: "f", value: 0.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
-			// u_mouse: { type: "v2", value: new THREE.Vector2() },
-			textureUnit: { type: 't', value: this.textureUnit }
-			// textureUnit: { type: 't', value: this.capture.texture() }
+			u_resolution: { type: "v2", value: new THREE.Vector2(this.width * this.ratio, this.height * this.ratio) },
+			u_ratio: { type: "1f", value: this.ratio }
 		};
 		return new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(512, 512),
+			new THREE.PlaneBufferGeometry(1, 1),
 			new THREE.RawShaderMaterial({
 				uniforms: this.uniforms,
 				vertexShader: require('../../../../glsl/zoomblur.vert'),
@@ -214,6 +223,8 @@ export default class Floating extends Entry{
 			texture.minFilter = THREE.NearestFilter;
 			that.textureUnit = texture;
 			this.mesh = this.createMesh();
+			this.mesh.scale.set(512, 512, 512);
+			window.console.log();
 			callback();
 		});
 	}
