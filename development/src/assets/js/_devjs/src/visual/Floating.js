@@ -178,8 +178,8 @@ export default class Floating extends Entry{
 			new THREE.PlaneBufferGeometry(512, 512),
 			new THREE.RawShaderMaterial({
 				uniforms: this.uniforms,
-				vertexShader: require('../../../../glsl/zoomblur.vert'),
-				fragmentShader: require('../../../../glsl/zoomblur.frag'),
+				vertexShader: require('../../../../glsl/floating.vert'),
+				fragmentShader: require('../../../../glsl/floating.frag'),
 			})
 		);
 	}
