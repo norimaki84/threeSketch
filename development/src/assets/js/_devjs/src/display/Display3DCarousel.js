@@ -2,11 +2,11 @@
  * fileOverview:
  * Project:
  * File: Display3DCarousel
- * Date: 17/12/27
+ * Date: 18/01/02
  * Author: Teraguchi
  */
 
-// import Floating from '../visual/Floating';
+import Carousel from '../visual/Carousel';
 
 'use strict';
 
@@ -14,7 +14,7 @@ export default class Display3DCarousel {
 
 	constructor() {
 
-		// this.floating = new Floating();
+		this.carousel = new Carousel();
 
 		this.setup();
 		this.setEvents();
@@ -23,7 +23,7 @@ export default class Display3DCarousel {
 
 	setup() {
 
-		// this.floating.init();
+		this.carousel.init();
 
 	}
 
