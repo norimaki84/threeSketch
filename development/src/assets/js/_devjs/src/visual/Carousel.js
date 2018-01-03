@@ -160,7 +160,7 @@ export default class Carousel extends Entry {
 				window.console.log('完了');
 			},
 			xhr => { // onProgress
-				// ...
+				window.console.log('');
 			},
 			xhr => { // onError
 				// ...

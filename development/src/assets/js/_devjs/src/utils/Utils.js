@@ -6,19 +6,8 @@
  * Author: Teraguchi
  */
 
-/**
- * animation
- */
-import requestAnimationFrame from './animation/requestAnimationFrame';
-import cancelAnimationFrame from './animation/cancelAnimationFrame';
-
-import Array from './array/Array';
-import checkClient from "./ua/checkClient";
-
-import preloadImg from './img/preloadImg';
-import setUpBtnTwitter from './sns/setUpBtnTwitter';
-import setUpBtnLine from './sns/setUpBtnLine';
-import setUpBtnFaceBook from './sns/setUpBtnFaceBook';
+// import Array from './array/Array';
+// import checkClient from "./ua/checkClient";
 
 
 export default class Utils {
@@ -35,13 +24,13 @@ export default class Utils {
     /**
      * array
      */
-    this.Array = new Array();
+    // this.Array = new Array();
 
 
     /**
      * ua
      */
-    this.checkClient = new checkClient();
+    // this.checkClient = new checkClient();
 
 
     /**

@@ -3,7 +3,7 @@
  * Project:
  * File: Main
  * Date:
- * Author:
+ * Author: Teraguchi
  */
 
 import DisplayTop from '../Display/DisplayTop';
