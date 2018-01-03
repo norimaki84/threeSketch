@@ -64,9 +64,11 @@ export default class Carousel extends Entry {
 		this.group.position.y = this.planeSize/2;
 		this.scene.add(this.group);
 
+
+
 		this.Update();
 
-		// this.loadTexture();
+		this.loadTexture();
   }
 
 
@@ -137,14 +139,33 @@ export default class Carousel extends Entry {
    */
 	_loadTexture(){
 
-		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
-			this.scene.add(this.plane.mesh);
-			window.addEventListener('resize', () => {
-				this.onResize();
-			}, false);
-			this.onResize();
-			this.Update();
-		});
+		// this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
+		// 	this.scene.add(this.plane.mesh);
+		// 	window.addEventListener('resize', () => {
+		// 		this.onResize();
+		// 	}, false);
+		// 	this.onResize();
+		// 	this.Update();
+		// });
+
+		const texLoader = new THREE.TextureLoader();
+		texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
+		texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
+			texture => { // onLoad
+				// const geometry = new THREE.BoxGeometry(1, 1, 1);
+				// const material = new MeshBasicMaterial({ map: texture });
+				// const cube = new THREE.Mesh(geometry, material);
+				// scene.add(cube);
+				// ...
+				window.console.log('完了');
+			},
+			xhr => { // onProgress
+				// ...
+			},
+			xhr => { // onError
+				// ...
+			}
+		);
 
 	}
 
