@@ -1,20 +1,23 @@
-import Entry from '../Core/Entry';
+/**
+ *
+ * @type {Ad|bi}
+ */
 
-const texLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader();
 
 export default function(imgs, callback) {
 	const length = Object.keys(imgs).length;
-	const loadedTexs = {};
+	const loadedTexture = {};
 	let count = 0;
 
 	for (let key in imgs) {
 		const k = key;
 		if (imgs.hasOwnProperty(k)) {
-			texLoader.load(imgs[k], (tex) => {
+			textureLoader.load(imgs[k], (tex) => {
 				tex.repeat = THREE.RepeatWrapping;
-				loadedTexs[k] = tex;
+				loadedTexture[k] = tex;
 				count++;
-				if (count >= length) callback(loadedTexs);
+				if (count >= length) callback(loadedTexture);
 			});
 		}
 	}

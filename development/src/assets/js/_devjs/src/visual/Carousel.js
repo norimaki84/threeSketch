@@ -7,6 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
+import loadTexture from '../utils/modules/loadTexture';
 
 'use strict';
 
@@ -47,6 +48,11 @@ export default class Carousel extends Entry {
 		this.Update = this._Update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
 
+		this.texsArray = {
+			img01 : '../../../../assets/resource/img/shibuya01.jpg',
+			img02 : '../../../../assets/resource/img/shibuya01.jpg',
+			img03 : '../../../../assets/resource/img/shibuya01.jpg',
+		};
 
   }
 
@@ -139,33 +145,30 @@ export default class Carousel extends Entry {
    */
 	_loadTexture(){
 
-		// this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
-		// 	this.scene.add(this.plane.mesh);
-		// 	window.addEventListener('resize', () => {
-		// 		this.onResize();
-		// 	}, false);
-		// 	this.onResize();
-		// 	this.Update();
-		// });
+		// const texLoader = new THREE.TextureLoader();
+		// texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
+		// texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
+		// 	texture => { // onLoad
+		// 		// const geometry = new THREE.BoxGeometry(1, 1, 1);
+		// 		// const material = new MeshBasicMaterial({ map: texture });
+		// 		// const cube = new THREE.Mesh(geometry, material);
+		// 		// scene.add(cube);
+		// 		// ...
+		// 		window.console.log('完了');
+		// 	},
+		// 	xhr => { // onProgress
+		// 		window.console.log('');
+		// 	},
+		// 	xhr => { // onError
+		// 		// ...
+		// 	}
+		// );
 
-		const texLoader = new THREE.TextureLoader();
-		texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
-		texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
-			texture => { // onLoad
-				// const geometry = new THREE.BoxGeometry(1, 1, 1);
-				// const material = new MeshBasicMaterial({ map: texture });
-				// const cube = new THREE.Mesh(geometry, material);
-				// scene.add(cube);
-				// ...
-				window.console.log('完了');
-			},
-			xhr => { // onProgress
-				window.console.log('');
-			},
-			xhr => { // onError
-				// ...
-			}
-		);
+		loadTexture(this.texsArray, function () {
+
+			window.console.log('完了しました！！');
+
+		});
 
 	}
 
