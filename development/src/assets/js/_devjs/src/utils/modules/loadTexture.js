@@ -12,6 +12,8 @@ export default function(imgs, callback) {
 
 	for (let key in imgs) {
 		const k = key;
+		// プロトタイプの拡張などで追加されたメソッドも出力されない様に
+		// hasOwnPropertyで判断
 		if (imgs.hasOwnProperty(k)) {
 			textureLoader.load(imgs[k], (tex) => {
 				tex.repeat = THREE.RepeatWrapping;
