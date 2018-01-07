@@ -46,12 +46,14 @@ export default class Carousel extends Entry {
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		this.loadTexture = this._loadTexture.bind(this);
+
+		this.loadTextureEvent = this._loadTextureEvent.bind(this);
+		this.mouseWheel = this._mouseWheel.bind(this);
 
 		this.texsArray = {
-			img01 : '../../../../assets/resource/img/shibuya01.jpg',
-			img02 : '../../../../assets/resource/img/shibuya01.jpg',
-			img03 : '../../../../assets/resource/img/shibuya01.jpg',
+			img01 : '../../../../assets/resource/img/sample01.jpg',
+			img02 : '../../../../assets/resource/img/sample02.jpg',
+			img03 : '../../../../assets/resource/img/sample03.jpg',
 		};
 
   }
@@ -70,11 +72,10 @@ export default class Carousel extends Entry {
 		this.group.position.y = this.planeSize/2;
 		this.scene.add(this.group);
 
-
+		this.loadTextureEvent();
 
 		this.Update();
 
-		this.loadTexture();
   }
 
 
@@ -140,39 +141,6 @@ export default class Carousel extends Entry {
 	}
 
   /**
-   * 画像をロード
-   * @private
-   */
-	_loadTexture(){
-
-		// const texLoader = new THREE.TextureLoader();
-		// texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
-		// texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
-		// 	texture => { // onLoad
-		// 		// const geometry = new THREE.BoxGeometry(1, 1, 1);
-		// 		// const material = new MeshBasicMaterial({ map: texture });
-		// 		// const cube = new THREE.Mesh(geometry, material);
-		// 		// scene.add(cube);
-		// 		// ...
-		// 		window.console.log('完了');
-		// 	},
-		// 	xhr => { // onProgress
-		// 		window.console.log('');
-		// 	},
-		// 	xhr => { // onError
-		// 		// ...
-		// 	}
-		// );
-
-		loadTexture(this.texsArray, function () {
-
-			window.console.log('完了しました！！');
-
-		});
-
-	}
-
-  /**
    * 更新
    * @private
    */
@@ -199,6 +167,48 @@ export default class Carousel extends Entry {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+
+
+	/**
+	 * 画像をロード
+	 * @private
+	 */
+	_loadTextureEvent() {
+
+		// const texLoader = new THREE.TextureLoader();
+		// texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
+		// texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
+		// 	texture => { // onLoad
+		// 		// const geometry = new THREE.BoxGeometry(1, 1, 1);
+		// 		// const material = new MeshBasicMaterial({ map: texture });
+		// 		// const cube = new THREE.Mesh(geometry, material);
+		// 		// scene.add(cube);
+		// 		// ...
+		// 		window.console.log('完了');
+		// 	},
+		// 	xhr => { // onProgress
+		// 		window.console.log('');
+		// 	},
+		// 	xhr => { // onError
+		// 		// ...
+		// 	}
+		// );
+
+		loadTexture(this.texsArray, function () {
+
+			window.console.log('リソース読み込み完了');
+
+		});
+
+	}
+
+	/**
+	 * カルーセルのマウスホイールイベント
+	 * @private
+	 */
+	_mouseWheel() {
+
+	}
 
 	setEvents() {
 
