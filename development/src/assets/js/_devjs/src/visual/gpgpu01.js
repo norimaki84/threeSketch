@@ -29,16 +29,6 @@ export default class gpgpu01 extends Entry {
 		this.ambientLight = null;
 		this.group = null;
 
-		// this.select = 0;
-		// this.tweenTime = 0.8;
-		// this.planeSize = 256;
-		// this.dx = 250;
-		// this.dz = 250;
-		// this.show = 2;
-		// this.deltaRotation = 15;
-		// this.half = 0;
-		// this.tweening = false;
-
     this.createCamera = this._createCamera.bind(this);
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
@@ -46,15 +36,6 @@ export default class gpgpu01 extends Entry {
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-
-		// this.loadTextureEvent = this._loadTextureEvent.bind(this);
-		// this.mouseWheel = this._mouseWheel.bind(this);
-		//
-		// this.texsArray = {
-		// 	img01 : '../../../../assets/resource/img/sample01.jpg',
-		// 	img02 : '../../../../assets/resource/img/sample02.jpg',
-		// 	img03 : '../../../../assets/resource/img/sample03.jpg',
-		// };
 
   }
 
