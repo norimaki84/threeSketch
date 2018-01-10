@@ -13,6 +13,7 @@ import DisplayDistort from '../Display/DisplayDistort';
 import Display3DCarousel from '../Display/Display3DCarousel';
 import DisplayTextureBg from '../Display/DisplayTextureBg';
 import DisplayTextureMovie from '../Display/DisplayTextureMovie';
+import DisplayGpgpu01 from '../Display/DisplayGpgpu01';
 
 'use strict';
 
@@ -81,6 +82,11 @@ export default class Main {
 
 				break;
 
+			case 'gpgpu01':
+
+				new DisplayGpgpu01();
+
+				break;
     }
 
   }
