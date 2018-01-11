@@ -181,23 +181,6 @@ export default class gpgpu01 extends Entry {
 
 		});
 
-	}
-
-	/**
-	 * カルーセルのマウスホイールイベント
-	 * @private
-	 */
-	_mouseWheel(event) {
-		let delta = 0;
-		if (!event) event = window.event;   /* IE  */
-		if (event.wheelDelta) {             /* IE, Opera. */
-			delta = event.wheelDelta/120;
-		} else if (event.detail) {          /* Mozilla */
-			delta = -event.detail;
-		}
-
-		if(delta && tweening===false) gotoDir(delta/Math.abs(delta));
-	}
 
 	setEvents() {
 
