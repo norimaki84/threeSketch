@@ -1,6 +1,6 @@
 {
   "description": "desctiption",
-  "keyword": "",
+  "keyword": "keyword",
   "ogpImgPath": "",
   "top": {
     "description": "",
@@ -13,12 +13,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -41,12 +35,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "ZoomBlur | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -69,12 +57,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "Floating | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -97,12 +79,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "Distort | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -125,12 +101,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "3DCarousel | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -153,12 +123,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "textureBg | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -181,12 +145,6 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
-      "des": "",
-      "img": "",
-      "tit": "",
-      "url": ""
-    },
     "title": "textureMovie | threeSketch",
     "tw": {
       "card": "summary_large_image",
@@ -209,13 +167,29 @@
       "url": ""
     },
     "keyword": "",
-    "line": {
+    "title": "gpgpu01 | threeSketch",
+    "tw": {
+      "card": "summary_large_image",
+      "creator": "",
       "des": "",
       "img": "",
+      "siteName": "",
       "tit": "",
       "url": ""
+    }
+  },
+  "objStudy01": {
+    "description": "",
+    "fb": {
+      "des": "",
+      "img": "",
+      "siteName": "",
+      "tit": "",
+      "type": "website",
+      "url": ""
     },
-    "title": "gpgpu01 | threeSketch",
+    "keyword": "",
+    "title": "objStudy01 | threeSketch",
     "tw": {
       "card": "summary_large_image",
       "creator": "",

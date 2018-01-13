@@ -23,8 +23,10 @@ gulp.task('concatJSLibs', ()=>{
 
                 PATH.dev.devjs + 'libs/pixi.min.js',
                 PATH.dev.devjs + 'libs/minMatrix.js',
+
                 PATH.dev.devjs + 'libs/three.min.js',
                 PATH.dev.devjs + 'libs/GPUComputationRenderer.js',
+                PATH.dev.devjs + 'libs/loaders/OBJLoader.js',
                 PATH.dev.devjs + 'libs/Stats.js',
                 PATH.dev.devjs + 'libs/dat.gui.min.js',
 

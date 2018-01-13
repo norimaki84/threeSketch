@@ -1,17 +1,19 @@
 /**
- * fileOverview:
+ * fileOverview: ObjStudy01
  * Project:
- * File: gpgpu01
- * Date: 18/01/10
+ * File: Carousel
+ * Date: 18/01/13
  * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
-// import loadTexture from '../utils/modules/loadTexture';
+import loadTexture from '../utils/modules/loadTexture';
+
+require('../../libs/loaders/OBJLoader');
 
 'use strict';
 
-export default class gpgpu01 extends Entry {
+export default class ObjStudy01 extends Entry {
 
   constructor() {
 
@@ -27,15 +29,38 @@ export default class gpgpu01 extends Entry {
     this.scene = null;
 		this.pointsLight = null;
 		this.ambientLight = null;
+		this.loader = null;
 		this.group = null;
 
+		this.select = 0;
+		this.tweenTime = 0.8;
+		this.planeSize = 256;
+		this.dx = 250;
+		this.dz = 250;
+		this.show = 2;
+		this.deltaRotation = 15;
+		this.half = 0;
+		this.tweening = false;
+
     this.createCamera = this._createCamera.bind(this);
-    this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
+		this.createRenderer = this._createRenderer.bind(this);
     this.createLight = this._createLight.bind(this);
+
+
+    this.loadModel = this._loadModel.bind(this);
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
+
+		this.loadTextureEvent = this._loadTextureEvent.bind(this);
+		this.mouseWheel = this._mouseWheel.bind(this);
+
+		this.texsArray = {
+			img01 : '../../../../assets/resource/img/sample01.jpg',
+			img02 : '../../../../assets/resource/img/sample02.jpg',
+			img03 : '../../../../assets/resource/img/sample03.jpg',
+		};
 
   }
 
@@ -47,16 +72,22 @@ export default class gpgpu01 extends Entry {
     this.createCamera();
 		this.createScene();
     this.createRenderer();
+		this.createLight();
+
+		this.loadModel();
 
 		// カルーセル群を追加するグループを作成
-		this.group = new THREE.Object3D();
-		this.group.position.y = this.planeSize/2;
-		this.scene.add(this.group);
+		// this.group = new THREE.Object3D();
+		// this.group.position.y = this.planeSize/2;
+		// this.scene.add(this.group);
 
 		// this.loadTextureEvent();
 
 		this.Update();
 
+		this.onResize();
+
+		window.addEventListener('resize', this.onResize, false );
   }
 
 
@@ -65,10 +96,10 @@ export default class gpgpu01 extends Entry {
    */
   _createCamera() {
 
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1.0, 2000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 100;
+    this.camera.position.z = 500;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -88,7 +119,7 @@ export default class gpgpu01 extends Entry {
       canvas: this.canvas
 		});
 
-    this.renderer.setClearColor(0xffffff, 0.0);
+    this.renderer.setClearColor(0x000000, 0.0);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
@@ -111,13 +142,52 @@ export default class gpgpu01 extends Entry {
   _createLight() {
 
 		// Point Light
-		this.pointsLight = new THREE.PointLight(0xff0000);
-		this.pointsLight.position.set(500, 500, 0);
+		this.pointsLight = new THREE.PointLight(0xffffff, 1.0); // 第二引数はintensity：ライトの強度でデフォルトは1.0
 		this.scene.add(this.pointsLight);
 
 		// Ambiend Light
-		this.ambientLight = new THREE.AmbientLight(0xffffff);
+		this.ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
 		this.scene.add(this.ambientLight);
+
+	}
+
+	/**
+	 * 3Dモデル読み込み・初期化
+	 * @private
+	 */
+	_loadModel() {
+		let that = this;
+
+		//
+		let manager = new THREE.LoadingManager();
+		manager.onProgress = function ( item, loaded, total ) {
+			window.console.log( item, loaded, total );
+		};
+
+		//
+		let onProgress = function ( xhr ) {
+			if ( xhr.lengthComputable ) {
+				let percentComplete = xhr.loaded / xhr.total * 100;
+				console.log( Math.round(percentComplete, 2) + '% downloaded' );
+			}
+		};
+
+		// 読み込みエラー処理
+		let onError = function ( xhr ) {
+		};
+
+		this.loader = new THREE.OBJLoader( manager );
+		this.loader.load( '../../../../assets/resource/model/banana.obj', function ( object ) {
+			object.traverse( function ( child ) {
+				if ( child instanceof THREE.Mesh ) {
+					// child.material.map = texture;
+				}
+			} );
+			object.position.set(0, 0, 0);
+			object.rotation.set(0.8, 0.0, 0.0);
+			object.scale.set(0.6, 0.6, 0.6);
+			that.scene.add( object );
+		}, onProgress, onError );
 
 	}
 
@@ -141,7 +211,7 @@ export default class gpgpu01 extends Entry {
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
-		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+		// this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -181,6 +251,22 @@ export default class gpgpu01 extends Entry {
 
 		});
 
+	}
+
+	/**
+	 * カルーセルのマウスホイールイベント
+	 * @private
+	 */
+	_mouseWheel(event) {
+		let delta = 0;
+		if (!event) event = window.event;   /* IE  */
+		if (event.wheelDelta) {             /* IE, Opera. */
+			delta = event.wheelDelta/120;
+		} else if (event.detail) {          /* Mozilla */
+			delta = -event.detail;
+		}
+
+		if(delta && tweening===false) gotoDir(delta/Math.abs(delta));
 	}
 
 	setEvents() {

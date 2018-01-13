@@ -14,6 +14,7 @@ import Display3DCarousel from '../Display/Display3DCarousel';
 import DisplayTextureBg from '../Display/DisplayTextureBg';
 import DisplayTextureMovie from '../Display/DisplayTextureMovie';
 import DisplayGpgpu01 from '../Display/DisplayGpgpu01';
+import DisplayObjStudy01 from '../Display/DisplayObjStudy01';
 
 'use strict';
 
@@ -85,6 +86,12 @@ export default class Main {
 			case 'gpgpu01':
 
 				new DisplayGpgpu01();
+
+				break;
+
+			case 'objStudy01':
+
+				new DisplayObjStudy01();
 
 				break;
     }
