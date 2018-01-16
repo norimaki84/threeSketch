@@ -68,9 +68,9 @@ export default class ObjStudy01 extends Entry {
    * 初期化
    */
   init(){
-  	
-    this.createCamera();
+
 		this.createScene();
+    this.createCamera();
     this.createRenderer();
 		this.createLight();
 
@@ -82,6 +82,13 @@ export default class ObjStudy01 extends Entry {
 		// this.scene.add(this.group);
 
 		// this.loadTextureEvent();
+
+		//軸の長さ１０００
+		let axis = new THREE.AxisHelper(1000);
+		this.scene.add(axis);
+		let controls;
+		controls = new THREE.OrbitControls(this.camera);
+		controls.autoRotate = true;
 
 		this.Update();
 
@@ -99,9 +106,13 @@ export default class ObjStudy01 extends Entry {
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1.0, 2000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 500;
+    this.camera.position.z = 250;
 
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
+    // this.camera.lookAt(new THREE.Vector3(0,0,0));
+    this.camera.lookAt(this.scene.position);
+    
+    window.console.log('this.scene.position',this.scene.position);
+    // window.console.log('this.scene',this.scene);
 
   }
 
@@ -177,15 +188,18 @@ export default class ObjStudy01 extends Entry {
 		};
 
 		this.loader = new THREE.OBJLoader( manager );
-		this.loader.load( '../../../../assets/resource/model/banana.obj', function ( object ) {
+		// this.loader.load( '../../../../assets/resource/model/male02.obj', function ( object ) {
+		this.loader.load( '../../../../assets/resource/model/banana02.obj', function ( object ) {
 			object.traverse( function ( child ) {
 				if ( child instanceof THREE.Mesh ) {
 					// child.material.map = texture;
 				}
 			} );
-			object.position.set(0, 0, 0);
-			object.rotation.set(0.8, 0.0, 0.0);
-			object.scale.set(0.6, 0.6, 0.6);
+			object.position.set(0.0, -95.0, 0.0);
+			object.rotation.set(0.0, 0.0, 0.0);
+			// object.scale.set(0.6, 0.6, 0.6);
+			let scaleVal = 4.0;
+			object.scale.set(scaleVal, scaleVal, scaleVal);
 			that.scene.add( object );
 		}, onProgress, onError );
 
