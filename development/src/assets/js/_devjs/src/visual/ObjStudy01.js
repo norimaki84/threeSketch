@@ -106,7 +106,7 @@ export default class ObjStudy01 extends Entry {
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1.0, 2000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 250;
+    this.camera.position.z = 10;
 
     // this.camera.lookAt(new THREE.Vector3(0,0,0));
     this.camera.lookAt(this.scene.position);
@@ -189,16 +189,17 @@ export default class ObjStudy01 extends Entry {
 
 		this.loader = new THREE.OBJLoader( manager );
 		// this.loader.load( '../../../../assets/resource/model/male02.obj', function ( object ) {
-		this.loader.load( '../../../../assets/resource/model/banana02.obj', function ( object ) {
+		this.loader.load( '../../../../assets/resource/model/banana03.obj', function ( object ) {
 			object.traverse( function ( child ) {
 				if ( child instanceof THREE.Mesh ) {
 					// child.material.map = texture;
 				}
 			} );
-			object.position.set(0.0, -95.0, 0.0);
+			// object.position.set(0.0, -95.0, 0.0);
+			object.position.set(0.0, 0.0, 0.0);
 			object.rotation.set(0.0, 0.0, 0.0);
 			// object.scale.set(0.6, 0.6, 0.6);
-			let scaleVal = 4.0;
+			let scaleVal = 1.0;
 			object.scale.set(scaleVal, scaleVal, scaleVal);
 			that.scene.add( object );
 		}, onProgress, onError );
