@@ -84,7 +84,7 @@ export default class ObjStudy01 extends Entry {
 		// this.loadTextureEvent();
 
 		//軸の長さ１０００
-		let axis = new THREE.AxisHelper(1000);
+		let axis = new THREE.AxesHelper(1000);
 		this.scene.add(axis);
 		let controls;
 		controls = new THREE.OrbitControls(this.camera);
@@ -110,9 +110,6 @@ export default class ObjStudy01 extends Entry {
 
     // this.camera.lookAt(new THREE.Vector3(0,0,0));
     this.camera.lookAt(this.scene.position);
-    
-    window.console.log('this.scene.position',this.scene.position);
-    // window.console.log('this.scene',this.scene);
 
   }
 
@@ -187,10 +184,19 @@ export default class ObjStudy01 extends Entry {
 		let onError = function ( xhr ) {
 		};
 
+
 		this.loader = new THREE.OBJLoader( manager );
-		// this.loader.load( '../../../../assets/resource/model/male02.obj', function ( object ) {
 		this.loader.load( '../../../../assets/resource/model/banana03.obj', function ( object ) {
 			object.traverse( function ( child ) {
+				// window.console.log('object', object.children[0].material);
+				let mat = new THREE.RawShaderMaterial({
+					// uniforms: this.uniforms,
+					vertexShader: require('../../../../glsl/base.vert'),
+					fragmentShader: require('../../../../glsl/base.frag'),
+				});
+				// object.children[0].material = mat;
+				window.console.log('child', child);
+				window.console.log('child.material', child.material);
 				if ( child instanceof THREE.Mesh ) {
 					// child.material.map = texture;
 				}
