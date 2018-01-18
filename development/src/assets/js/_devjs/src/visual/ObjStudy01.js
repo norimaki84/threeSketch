@@ -213,7 +213,7 @@ export default class ObjStudy01 extends Entry {
 		// let texture = textureLoader.load( '../../../../assets/resource/img/Banana.jpg' );
 
 		this.loader = new THREE.OBJLoader( manager );
-		this.loader.load( '../../../../assets/resource/model/banana03.obj', function ( object ) {
+		this.loader.load( '/assets/resource/model/banana03.obj', function ( object ) {
 			object.traverse( function ( child ) {
 
 				let material = new THREE.MeshPhongMaterial({
@@ -259,7 +259,7 @@ export default class ObjStudy01 extends Entry {
    */
   _Update() {
 
-		this.uniforms.u_time.value += 0.02;
+		this.uniforms.u_time.value += 0.009;
 
 		// オフスクリーンレンダリング
 		this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
