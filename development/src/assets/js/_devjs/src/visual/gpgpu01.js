@@ -55,6 +55,7 @@ export default class gpgpu01 extends Entry {
     this.initComputeRenderer = this._initComputeRenderer.bind(this);
     this.initPosition = this._initPosition.bind(this);
     this.fillTextures = this._fillTextures.bind(this);
+    this.getCameraConstant = this._getCameraConstant.bind(this);
 
 
     this.onResize = this._onResize.bind(this);
@@ -71,10 +72,16 @@ export default class gpgpu01 extends Entry {
 		this.createScene();
     this.createRenderer();
 
+		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+
+		this.initComputeRenderer();
+		this.initPosition();
 
 		// this.loadTextureEvent();
 
 		this.Update();
+
+		window.addEventListener('resize', this.onResize, false );
 
   }
 
@@ -107,7 +114,7 @@ export default class gpgpu01 extends Entry {
       canvas: this.canvas
 		});
 
-    this.renderer.setClearColor(0xffffff, 0.0);
+    this.renderer.setClearColor(0x000000, 0.0);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
@@ -223,7 +230,7 @@ export default class gpgpu01 extends Entry {
 		this.particleUniforms = {
 			texturePosition: { value: null },
 			textureVelocity: { value: null },
-			cameraConstant: { value: getCameraConstant( this.camera ) }
+			cameraConstant: { value: this.getCameraConstant(this.camera) }
 		};
 
 
@@ -231,8 +238,8 @@ export default class gpgpu01 extends Entry {
 		// Shaderマテリアル これはパーティクルそのものの描写に必要なシェーダー
 		let material = new THREE.ShaderMaterial( {
 			uniforms:       this.particleUniforms,
-			vertexShader:   document.getElementById( 'particleVertexShader' ).textContent,
-			fragmentShader: document.getElementById( 'particleFragmentShader' ).textContent
+			vertexShader: require('../../../../glsl/particleVertexShader.vert'),
+			fragmentShader: require('../../../../glsl/particleFragmentShader.frag'),
 		});
 		material.extensions.drawBuffers = true;
 		let particles = new THREE.Points(this.geometry, material);
@@ -281,11 +288,28 @@ export default class gpgpu01 extends Entry {
 
 	}
 
+	/**
+	 *
+	 * カメラオブジェクトからシェーダーに渡したい情報を引っ張ってくる関数
+	 * カメラからパーティクルがどれだけ離れてるかを計算し、パーティクルの大きさを決定するため。
+	 * @param camera
+	 * @private
+	 */
+	_getCameraConstant(camera){
+		return window.innerHeight / ( Math.tan( THREE.Math.DEG2RAD * 0.5 * camera.fov ) / camera.zoom );
+	}
+
   /**
    * 更新
    * @private
    */
   _Update() {
+
+		// 計算用のテクスチャを更新
+		this.gpuCompute.compute();
+
+		this.particleUniforms.texturePosition.value = this.gpuCompute.getCurrentRenderTarget( this.positionVariable ).texture;
+		this.particleUniforms.textureVelocity.value = this.gpuCompute.getCurrentRenderTarget( this.velocityVariable ).texture;
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -301,7 +325,9 @@ export default class gpgpu01 extends Entry {
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
-		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+		// this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+
+		this.particleUniforms.cameraConstant.value = this.getCameraConstant(this.camera);
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
