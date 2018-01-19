@@ -52,6 +52,15 @@ export default class gpgpu01 extends Entry {
     this.createScene = this._createScene.bind(this);
     this.createLight = this._createLight.bind(this);
 
+		this.vertShader = [
+
+		];
+
+		this.fragShader = [
+			"assets/glsl/computeShaderPosition.frag",
+			"assets/glsl/computeShaderVelocity.frag",
+		];
+
     this.initComputeRenderer = this._initComputeRenderer.bind(this);
     this.initPosition = this._initPosition.bind(this);
     this.fillTextures = this._fillTextures.bind(this);
@@ -141,7 +150,7 @@ export default class gpgpu01 extends Entry {
 		this.pointsLight.position.set(500, 500, 0);
 		this.scene.add(this.pointsLight);
 
-		// Ambiend Light
+		// Ambient Light
 		this.ambientLight = new THREE.AmbientLight(0xffffff);
 		this.scene.add(this.ambientLight);
 
