@@ -7,7 +7,6 @@
  */
 
 import Entry from '../Core/Entry';
-
 require('../../libs/loaders/OBJLoader');
 
 'use strict';
