@@ -325,6 +325,7 @@ export default class gpgpu01 extends Entry {
 		// 計算用のテクスチャを更新
 		this.gpuCompute.compute();
 
+		// 計算した結果が格納されたテクスチャをレンダリング用のシェーダーに渡す
 		this.particleUniforms.texturePosition.value = this.gpuCompute.getCurrentRenderTarget( this.positionVariable ).texture;
 		this.particleUniforms.textureVelocity.value = this.gpuCompute.getCurrentRenderTarget( this.velocityVariable ).texture;
 
