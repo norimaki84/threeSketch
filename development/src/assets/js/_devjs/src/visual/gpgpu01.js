@@ -51,6 +51,7 @@ export default class gpgpu01 extends Entry {
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
     this.createLight = this._createLight.bind(this);
+    this.controlsUtil = this._controlsUtil.bind(this);
 
 		this.vertShader = [
 
@@ -80,8 +81,7 @@ export default class gpgpu01 extends Entry {
     this.createCamera();
 		this.createScene();
     this.createRenderer();
-
-		this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+    this.controlsUtil();
 
 		this.initComputeRenderer();
 		this.initPosition();
@@ -154,6 +154,14 @@ export default class gpgpu01 extends Entry {
 		this.ambientLight = new THREE.AmbientLight(0xffffff);
 		this.scene.add(this.ambientLight);
 
+	}
+
+	/**
+	 * マウス操作で視点変更
+	 * @private
+	 */
+	_controlsUtil() {
+		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 	}
 
 	/**
