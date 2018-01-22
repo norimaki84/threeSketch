@@ -15,6 +15,7 @@ import DisplayTextureBg from '../Display/DisplayTextureBg';
 import DisplayTextureMovie from '../Display/DisplayTextureMovie';
 import DisplayGpgpu01 from '../Display/DisplayGpgpu01';
 import DisplayObjStudy01 from '../Display/DisplayObjStudy01';
+import DisplayDotMatrix from '../Display/DisplayDotMatrix';
 
 'use strict';
 
@@ -92,6 +93,12 @@ export default class Main {
 			case 'objStudy01':
 
 				new DisplayObjStudy01();
+
+				break;
+
+			case 'dotMatrix':
+
+				new DisplayDotMatrix();
 
 				break;
     }

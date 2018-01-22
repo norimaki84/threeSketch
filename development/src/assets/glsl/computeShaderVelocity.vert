@@ -11,5 +11,5 @@ void main() {
     vec3 vel = tmpVel.xyz;
 
     gl_FragColor = vec4( vel.xyz, 1.0 );
-    
+
 }

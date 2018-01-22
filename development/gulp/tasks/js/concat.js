@@ -8,7 +8,7 @@ import PATH from '../../config';
 // ------------------------------------------------------------
 gulp.task('concatJSLibs', ()=>{
 
-    var src = [
+    let src = [
                 // PATH.dev.devjs + 'libs/modernizr.js',
                 PATH.dev.devjs + 'libs/jquery.js',
                 // PATH.dev.devjs + 'libs/jquery.pjax.js',
@@ -30,8 +30,16 @@ gulp.task('concatJSLibs', ()=>{
                 PATH.dev.devjs + 'libs/Stats.js',
                 PATH.dev.devjs + 'libs/dat.gui.min.js',
 
+                PATH.dev.devjs + 'libs/three_post/postprocessing/EffectComposer.js',
+                PATH.dev.devjs + 'libs/three_post/postprocessing/RenderPass.js',
+                PATH.dev.devjs + 'libs/three_post/postprocessing/ShaderPass.js',
+                PATH.dev.devjs + 'libs/three_post/postprocessing/MaskPass.js',
+                PATH.dev.devjs + 'libs/three_post/shaders/CopyShader.js',
+                PATH.dev.devjs + 'libs/three_post/shaders/VerticalBlurShader.js',
+                PATH.dev.devjs + 'libs/three_post/shaders/HorizontalBlurShader.js',
+
                 PATH.dev.devjs + 'libs/ua-parser.min.js'
-              ]
+              ];
 
     gulp.src(src)
         .pipe(plumber())
