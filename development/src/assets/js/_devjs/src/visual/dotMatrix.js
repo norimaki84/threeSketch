@@ -362,8 +362,10 @@ export default class dotMatrix extends Entry {
 
 		//
 		this.renderTargetParameters02 = {
-			magFilter: THREE.NearestFilter,
-			minFilter: THREE.NearestFilter,
+			// magFilter: THREE.NearestFilter,
+			// minFilter: THREE.NearestFilter,
+			minFilter: THREE.LinearFilter,
+			magFilter: THREE.LinearFilter,
 			format: THREE.RGBFormat,
 			stencilBufer: false,
 		};
