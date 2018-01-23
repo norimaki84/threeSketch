@@ -57,15 +57,22 @@ export default class dotMatrix extends Entry {
 		this.pointsLight = null;
 		this.ambientLight = null;
 		this.uniforms = null;
+		this.uniforms02 = null;
 
 		// オフスクリーンレンダリングで使用
 		this.baseScene = null;
 		this.baseCamera = null;
-		this.baseLight = null;
 		this.baseGeometry = null;
 		this.baseMaterial = null;
 		this.baseMesh = null;
-		this.renderTarget = null;
+		// this.renderTarget = null;
+
+		this.baseScene02 = null;
+		this.baseCamera02 = null;
+		this.baseGeometry02 = null;
+		this.baseMaterial02 = null;
+		this.baseMesh02 = null;
+		// this.renderTarget02 = null;
 
 		this.createCamera = this._createCamera.bind(this);
 		this.createScene = this._createScene.bind(this);
@@ -178,7 +185,7 @@ export default class dotMatrix extends Entry {
 
 		this.cubeHolder = new THREE.Object3D();
 		this.scene.add(this.cubeHolder);
-		window.console.log(that.fbo01);
+		// window.console.log(that.fbo01);
 		//create rotating cubes
 		let geometry = new THREE.BoxBufferGeometry(100, 100, 100);
 		let spread = 2000;
@@ -187,7 +194,7 @@ export default class dotMatrix extends Entry {
 			let material = new THREE.MeshBasicMaterial({
 				// let material = new THREE.MeshPhongMaterial({
 				color: 0xFFFFFF * Math.random(),
-				// map: that.fbo01.texture,
+				map: that.fbo02.texture,
 				blending: THREE.AdditiveBlending,
 				depthTest: false,
 				transparent: true
@@ -315,45 +322,7 @@ export default class dotMatrix extends Entry {
 
 		let that = this;
 
-		// オフスクリーンレンダリングの描画処理（renderTarget への描画用）
-		this.baseScene = new THREE.Scene();
-
-		// オフスクリーンレンダリングの描画処理用カメラ
-		this.baseCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-		this.baseCamera.position.z = 1;
-
-		// オフスクリーンレンダリング用ライトを追加
-		this.baseLight = new THREE.DirectionalLight(new THREE.Color(0xffffff), 1);
-		this.baseLight.position.set(0, 10, 20);
-		this.baseScene.add(this.baseLight);
-
-		// ベース用のマテリアルとジオメトリ
-		this.baseGeometry = new THREE.BoxGeometry(1, 1, 1);
-
-		//
-		this.uniforms = {
-			// tDiffuse:   { type: "t", value: null },
-			tDiffuse:   { type: "t", value: null },
-			spacing:    { type: "f", value: 10.0 },
-			size:       { type: "f", value: 4.0 },
-			blur:       { type: "f", value: 4.0 },
-			u_resolution : { type: "v2", value: new THREE.Vector2(800, 600)  }
-		};
-		this.baseMaterial = new THREE.RawShaderMaterial({
-			uniforms: this.uniforms,
-			vertexShader: require('../../../../glsl/dotMatrix.vert'),
-			fragmentShader: require('../../../../glsl/dotMatrix.frag'),
-			// vertexShader: require('../../../../glsl/base.vert'),
-			// fragmentShader: require('../../../../glsl/base.frag'),
-			side: THREE.DoubleSide,
-			transparent: true
-		});
-		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
-		this.baseScene.add(this.baseMesh);
-
 		this.renderTargetParameters01 = {
-			// minFilter: THREE.LinearFilter,
-			// magFilter: THREE.LinearFilter,
 			magFilter: THREE.NearestFilter,
 			minFilter: THREE.NearestFilter,
 			format: THREE.RGBFormat,
@@ -363,6 +332,78 @@ export default class dotMatrix extends Entry {
 		// オフスクリーンレンダリング用
 		this.fbo01 = new THREE.WebGLRenderTarget(this.width, this.height, this.renderTargetParameters01);
 		this.fbo01.texture.format = THREE.RGBAFormat;
+
+		// オフスクリーンレンダリングの描画処理（renderTarget への描画用）
+		this.baseScene = new THREE.Scene();
+
+		// オフスクリーンレンダリングの描画処理用カメラ
+		this.baseCamera = new THREE.PerspectiveCamera(45, 1, 1.0, 1000);
+		this.baseCamera.position.z = 1;
+
+		// ベース用のマテリアルとジオメトリ
+		this.baseGeometry = new THREE.BoxBufferGeometry(2, 2, 2);
+
+		//
+		this.uniforms = {
+			u_resolution : { type: "v2", value: new THREE.Vector2(0)  }
+		};
+		this.baseMaterial = new THREE.RawShaderMaterial({
+			uniforms: this.uniforms,
+			vertexShader: require('../../../../glsl/base.vert'),
+			fragmentShader: require('../../../../glsl/base.frag'),
+			side: THREE.DoubleSide,
+			transparent: true
+		});
+		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
+		this.baseScene.add(this.baseMesh);
+
+
+
+
+		//
+		this.renderTargetParameters02 = {
+			magFilter: THREE.NearestFilter,
+			minFilter: THREE.NearestFilter,
+			format: THREE.RGBFormat,
+			stencilBufer: false,
+		};
+
+		// オフスクリーンレンダリング用
+		this.fbo02 = new THREE.WebGLRenderTarget(this.width, this.height, this.renderTargetParameters02);
+		this.fbo02.texture.format = THREE.RGBAFormat;
+
+
+		// オフスクリーンレンダリングの描画処理（renderTarget への描画用）
+		this.baseScene02 = new THREE.Scene();
+
+		// オフスクリーンレンダリングの描画処理用カメラ
+		this.baseCamera02 = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+		this.baseCamera02.position.z = 1;
+
+		// ベース用のマテリアルとジオメトリ
+		this.baseGeometry02 = new THREE.BoxGeometry(1, 1, 1);
+
+		//
+		this.uniforms02 = {
+			tDiffuse:   { type: "t", value: that.fbo01.texture },
+			h:          { type: "f", value: 1.0 / 512.0 },
+			v:          { type: "f", value: 1.0 / 512.0 },
+			spacing:    { type: "f", value: 20.0 },
+			size:       { type: "f", value: 15.0 },
+			blur:       { type: "f", value: 150 },
+			u_resolution : { type: "v2", value: new THREE.Vector2(800, 600) }
+		};
+		this.baseMaterial02 = new THREE.RawShaderMaterial({
+			uniforms: this.uniforms02,
+			vertexShader: require('../../../../glsl/dotMatrix.vert'),
+			fragmentShader: require('../../../../glsl/dotMatrix.frag'),
+			side: THREE.DoubleSide,
+			transparent: true
+		});
+		this.baseMesh02 = new THREE.Mesh(this.baseGeometry02, this.baseMaterial02);
+		this.baseScene02.add(this.baseMesh02);
+
+
 
 	}
 
@@ -399,6 +440,7 @@ export default class dotMatrix extends Entry {
 
 		// オフスクリーンレンダリング = this.dotsCompose
 		this.renderer.render(this.baseScene, this.baseCamera, this.fbo01);
+		this.renderer.render(this.baseScene02, this.baseCamera02, this.fbo02);
 
 		//
 		this.renderer.render(this.scene, this.camera);

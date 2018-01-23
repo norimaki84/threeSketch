@@ -6,6 +6,9 @@ uniform float size;
 uniform float blur;
 uniform vec2 u_resolution;
 
+uniform float h;
+uniform float v;
+
 //const float halfSize = 4.0 * 0.5;
 
 varying vec2 vUv;
@@ -20,11 +23,34 @@ void main() {
     vec2 pos = mod(gl_FragCoord.xy, vec2(spacing)) - vec2(spacing / 2.0);
     float dist_squared = dot(pos, pos);
 
-//	gl_FragColor = mix(color, vec4(0.0), smoothstep(size, size + blur, dist_squared));
-	gl_FragColor = mix(vec4(1.0,1.0,1.0, 1.0), vec4(0.0), smoothstep(size, size + blur, dist_squared));
+    // HorizontalBlurShader
+    vec4 sum = vec4( 0.0 );
+    sum += texture2D( tDiffuse, vec2( vUv.x - 4.0 * h, vUv.y ) ) * 0.051;
+    sum += texture2D( tDiffuse, vec2( vUv.x - 3.0 * h, vUv.y ) ) * 0.0918;
+    sum += texture2D( tDiffuse, vec2( vUv.x - 2.0 * h, vUv.y ) ) * 0.12245;
+    sum += texture2D( tDiffuse, vec2( vUv.x - 1.0 * h, vUv.y ) ) * 0.1531;
+    sum += texture2D( tDiffuse, vec2( vUv.x, vUv.y ) ) * 0.1633;
+    sum += texture2D( tDiffuse, vec2( vUv.x + 1.0 * h, vUv.y ) ) * 0.1531;
+    sum += texture2D( tDiffuse, vec2( vUv.x + 2.0 * h, vUv.y ) ) * 0.12245;
+    sum += texture2D( tDiffuse, vec2( vUv.x + 3.0 * h, vUv.y ) ) * 0.0918;
+    sum += texture2D( tDiffuse, vec2( vUv.x + 4.0 * h, vUv.y ) ) * 0.051;
 
-//    gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+    // VerticalBlurShader
+    vec4 sum02 = vec4( 0.0 );
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y - 4.0 * v ) ) * 0.051;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y - 3.0 * v ) ) * 0.0918;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y - 2.0 * v ) ) * 0.12245;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y - 1.0 * v ) ) * 0.1531;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y ) ) * 0.1633;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y + 1.0 * v ) ) * 0.1531;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y + 2.0 * v ) ) * 0.12245;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y + 3.0 * v ) ) * 0.0918;
+    sum02 += texture2D( tDiffuse, vec2( vUv.x, vUv.y + 4.0 * v ) ) * 0.051;
 
+    float amount = 0.9;
+	gl_FragColor = mix(color, vec4(0.0), smoothstep(size, size + blur, dist_squared)) * sum * sum02;
+	//* amount +
+//	gl_FragColor = mix(vec4(1.0,1.0,1.0, 1.0), vec4(0.0), smoothstep(size, size + blur, dist_squared));
 
 
 //    vec2 p = mod(gl_FragCoord.st, size) - halfSize;
