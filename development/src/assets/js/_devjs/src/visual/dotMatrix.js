@@ -7,6 +7,7 @@
  */
 
 import Entry from '../Core/Entry';
+// import PlaneCover from './PlaneCover';
 require('../../libs/loaders/OBJLoader');
 require('../../libs/three_post/DotMatrixShader');
 require('../../libs/three_post/AdditiveBlendShader');
@@ -58,6 +59,8 @@ export default class dotMatrix extends Entry {
 		this.ambientLight = null;
 		this.uniforms = null;
 		this.uniforms02 = null;
+		this.uniforms03 = null;
+		this.meshCover = null;
 
 		// オフスクリーンレンダリングで使用
 		this.baseScene = null;
@@ -73,6 +76,8 @@ export default class dotMatrix extends Entry {
 		this.baseMaterial02 = null;
 		this.baseMesh02 = null;
 		// this.renderTarget02 = null;
+
+		// this.planeCover = new PlaneCover();
 
 		this.createCamera = this._createCamera.bind(this);
 		this.createScene = this._createScene.bind(this);
@@ -101,9 +106,38 @@ export default class dotMatrix extends Entry {
 		this.createLight();
 
 		this.offScreenEvent();
-		// this.postEvent();
 
-		this.createCubeHolder();
+		// this.createCubeHolder();
+
+		this.uniforms03 = {
+			resolution: {
+				type: 'v2',
+				value: new THREE.Vector2(document.body.clientWidth, document.body.clientHeight),
+			},
+			imageResolution: {
+				type: 'v2',
+				value: new THREE.Vector2(2048, 1356),
+			},
+			texture: {
+				type: 't',
+				value: this.texture,
+			}
+		};
+		this.meshCover =  new THREE.Mesh(
+			new THREE.PlaneBufferGeometry(2, 2),
+			new THREE.MeshBasicMaterial({
+				// color: 0xFFFFFF * Math.random(),
+				map: this.fbo02.texture,
+				// blending: THREE.AdditiveBlending,
+				// depthTest: false,
+				// transparent: false
+			})
+		);
+		this.meshCover.position.set(0, 0 ,0);
+		this.meshCover.scale.set(this.width, this.height, 1);
+		this.scene.add(this.meshCover);
+
+		// this.postEvent();
 
 		this.utilEvent();
 
@@ -159,7 +193,6 @@ export default class dotMatrix extends Entry {
 
 	}
 
-
 	/**
 	 * ライト作成
 	 * @private
@@ -192,9 +225,8 @@ export default class dotMatrix extends Entry {
 		for(let j = 0; j < 80; j++) {
 			//random colors w/ additive blend
 			let material = new THREE.MeshBasicMaterial({
-				// let material = new THREE.MeshPhongMaterial({
 				color: 0xFFFFFF * Math.random(),
-				map: that.fbo02.texture,
+				// map: that.fbo02.texture,
 				blending: THREE.AdditiveBlending,
 				depthTest: false,
 				transparent: true
@@ -471,6 +503,10 @@ export default class dotMatrix extends Entry {
 	_onResize() {
 		this.canvas.width = document.body.clientWidth;
 		this.canvas.height = document.body.clientHeight;
+
+		// this.planeCover.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
+
+		// this.meshCover.scale.set(this.width, this.height, 1);
 
 		this.camera.aspect = window.innerWidth / window.innerHeight;
 		this.camera.updateProjectionMatrix();
