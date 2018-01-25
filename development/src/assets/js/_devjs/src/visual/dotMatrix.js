@@ -511,12 +511,6 @@ export default class dotMatrix extends Entry {
 		this.camera.aspect = window.innerWidth / window.innerHeight;
 		this.camera.updateProjectionMatrix();
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
-	}
-
-
-	setEvents() {
-
-		$(window).on('load', this.onLoad.bind(this));
 
 	}
 
