@@ -221,5 +221,27 @@
       "tit": "",
       "url": ""
     }
+  },
+  "wormhole": {
+    "description": "",
+    "fb": {
+      "des": "",
+      "img": "",
+      "siteName": "",
+      "tit": "",
+      "type": "website",
+      "url": ""
+    },
+    "keyword": "",
+    "title": "Wormhole | threeSketch",
+    "tw": {
+      "card": "summary_large_image",
+      "creator": "",
+      "des": "",
+      "img": "",
+      "siteName": "",
+      "tit": "",
+      "url": ""
+    }
   }
 }
