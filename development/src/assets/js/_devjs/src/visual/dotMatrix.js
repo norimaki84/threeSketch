@@ -20,7 +20,6 @@ export default class dotMatrix extends Entry {
 
 		super();
 
-		// this.$container = $('#dotMatrix');
 		this.canvas = document.getElementById('webgl-output');
 
 		//
