@@ -1,21 +1,22 @@
 /**
  * fileOverview:
  * Project:
- * File: Scene
- * Date:
+ * File: WormholeParticle
+ * Date: 18/01/27
  * Author: Teraguchi
  */
 
-
 'use strict';
 
-export default class Scene {
+import Entry from "../../core/Entry";
 
-  constructor() {
+export default class WormholeParticle extends Entry {
 
-    this.scene = null;
+  constructor(scene, burst, time) {
 
-    this.createCameraObject = this._createCameraObject.bind(this);
+		this.radius = Math.random()*0.002 + 0.0003;
+		this.geom = this.icosahedron;
+		this.random = Math.random();
 
     this.init();
   }
@@ -29,38 +30,5 @@ export default class Scene {
 
   }
 
-  /**
-   * カメラオブジェクト作成
-   */
-  _createCameraObject(){
-
-    this.camera = new THREE.PerspectiveCamera(this.fov, this.aspect, this.near, this.far);
-
-  }
-
-  /**
-   * レンダラー作成
-   */
-  // _createRenderer(){
-  //
-  // }
-
-  /**
-   *　シーン作成
-   */
-  // _createScene(){
-  //
-  // }
-  //
-  //
-  // onLoad(){
-  //
-  // }
-  //
-  // setEvents() {
-  //
-  // 	$(window).on('load', this.onLoad.bind(this));
-  //
-  // }
 
 }

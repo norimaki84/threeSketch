@@ -13,8 +13,8 @@ function Tunnel() {
 
 Tunnel.prototype.init = function() {
 
-	this.speed = 1;
-	this.prevTime = 0;
+	// this.speed = 1;
+	// this.prevTime = 0;
 
 	this.mouse = {
 		position: new THREE.Vector2(ww * 0.5, wh * 0.7),
@@ -22,11 +22,11 @@ Tunnel.prototype.init = function() {
 		target: new THREE.Vector2(ww * 0.5, wh * 0.7)
 	};
 
-	this.renderer = new THREE.WebGLRenderer({
-		antialias: true,
-		canvas: document.querySelector("#scene")
-	});
-	this.renderer.setSize(ww, wh);
+	// this.renderer = new THREE.WebGLRenderer({
+	// 	antialias: true,
+	// 	canvas: document.querySelector("#scene")
+	// });
+	// this.renderer.setSize(ww, wh);
 
 	this.camera = new THREE.PerspectiveCamera(15, ww / wh, 0.01, 100);
 	this.camera.rotation.y = Math.PI;
