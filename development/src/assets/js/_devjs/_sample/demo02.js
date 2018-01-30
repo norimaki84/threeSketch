@@ -2,13 +2,19 @@ var ww = window.innerWidth;
 var wh = window.innerHeight;
 var isMobile = ww < 500;
 
+// トンネルクラス(=メインクラス)
 function Tunnel() {
+	// 初期化
 	this.init();
+
+	// メッシュ作成
 	this.createMesh();
 
+	// イベントをアサイン
 	this.handleEvents();
 
 	window.requestAnimationFrame(this.render.bind(this));
+
 }
 
 Tunnel.prototype.init = function() {
@@ -47,6 +53,7 @@ Tunnel.prototype.addParticle = function() {
 		this.particles.push(new Particle(this.scene));
 	}
 };
+
 
 Tunnel.prototype.createMesh = function() {
 	var points = [];

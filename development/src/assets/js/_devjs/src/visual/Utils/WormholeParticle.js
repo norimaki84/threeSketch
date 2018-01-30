@@ -24,6 +24,8 @@ export default class WormholeParticle extends Entry {
 		this.geom = null;
 		this.random = Math.random();
 
+		this.color = null;
+
 		this.cube = null;
 		this.sphere = null;
 		this.icosahedron = null;
@@ -58,6 +60,23 @@ export default class WormholeParticle extends Entry {
 			color: this.color,
 			shading:THREE.FlatShading
 		});
+		this.mesh = new THREE.Mesh(geom, mat);
+		this.mesh.scale.set(this.radius, this.radius, this.radius);
+		this.mesh.position.set(0 ,0, 1.5);
+		this.percent = burst ? 0.2 : Math.random();
+		this.burst = burst ? true : false;
+		this.offset = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() -0.5) * 0.025, 0);
+		this.speed = Math.random() * 0.004 + 0.0002;
+		if (this.burst){
+			this.speed += 0.003;
+			this.mesh.scale.x *= 1.4;
+			this.mesh.scale.y *= 1.4;
+			this.mesh.scale.z *= 1.4;
+		}
+		this.rotate = new THREE.Vector3(-Math.random() * 0.1 + 0.01, 0, Math.random() * 0.01);
+
+		this.pos = new THREE.Vector3(0,0,0);
+		this.scene.add(this.mesh);
 
   }
 
@@ -73,7 +92,7 @@ export default class WormholeParticle extends Entry {
 	 * 更新
 	 * @private
 	 */
-	_Update() {
+	_Update(tunnel) {
 
 	}
 
