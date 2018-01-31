@@ -8,14 +8,14 @@
 
 'use strict';
 
-import Entry from "../../core/Entry";
+import Entry from "../../Core/Entry";
 
-// export default class WormholeParticle extends Entry {
-export default class WormholeParticle{
+export default class WormholeParticle extends Entry {
+// export default class WormholeParticle{
 
   constructor(scene, burst, time) {
 
-		// super();
+		super();
 
   	// 引数
 		this.scene = scene;

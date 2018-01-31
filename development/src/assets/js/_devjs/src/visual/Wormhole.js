@@ -6,7 +6,7 @@
  * Author: Teraguchi
  */
 
-import Entry from '../core/Entry';
+import Entry from '../Core/Entry';
 import WormholeParticle from "./Utils/WormholeParticle";
 // import loadTexture from '../utils/modules/loadTexture';
 // require('../../libs/GPUComputationRenderer');
@@ -24,8 +24,6 @@ export default class Wormhole extends Entry {
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
     this.isMobile = this.width < 500;
-
-    // this.WormholeParticle = new WormholeParticle();
 
     //
 		this.speed = 1;
@@ -53,16 +51,6 @@ export default class Wormhole extends Entry {
 		this.tubeGeometry = null;
 		this.curve = null;
 		this.splineMesh = null;
-
-
-		// gpgpuで使用するオブジェクト
-		this.gpuCompute = null;
-		this.velocityVariable = null;
-		this.positionVariable = null;
-		this.positionUniforms = null;
-		this.velocityUniforms = null;
-		this.particleUniforms = null;
-		this.effectController = null;
 
     this.createCamera = this._createCamera.bind(this);
     this.createRenderer = this._createRenderer.bind(this);
