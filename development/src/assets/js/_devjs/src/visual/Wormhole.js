@@ -27,7 +27,8 @@ export default class Wormhole extends Entry {
     //
 		this.speed = 1;
 		this.prevTime = 0;
-		this.particles = [];
+
+		// this.wormholeParticle = new WormholeParticle();
 
 
     this.stats = null;
@@ -85,11 +86,10 @@ export default class Wormhole extends Entry {
 			target: new THREE.Vector2(this.width * 0.5, this.height * 0.7)
 		};
 
-
 		this.createCamera();
 		this.createScene();
     this.createRenderer();
-    this.controlsUtil();
+    // this.controlsUtil();
 
 		this.addParticle();
 
@@ -146,7 +146,7 @@ export default class Wormhole extends Entry {
   _createScene() {
 
 		this.scene = new THREE.Scene();
-		this.scene.fog = new THREE.Fog(0x000d25, 0.05, 1.6);
+		this.scene.fog = new THREE.Fog(0xffffff, 0.05, 1.6);
 
   }
 
@@ -186,12 +186,10 @@ export default class Wormhole extends Entry {
 	 * @private
 	 */
 	_addParticle() {
-
+		let that = this;
 		for(let i = 0; i < (this.isMobile ? 70 : 150); i++){
-			window.console.log('addParticle');
-			this.particles.push(new WormholeParticle(this.scene));
+			this.particles.push(new WormholeParticle(that.scene));
 		}
-
 	}
 
 	/**
@@ -219,7 +217,7 @@ export default class Wormhole extends Entry {
 
 		this.tubeMaterial = new THREE.MeshBasicMaterial({
 			side: THREE.BackSide,
-			color:0xffffff
+			color: 0x000000
 		});
 
 		this.tubeGeometry = new THREE.TubeGeometry(this.curve, 70, 0.02, 30, false);
@@ -256,14 +254,16 @@ export default class Wormhole extends Entry {
    */
   _Update() {
 
+  	let that = this;
+
 		this.updateCameraPosition();
 
 		this.updateCurve();
 
 		for(let i = 0; i < this.particles.length; i++){
-			this.particles[i].update(this);
-			if(this.particles[i].burst && this.particles[i].percent > 1){
-				this.particles.splice(i, 1);
+			that.particles[i].update(this);
+			if(that.particles[i].burst && that.particles[i].percent > 1){
+				that.particles.splice(i, 1);
 				i--;
 			}
 		}

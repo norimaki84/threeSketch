@@ -70,7 +70,7 @@ Tunnel.prototype.createMesh = function() {
 	this.curve = new THREE.CatmullRomCurve3(points);
 	this.curve.type = "catmullrom";
 
-	geometry = new THREE.Geometry();
+	// geometry = new THREE.Geometry();
 	geometry.vertices = this.curve.getPoints(70);
 	this.splineMesh = new THREE.Line(geometry, new THREE.LineBasicMaterial());
 

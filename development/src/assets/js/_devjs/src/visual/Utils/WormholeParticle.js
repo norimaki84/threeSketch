@@ -22,8 +22,8 @@ export default class WormholeParticle extends Entry {
 		this.time = time;
 
 		this.radius = Math.random() * 0.002 + 0.0003;
-		// this.geom = this.icosahedron;
 		this.geom = null;
+		this.icosahedron = null;
 		this.random = Math.random();
 		this.mesh = null;
 
@@ -34,7 +34,7 @@ export default class WormholeParticle extends Entry {
 		this.icosahedron = null;
 
 		this.createGeometry = this._createGeometry.bind(this);
-		this.Update = this._Update.bind(this);
+		this.update = this._update.bind(this);
 
     this.init();
   }
@@ -44,7 +44,11 @@ export default class WormholeParticle extends Entry {
    */
   init(){
 
+		this.createGeometry();
+
   	let that = this;
+
+		this.geom = this.icosahedron;
 
 		if(this.random > 0.9){
 			that.geom = this.cube;
@@ -66,8 +70,8 @@ export default class WormholeParticle extends Entry {
 		this.mesh = new THREE.Mesh(that.geom, mat);
 		this.mesh.scale.set(this.radius, this.radius, this.radius);
 		this.mesh.position.set(0 ,0, 1.5);
-		this.percent = burst ? 0.2 : Math.random();
-		this.burst = burst ? true : false;
+		this.percent = this.burst ? 0.2 : Math.random();
+		this.burst = this.burst ? true : false;
 		this.offset = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() -0.5) * 0.025, 0);
 		this.speed = Math.random() * 0.004 + 0.0002;
 		if (this.burst){
@@ -79,7 +83,8 @@ export default class WormholeParticle extends Entry {
 		this.rotate = new THREE.Vector3(-Math.random() * 0.1 + 0.01, 0, Math.random() * 0.01);
 
 		this.pos = new THREE.Vector3(0,0,0);
-		this.scene.add(this.mesh);
+		// window.console.log('this.scene', this.scene);
+		// this.scene.add(this.mesh);
 
   }
 
@@ -97,7 +102,7 @@ export default class WormholeParticle extends Entry {
 	 * 更新
 	 * @private
 	 */
-	_Update(tunnel) {
+	_update(tunnel) {
 		this.percent += this.speed * (this.burst?1:tunnel.speed);
 
 		this.pos = tunnel.curve.getPoint(1 - (this.percent%1)) .add(this.offset);
