@@ -22,11 +22,11 @@ Tunnel.prototype.init = function() {
 	// this.speed = 1;
 	// this.prevTime = 0;
 
-	this.mouse = {
-		position: new THREE.Vector2(ww * 0.5, wh * 0.7),
-		ratio: new THREE.Vector2(0, 0),
-		target: new THREE.Vector2(ww * 0.5, wh * 0.7)
-	};
+	// this.mouse = {
+	// 	position: new THREE.Vector2(ww * 0.5, wh * 0.7),
+	// 	ratio: new THREE.Vector2(0, 0),
+	// 	target: new THREE.Vector2(ww * 0.5, wh * 0.7)
+	// };
 
 	// this.renderer = new THREE.WebGLRenderer({
 	// 	antialias: true,
@@ -34,25 +34,25 @@ Tunnel.prototype.init = function() {
 	// });
 	// this.renderer.setSize(ww, wh);
 
-	this.camera = new THREE.PerspectiveCamera(15, ww / wh, 0.01, 100);
-	this.camera.rotation.y = Math.PI;
-	this.camera.position.z = 0.35;
+	// this.camera = new THREE.PerspectiveCamera(15, ww / wh, 0.01, 100);
+	// this.camera.rotation.y = Math.PI;
+	// this.camera.position.z = 0.35;
 
-	this.scene = new THREE.Scene();
-	this.scene.fog = new THREE.Fog(0x000d25,0.05,1.6);
+	// this.scene = new THREE.Scene();
+	// this.scene.fog = new THREE.Fog(0x000d25,0.05,1.6);
 
-	var light = new THREE.HemisphereLight( 0xe9eff2, 0x01010f, 1 );
-	this.scene.add( light );
+	// var light = new THREE.HemisphereLight( 0xe9eff2, 0x01010f, 1 );
+	// this.scene.add( light );
 
-	this.addParticle();
+	// this.addParticle();
 };
 
-Tunnel.prototype.addParticle = function() {
-	this.particles = [];
-	for(var i = 0; i < (isMobile?70:150); i++){
-		this.particles.push(new Particle(this.scene));
-	}
-};
+// Tunnel.prototype.addParticle = function() {
+// 	this.particles = [];
+// 	for(var i = 0; i < (isMobile?70:150); i++){
+// 		this.particles.push(new Particle(this.scene));
+// 	}
+// };
 
 
 Tunnel.prototype.createMesh = function() {

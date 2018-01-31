@@ -6,7 +6,8 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import Entry from '../core/Entry';
+import WormholeParticle from "./Utils/WormholeParticle";
 // import loadTexture from '../utils/modules/loadTexture';
 // require('../../libs/GPUComputationRenderer');
 
@@ -23,6 +24,8 @@ export default class Wormhole extends Entry {
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
     this.isMobile = this.width < 500;
+
+    // this.WormholeParticle = new WormholeParticle();
 
     //
 		this.speed = 1;
@@ -44,6 +47,13 @@ export default class Wormhole extends Entry {
 		this.pointsLight = null;
 		this.ambientLight = null;
 		this.controls = null;
+		this.mouse = null;
+		this.particles = [];
+
+		this.tubeGeometry = null;
+		this.curve = null;
+		this.splineMesh = null;
+
 
 		// gpgpuで使用するオブジェクト
 		this.gpuCompute = null;
@@ -61,6 +71,10 @@ export default class Wormhole extends Entry {
     this.controlsUtil = this._controlsUtil.bind(this);
 
     this.addParticle = this._addParticle.bind(this);
+    this.createMesh = this._createMesh.bind(this);
+    this.handleEvents = this._handleEvents.bind(this);
+    this.updateCameraPosition = this._updateCameraPosition.bind(this);
+    this.updateCurve = this._updateCurve.bind(this);
 
 		this.vertShader = [
 
@@ -81,8 +95,15 @@ export default class Wormhole extends Entry {
    * 初期化
    */
   init(){
-  	
-    this.createCamera();
+
+		this.mouse = {
+			position: new THREE.Vector2(this.width * 0.5, this.height * 0.7),
+			ratio: new THREE.Vector2(0, 0),
+			target: new THREE.Vector2(this.width * 0.5, this.height * 0.7)
+		};
+
+
+		this.createCamera();
 		this.createScene();
     this.createRenderer();
     this.controlsUtil();
@@ -91,6 +112,8 @@ export default class Wormhole extends Entry {
 		// this.initPosition();
 
 		// this.loadTextureEvent();
+
+		this.createMesh();
 
 		this.Update();
 
@@ -177,14 +200,70 @@ export default class Wormhole extends Entry {
 	}
 
 	/**
-	 *
+	 * パーティクルを生成
 	 * @private
 	 */
 	_addParticle() {
 
 		for(let i = 0; i < (this.isMobile ? 70 : 150); i++){
-			this.particles.push(new Particle(this.scene));
+			this.particles.push(new WormholeParticle(this.scene));
 		}
+
+	}
+
+	/**
+	 * メッシュを作成
+	 * @private
+	 */
+	_createMesh() {
+		let points = [];
+		let i = 0;
+		let geometry = new THREE.Geometry();
+
+		this.scene.remove(this.tubeMesh)
+
+		for (i = 0; i < 5; i += 1) {
+			points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)));
+		}
+		points[4].y = -0.06;
+
+		this.curve = new THREE.CatmullRomCurve3(points);
+		this.curve.type = "catmullrom";
+
+		geometry = new THREE.Geometry();
+		geometry.vertices = this.curve.getPoints(70);
+		this.splineMesh = new THREE.Line(geometry, new THREE.LineBasicMaterial());
+
+		this.tubeMaterial = new THREE.MeshBasicMaterial({
+			side: THREE.BackSide,
+			color:0xffffff
+		});
+
+		this.tubeGeometry = new THREE.TubeGeometry(this.curve, 70, 0.02, 30, false);
+		this.tubeGeometry_o = this.tubeGeometry.clone();
+		this.tubeMesh = new THREE.Mesh(this.tubeGeometry, this.tubeMaterial);
+
+		this.scene.add(this.tubeMesh);
+	}
+
+	/**
+	 * イベントアサイン
+	 * @private
+	 */
+	_handleEvents() {
+
+		window.addEventListener('resize', this.onResize.bind(this), false);
+
+		// document.body.addEventListener('mousemove', this.onMouseMove.bind(this), false);
+		// document.body.addEventListener('touchmove', this.onMouseMove.bind(this), false);
+		//
+		// document.body.addEventListener('touchstart', this.onMouseDown.bind(this), false);
+		// document.body.addEventListener('mousedown', this.onMouseDown.bind(this), false);
+		//
+		// document.body.addEventListener('mouseup', this.onMouseUp.bind(this), false);
+		// document.body.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
+		// document.body.addEventListener('touchend', this.onMouseUp.bind(this), false);
+		// window.addEventListener('mouseout', this.onMouseUp.bind(this), false);
 
 	}
 
@@ -194,12 +273,29 @@ export default class Wormhole extends Entry {
    */
   _Update() {
 
-		// 計算用のテクスチャを更新
-		// this.gpuCompute.compute();
+		this.updateCameraPosition();
 
-		// 計算した結果が格納されたテクスチャをレンダリング用のシェーダーに渡す
-		// this.particleUniforms.texturePosition.value = this.gpuCompute.getCurrentRenderTarget( this.positionVariable ).texture;
-		// this.particleUniforms.textureVelocity.value = this.gpuCompute.getCurrentRenderTarget( this.velocityVariable ).texture;
+		this.updateCurve();
+
+		for(let i = 0; i < this.particles.length; i++){
+			this.particles[i].update(this);
+			if(this.particles[i].burst && this.particles[i].percent > 1){
+				this.particles.splice(i, 1);
+				i--;
+			}
+		}
+
+		// When mouse down, add a lot of shapes
+		// if (this.mousedown){
+		// 	if(time - this.prevTime > 20){
+		// 		this.prevTime = time;
+		// 		this.particles.push(new Particle(this.scene, true, time));
+		// 		if(!isMobile){
+		// 			this.particles.push(new Particle(this.scene, true, time));
+		// 			this.particles.push(new Particle(this.scene, true, time));
+		// 		}
+		// 	}
+		// }
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -219,12 +315,59 @@ export default class Wormhole extends Entry {
 
 		// this.particleUniforms.cameraConstant.value = this.getCameraConstant(this.camera);
 
+		this.isMobile = this.width < 500;
+
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+	/**
+	 * カメラ位置を更新
+	 * @private
+	 */
+	_updateCameraPosition() {
+		// this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
+		// this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30;
+		//
+		// this.mouse.ratio.x = (this.mouse.position.x / ww);
+		// this.mouse.ratio.y = (this.mouse.position.y / wh);
 
+		this.camera.rotation.z = ((this.mouse.ratio.x) * 1 - 0.05);
+		this.camera.rotation.y = Math.PI - (this.mouse.ratio.x * 0.3 - 0.15);
+		this.camera.position.x = ((this.mouse.ratio.x) * 0.044 - 0.025);
+		this.camera.position.y = ((this.mouse.ratio.y) * 0.044 - 0.025);
+	}
+
+	/**
+	 *
+	 * @private
+	 */
+	_updateCurve() {
+		let i = 0;
+		let index = 0;
+		let vertice_o = null;
+		let vertice = null;
+		for (i = 0; i < this.tubeGeometry.vertices.length; i += 1) {
+			vertice_o = this.tubeGeometry_o.vertices[i];
+			vertice = this.tubeGeometry.vertices[i];
+			index = Math.floor(i / 30);
+			vertice.x += ((vertice_o.x + this.splineMesh.geometry.vertices[index].x) - vertice.x) / 15;
+			vertice.y += ((vertice_o.y + this.splineMesh.geometry.vertices[index].y) - vertice.y) / 15;
+		}
+		this.tubeGeometry.verticesNeedUpdate = true;
+
+		this.curve.points[2].x = 0.6 * (1 - this.mouse.ratio.x) - 0.3;
+		this.curve.points[3].x = 0;
+		this.curve.points[4].x = 0.6 * (1 - this.mouse.ratio.x) - 0.3;
+
+		this.curve.points[2].y = 0.6 * (1 - this.mouse.ratio.y) - 0.3;
+		this.curve.points[3].y = 0;
+		this.curve.points[4].y = 0.6 * (1 - this.mouse.ratio.y) - 0.3;
+
+		this.splineMesh.geometry.verticesNeedUpdate = true;
+		this.splineMesh.geometry.vertices = this.curve.getPoints(70);
+	}
 
 	/**
 	 * 画像をロード

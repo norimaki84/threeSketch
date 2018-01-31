@@ -16,6 +16,7 @@ import DisplayTextureMovie from '../Display/DisplayTextureMovie';
 import DisplayGpgpu01 from '../Display/DisplayGpgpu01';
 import DisplayObjStudy01 from '../Display/DisplayObjStudy01';
 import DisplayDotMatrix from '../Display/DisplayDotMatrix';
+import DisplayWormhole from "../display/DisplayWormhole";
 
 'use strict';
 
@@ -99,6 +100,12 @@ export default class Main {
 			case 'dotMatrix':
 
 				new DisplayDotMatrix();
+
+				break;
+
+			case 'wormhole':
+
+				new DisplayWormhole();
 
 				break;
     }

@@ -10,19 +10,23 @@
 
 import Entry from "../../core/Entry";
 
-export default class WormholeParticle extends Entry {
+// export default class WormholeParticle extends Entry {
+export default class WormholeParticle{
 
   constructor(scene, burst, time) {
+
+		// super();
 
   	// 引数
 		this.scene = scene;
 		this.burst = burst;
 		this.time = time;
 
-		this.radius = Math.random()*0.002 + 0.0003;
+		this.radius = Math.random() * 0.002 + 0.0003;
 		// this.geom = this.icosahedron;
 		this.geom = null;
 		this.random = Math.random();
+		this.mesh = null;
 
 		this.color = null;
 
@@ -85,7 +89,9 @@ export default class WormholeParticle extends Entry {
 	 * @private
 	 */
 	_createGeometry() {
-
+		this.cube = new THREE.BoxBufferGeometry(1, 1, 1);
+		this.sphere = new THREE.SphereBufferGeometry(1, 6, 6 );
+		this.icosahedron = new THREE.IcosahedronBufferGeometry(1,0);
 	}
 
 	/**
@@ -93,7 +99,15 @@ export default class WormholeParticle extends Entry {
 	 * @private
 	 */
 	_Update(tunnel) {
+		this.percent += this.speed * (this.burst?1:tunnel.speed);
 
+		this.pos = tunnel.curve.getPoint(1 - (this.percent%1)) .add(this.offset);
+		this.mesh.position.x = this.pos.x;
+		this.mesh.position.y = this.pos.y;
+		this.mesh.position.z = this.pos.z;
+		this.mesh.rotation.x += this.rotate.x;
+		this.mesh.rotation.y += this.rotate.y;
+		this.mesh.rotation.z += this.rotate.z;
 	}
 
 }
