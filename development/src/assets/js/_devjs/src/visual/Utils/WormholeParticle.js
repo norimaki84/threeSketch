@@ -11,7 +11,6 @@
 import Entry from "../../Core/Entry";
 
 export default class WormholeParticle extends Entry {
-// export default class WormholeParticle{
 
   constructor(scene, burst, time) {
 
@@ -64,7 +63,7 @@ export default class WormholeParticle extends Entry {
 			color: this.color,
 			shading:THREE.FlatShading
 		});
-		this.mesh = new THREE.Mesh(geom, mat);
+		this.mesh = new THREE.Mesh(that.geom, mat);
 		this.mesh.scale.set(this.radius, this.radius, this.radius);
 		this.mesh.position.set(0 ,0, 1.5);
 		this.percent = burst ? 0.2 : Math.random();

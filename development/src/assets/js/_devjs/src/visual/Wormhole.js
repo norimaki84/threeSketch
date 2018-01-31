@@ -9,7 +9,6 @@
 import Entry from '../Core/Entry';
 import WormholeParticle from "./Utils/WormholeParticle";
 // import loadTexture from '../utils/modules/loadTexture';
-// require('../../libs/GPUComputationRenderer');
 
 'use strict';
 
@@ -31,10 +30,6 @@ export default class Wormhole extends Entry {
 		this.particles = [];
 
 
-    // パーティクルの数定義
-    this.padticlesWidth = 500;
-    this.padticles = this.padticlesWidth * this.padticlesWidth;
-
     this.stats = null;
 
     // 基本セット
@@ -45,7 +40,7 @@ export default class Wormhole extends Entry {
 		this.pointsLight = null;
 		this.ambientLight = null;
 		this.controls = null;
-		this.mouse = null;
+		this.mouse = {};
 		this.particles = [];
 
 		this.tubeGeometry = null;
@@ -96,8 +91,7 @@ export default class Wormhole extends Entry {
     this.createRenderer();
     this.controlsUtil();
 
-		// this.initComputeRenderer();
-		// this.initPosition();
+		this.addParticle();
 
 		// this.loadTextureEvent();
 
@@ -194,6 +188,7 @@ export default class Wormhole extends Entry {
 	_addParticle() {
 
 		for(let i = 0; i < (this.isMobile ? 70 : 150); i++){
+			window.console.log('addParticle');
 			this.particles.push(new WormholeParticle(this.scene));
 		}
 
