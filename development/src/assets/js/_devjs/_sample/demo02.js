@@ -2,58 +2,56 @@ var ww = window.innerWidth;
 var wh = window.innerHeight;
 var isMobile = ww < 500;
 
-// トンネルクラス(=メインクラス)
 function Tunnel() {
-	// 初期化
 	this.init();
-
-	// メッシュ作成
 	this.createMesh();
 
-	// イベントをアサイン
 	this.handleEvents();
 
 	window.requestAnimationFrame(this.render.bind(this));
-
 }
 
 Tunnel.prototype.init = function() {
 
-	// this.speed = 1;
-	// this.prevTime = 0;
+	this.speed = 1;
+	this.prevTime = 0;
 
-	// this.mouse = {
-	// 	position: new THREE.Vector2(ww * 0.5, wh * 0.7),
-	// 	ratio: new THREE.Vector2(0, 0),
-	// 	target: new THREE.Vector2(ww * 0.5, wh * 0.7)
-	// };
+	this.mouse = {
+		position: new THREE.Vector2(ww * 0.5, wh * 0.7),
+		ratio: new THREE.Vector2(0, 0),
+		target: new THREE.Vector2(ww * 0.5, wh * 0.7)
+	};
 
-	// this.renderer = new THREE.WebGLRenderer({
-	// 	antialias: true,
-	// 	canvas: document.querySelector("#scene")
-	// });
-	// this.renderer.setSize(ww, wh);
+	this.renderer = new THREE.WebGLRenderer({
+		antialias: true,
+		canvas: document.querySelector("#scene")
+	});
+	this.renderer.setSize(ww, wh);
 
-	// this.camera = new THREE.PerspectiveCamera(15, ww / wh, 0.01, 100);
-	// this.camera.rotation.y = Math.PI;
-	// this.camera.position.z = 0.35;
+	this.camera = new THREE.PerspectiveCamera(15, ww / wh, 0.01, 100);
+	this.camera.rotation.y = Math.PI;
+	this.camera.position.z = 0.35;
 
-	// this.scene = new THREE.Scene();
+	this.scene = new THREE.Scene();
 	// this.scene.fog = new THREE.Fog(0x000d25,0.05,1.6);
+	this.scene.fog = new THREE.Fog(0xffffff, 0.05, 1.6);
 
-	// var light = new THREE.HemisphereLight( 0xe9eff2, 0x01010f, 1 );
-	// this.scene.add( light );
+	var light = new THREE.HemisphereLight( 0xe9eff2, 0x01010f, 1 );
+	this.scene.add( light );
 
-	// this.addParticle();
+	this.addParticle();
 };
 
-// Tunnel.prototype.addParticle = function() {
-// 	this.particles = [];
-// 	for(var i = 0; i < (isMobile?70:150); i++){
-// 		this.particles.push(new Particle(this.scene));
-// 	}
-// };
+Tunnel.prototype.addParticle = function() {
+	this.particles = [];
+	var movileVal = 70;
+	var pcVal = 100; //150
 
+	// PCとモバイルでパーティクルの個数を変更
+	for(var i = 0; i < (isMobile ? movileVal : pcVal); i++){
+		this.particles.push(new Particle(this.scene));
+	}
+};
 
 Tunnel.prototype.createMesh = function() {
 	var points = [];
@@ -76,7 +74,7 @@ Tunnel.prototype.createMesh = function() {
 
 	this.tubeMaterial = new THREE.MeshBasicMaterial({
 		side: THREE.BackSide,
-		color:0xffffff
+		color: 0x000000 //0xffffff
 	});
 
 	this.tubeGeometry = new THREE.TubeGeometry(this.curve, 70, 0.02, 30, false);
@@ -90,18 +88,19 @@ Tunnel.prototype.createMesh = function() {
 Tunnel.prototype.handleEvents = function() {
 	window.addEventListener('resize', this.onResize.bind(this), false);
 
-	document.body.addEventListener('mousemove', this.onMouseMove.bind(this), false);
-	document.body.addEventListener('touchmove', this.onMouseMove.bind(this), false);
-
-	document.body.addEventListener('touchstart', this.onMouseDown.bind(this), false);
-	document.body.addEventListener('mousedown', this.onMouseDown.bind(this), false);
-
-	document.body.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-	document.body.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
-	document.body.addEventListener('touchend', this.onMouseUp.bind(this), false);
-	window.addEventListener('mouseout', this.onMouseUp.bind(this), false);
+	// document.body.addEventListener('mousemove', this.onMouseMove.bind(this), false);
+	// document.body.addEventListener('touchmove', this.onMouseMove.bind(this), false);
+	//
+	// document.body.addEventListener('touchstart', this.onMouseDown.bind(this), false);
+	// document.body.addEventListener('mousedown', this.onMouseDown.bind(this), false);
+	//
+	// document.body.addEventListener('mouseup', this.onMouseUp.bind(this), false);
+	// document.body.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
+	// document.body.addEventListener('touchend', this.onMouseUp.bind(this), false);
+	// window.addEventListener('mouseout', this.onMouseUp.bind(this), false);
 };
 
+// マウスダウンでシーンのフォグの色、チューブの色を変更
 Tunnel.prototype.onMouseDown = function() {
 	this.mousedown = true;
 	TweenMax.to(this.scene.fog.color, 0.6, {
@@ -119,6 +118,8 @@ Tunnel.prototype.onMouseDown = function() {
 		ease: Power2.easeInOut
 	});
 };
+
+//
 Tunnel.prototype.onMouseUp = function() {
 	this.mousedown = false;
 	TweenMax.to(this.scene.fog.color, 0.6, {
@@ -137,6 +138,7 @@ Tunnel.prototype.onMouseUp = function() {
 	});
 };
 
+//
 Tunnel.prototype.onResize = function() {
 	ww = window.innerWidth;
 	wh = window.innerHeight;
@@ -148,6 +150,7 @@ Tunnel.prototype.onResize = function() {
 	this.renderer.setSize(ww, wh);
 };
 
+//
 Tunnel.prototype.onMouseMove = function(e) {
 	if (e.type === "mousemove"){
 		this.mouse.target.x = e.clientX;
@@ -158,6 +161,7 @@ Tunnel.prototype.onMouseMove = function(e) {
 	}
 };
 
+//
 Tunnel.prototype.updateCameraPosition = function() {
 
 	this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
@@ -173,6 +177,7 @@ Tunnel.prototype.updateCameraPosition = function() {
 
 };
 
+//
 Tunnel.prototype.updateCurve = function() {
 	var i = 0;
 	var index = 0;
@@ -214,16 +219,16 @@ Tunnel.prototype.render = function(time) {
 	}
 
 	// When mouse down, add a lot of shapes
-	if (this.mousedown){
-		if(time - this.prevTime > 20){
-			this.prevTime = time;
-			this.particles.push(new Particle(this.scene, true, time));
-			if(!isMobile){
-				this.particles.push(new Particle(this.scene, true, time));
-				this.particles.push(new Particle(this.scene, true, time));
-			}
-		}
-	}
+	// if (this.mousedown){
+	//   if(time - this.prevTime > 20){
+	//     this.prevTime = time;
+	//     this.particles.push(new Particle(this.scene, true, time));
+	//     if(!isMobile){
+	//       this.particles.push(new Particle(this.scene, true, time));
+	//       this.particles.push(new Particle(this.scene, true, time));
+	//     }
+	//   }
+	// }
 
 	this.renderer.render(this.scene, this.camera);
 
@@ -231,7 +236,7 @@ Tunnel.prototype.render = function(time) {
 };
 
 function Particle(scene, burst, time) {
-	var radius = Math.random()*0.002 + 0.0003;
+	var radius = Math.random()*　0.002 + 0.0003;
 	var geom = this.icosahedron;
 	var random = Math.random();
 	if(random > 0.9){
@@ -239,12 +244,17 @@ function Particle(scene, burst, time) {
 	} else if(random > 0.8){
 		geom = this.sphere;
 	}
+
 	var range = 50;
+	// var range = 1;
 	if(burst){
 		this.color = new THREE.Color("hsl("+(time / 50)+",100%,60%)");
+		// window.console.log('this.color', this.color);
 	} else {
+		// var offset = 180;
 		var offset = 180;
 		this.color = new THREE.Color("hsl("+(Math.random()*range+offset)+",100%,80%)");
+		// window.console.log('this.color02', this.color);
 	}
 	var mat = new THREE.MeshPhongMaterial({
 		color: this.color,
@@ -254,18 +264,21 @@ function Particle(scene, burst, time) {
 	this.mesh.scale.set(radius, radius, radius);
 	this.mesh.position.set(0,0,1.5);
 	this.percent = burst ? 0.2 : Math.random();
-	this.burst = burst ? true : false;
+	let _burst = burst ? true : false;
 	this.offset = new THREE.Vector3((Math.random()-0.5)*0.025, (Math.random()-0.5)*0.025, 0);
-	this.speed = Math.random()*0.004 + 0.0002;
-	if (this.burst){
+	// this.speed = Math.random()*0.004 + 0.0002;
+	this.speed = 0.0001;
+	// if (this.burst){
+	if (_burst){
 		this.speed += 0.003;
 		this.mesh.scale.x *= 1.4;
 		this.mesh.scale.y *= 1.4;
 		this.mesh.scale.z *= 1.4;
 	}
-	this.rotate = new THREE.Vector3(-Math.random()*0.1+0.01,0,Math.random()*0.01);
+	this.rotate = new THREE.Vector3(-Math.random() * 0.1 + 0.01, 0, Math.random() * 0.01);
 
 	this.pos = new THREE.Vector3(0,0,0);
+	// window.console.log('scene', scene);
 	scene.add(this.mesh);
 }
 
@@ -276,7 +289,7 @@ Particle.prototype.update = function (tunnel) {
 
 	this.percent += this.speed * (this.burst?1:tunnel.speed);
 
-	this.pos = tunnel.curve.getPoint(1 - (this.percent%1)) .add(this.offset);
+	this.pos = tunnel.curve.getPoint(1 - (this.percent % 1)) .add(this.offset);
 	this.mesh.position.x = this.pos.x;
 	this.mesh.position.y = this.pos.y;
 	this.mesh.position.z = this.pos.z;

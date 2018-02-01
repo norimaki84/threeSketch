@@ -16,9 +16,10 @@ export default class WormholeParticle extends Entry {
 
 		super();
 
-  	// 引数
+  	// 引数をメンバ変数に渡す
 		this.scene = scene;
 		this.burst = burst;
+		this._burst = null;
 		this.time = time;
 
 		this.radius = Math.random() * 0.002 + 0.0003;
@@ -65,16 +66,18 @@ export default class WormholeParticle extends Entry {
 		}
 		let mat = new THREE.MeshPhongMaterial({
 			color: this.color,
-			shading:THREE.FlatShading
+			// shading: THREE.FlatShading
+			flatShading: true
 		});
 		this.mesh = new THREE.Mesh(that.geom, mat);
 		this.mesh.scale.set(this.radius, this.radius, this.radius);
 		this.mesh.position.set(0 ,0, 1.5);
 		this.percent = this.burst ? 0.2 : Math.random();
-		this.burst = this.burst ? true : false;
+		this._burst = this.burst ? true : false;
 		this.offset = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() -0.5) * 0.025, 0);
-		this.speed = Math.random() * 0.004 + 0.0002;
-		if (this.burst){
+		// this.speed = Math.random() * 0.004 + 0.0002;
+		this.speed = 0.0001;
+		if (this._burst){
 			this.speed += 0.003;
 			this.mesh.scale.x *= 1.4;
 			this.mesh.scale.y *= 1.4;
@@ -84,7 +87,7 @@ export default class WormholeParticle extends Entry {
 
 		this.pos = new THREE.Vector3(0,0,0);
 		// window.console.log('this.scene', this.scene);
-		// this.scene.add(this.mesh);
+		this.scene.add(this.mesh);
 
   }
 
@@ -103,9 +106,9 @@ export default class WormholeParticle extends Entry {
 	 * @private
 	 */
 	_update(tunnel) {
-		this.percent += this.speed * (this.burst?1:tunnel.speed);
+		this.percent += this.speed * (this._burst ? 1 : tunnel.speed);
 
-		this.pos = tunnel.curve.getPoint(1 - (this.percent%1)) .add(this.offset);
+		this.pos = tunnel.curve.getPoint(1 - (this.percent % 1)) .add(this.offset);
 		this.mesh.position.x = this.pos.x;
 		this.mesh.position.y = this.pos.y;
 		this.mesh.position.z = this.pos.z;

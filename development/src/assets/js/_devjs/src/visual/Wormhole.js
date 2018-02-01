@@ -28,9 +28,6 @@ export default class Wormhole extends Entry {
 		this.speed = 1;
 		this.prevTime = 0;
 
-		// this.wormholeParticle = new WormholeParticle();
-
-
     this.stats = null;
 
     // 基本セット
@@ -45,6 +42,7 @@ export default class Wormhole extends Entry {
 		this.particles = [];
 
 		this.tubeGeometry = null;
+		this.tubeGeometry_o = null;
 		this.curve = null;
 		this.splineMesh = null;
 
@@ -86,20 +84,21 @@ export default class Wormhole extends Entry {
 			target: new THREE.Vector2(this.width * 0.5, this.height * 0.7)
 		};
 
+		this.createRenderer();
 		this.createCamera();
 		this.createScene();
-    this.createRenderer();
-    // this.controlsUtil();
+		this.createLight();
 
 		this.addParticle();
-
-		// this.loadTextureEvent();
 
 		this.createMesh();
 
 		this.Update();
 
 		window.addEventListener('resize', this.onResize, false );
+
+		// this.controlsUtil();
+		// this.loadTextureEvent();
 
   }
 
@@ -166,7 +165,7 @@ export default class Wormhole extends Entry {
 		// this.ambientLight = new THREE.AmbientLight(0xffffff);
 		// this.scene.add(this.ambientLight);
 
-		let light = new THREE.HemisphereLight( 0xe9eff2, 0x01010f, 1 );
+		let light = new THREE.HemisphereLight(0xe9eff2, 0x01010f, 1);
 		this.scene.add(light);
 
 	}
@@ -200,8 +199,8 @@ export default class Wormhole extends Entry {
 		let points = [];
 		let i = 0;
 		let geometry = new THREE.Geometry();
-
-		this.scene.remove(this.tubeMesh)
+		// window.console.log('this.tubeMesh', this.tubeMesh);
+		// this.scene.remove(this.tubeMesh);
 
 		for (i = 0; i < 5; i += 1) {
 			points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)));
@@ -211,7 +210,7 @@ export default class Wormhole extends Entry {
 		this.curve = new THREE.CatmullRomCurve3(points);
 		this.curve.type = "catmullrom";
 
-		geometry = new THREE.Geometry();
+		// geometry = new THREE.Geometry();
 		geometry.vertices = this.curve.getPoints(70);
 		this.splineMesh = new THREE.Line(geometry, new THREE.LineBasicMaterial());
 
@@ -233,7 +232,8 @@ export default class Wormhole extends Entry {
 	 */
 	_handleEvents() {
 
-		window.addEventListener('resize', this.onResize.bind(this), false);
+		// window.addEventListener('resize', this.onResize.bind(this), false);
+		window.addEventListener('resize', this.onResize, false );
 
 		// document.body.addEventListener('mousemove', this.onMouseMove.bind(this), false);
 		// document.body.addEventListener('touchmove', this.onMouseMove.bind(this), false);
@@ -310,11 +310,11 @@ export default class Wormhole extends Entry {
 	 * @private
 	 */
 	_updateCameraPosition() {
-		// this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
-		// this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30;
-		//
-		// this.mouse.ratio.x = (this.mouse.position.x / ww);
-		// this.mouse.ratio.y = (this.mouse.position.y / wh);
+		this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
+		this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30;
+
+		this.mouse.ratio.x = (this.mouse.position.x / this.width);
+		this.mouse.ratio.y = (this.mouse.position.y / this.height);
 
 		this.camera.rotation.z = ((this.mouse.ratio.x) * 1 - 0.05);
 		this.camera.rotation.y = Math.PI - (this.mouse.ratio.x * 0.3 - 0.15);
