@@ -66,7 +66,6 @@ export default class WormholeParticle extends Entry {
 		}
 		let mat = new THREE.MeshPhongMaterial({
 			color: this.color,
-			// shading: THREE.FlatShading
 			flatShading: true
 		});
 		this.mesh = new THREE.Mesh(that.geom, mat);
