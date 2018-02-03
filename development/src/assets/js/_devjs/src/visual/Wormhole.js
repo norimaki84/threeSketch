@@ -290,12 +290,12 @@ export default class Wormhole extends Entry {
 
   /**
    *　画面リサイズイベント
+	 * @private
    */
   _onResize() {
+
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
-		// this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
-
 		// this.particleUniforms.cameraConstant.value = this.getCameraConstant(this.camera);
 
 		this.isMobile = this.width < 500;
@@ -303,6 +303,7 @@ export default class Wormhole extends Entry {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+
   }
 
 	/**
@@ -323,10 +324,11 @@ export default class Wormhole extends Entry {
 	}
 
 	/**
-	 *
+	 * トンネルアップデート
 	 * @private
 	 */
 	_updateCurve() {
+
 		let i = 0;
 		let index = 0;
 		let vertice_o = null;
@@ -350,6 +352,7 @@ export default class Wormhole extends Entry {
 
 		this.splineMesh.geometry.verticesNeedUpdate = true;
 		this.splineMesh.geometry.vertices = this.curve.getPoints(70);
+
 	}
 
 	/**
