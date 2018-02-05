@@ -2,7 +2,7 @@
  * fileOverview:
  * Project:
  * File: Wormhole
- * Date: 18/01/27
+ * Date: 18/1/27
  * Author: Teraguchi
  */
 
@@ -50,7 +50,6 @@ export default class Wormhole extends Entry {
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
     this.createLight = this._createLight.bind(this);
-    this.controlsUtil = this._controlsUtil.bind(this);
 
     this.addParticle = this._addParticle.bind(this);
     this.createMesh = this._createMesh.bind(this);
@@ -58,10 +57,10 @@ export default class Wormhole extends Entry {
     this.updateCameraPosition = this._updateCameraPosition.bind(this);
     this.updateCurve = this._updateCurve.bind(this);
 
+		this.texsArray = [];
 		this.vertShader = [
 
 		];
-
 		this.fragShader = [
 			// "assets/glsl/computeShaderPosition.frag",
 			// "assets/glsl/computeShaderVelocity.frag",
@@ -96,8 +95,6 @@ export default class Wormhole extends Entry {
 		this.Update();
 
 		window.addEventListener('resize', this.onResize, false );
-
-		// this.controlsUtil();
 		// this.loadTextureEvent();
 
   }
@@ -171,16 +168,6 @@ export default class Wormhole extends Entry {
 	}
 
 	/**
-	 * マウス操作で視点変更
-	 * @private
-	 */
-	_controlsUtil() {
-
-		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-
-	}
-
-	/**
 	 * パーティクルを生成
 	 * @private
 	 */
@@ -232,19 +219,7 @@ export default class Wormhole extends Entry {
 	 */
 	_handleEvents() {
 
-		// window.addEventListener('resize', this.onResize.bind(this), false);
 		window.addEventListener('resize', this.onResize, false );
-
-		// document.body.addEventListener('mousemove', this.onMouseMove.bind(this), false);
-		// document.body.addEventListener('touchmove', this.onMouseMove.bind(this), false);
-		//
-		// document.body.addEventListener('touchstart', this.onMouseDown.bind(this), false);
-		// document.body.addEventListener('mousedown', this.onMouseDown.bind(this), false);
-		//
-		// document.body.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-		// document.body.addEventListener('mouseleave', this.onMouseUp.bind(this), false);
-		// document.body.addEventListener('touchend', this.onMouseUp.bind(this), false);
-		// window.addEventListener('mouseout', this.onMouseUp.bind(this), false);
 
 	}
 
@@ -267,18 +242,6 @@ export default class Wormhole extends Entry {
 				i--;
 			}
 		}
-
-		// When mouse down, add a lot of shapes
-		// if (this.mousedown){
-		// 	if(time - this.prevTime > 20){
-		// 		this.prevTime = time;
-		// 		this.particles.push(new Particle(this.scene, true, time));
-		// 		if(!isMobile){
-		// 			this.particles.push(new Particle(this.scene, true, time));
-		// 			this.particles.push(new Particle(this.scene, true, time));
-		// 		}
-		// 	}
-		// }
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -311,9 +274,9 @@ export default class Wormhole extends Entry {
 	 * @private
 	 */
 	_updateCameraPosition() {
+
 		this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
 		this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30;
-
 		this.mouse.ratio.x = (this.mouse.position.x / this.width);
 		this.mouse.ratio.y = (this.mouse.position.y / this.height);
 
@@ -321,6 +284,7 @@ export default class Wormhole extends Entry {
 		this.camera.rotation.y = Math.PI - (this.mouse.ratio.x * 0.3 - 0.15);
 		this.camera.position.x = ((this.mouse.ratio.x) * 0.044 - 0.025);
 		this.camera.position.y = ((this.mouse.ratio.y) * 0.044 - 0.025);
+
 	}
 
 	/**
@@ -360,25 +324,6 @@ export default class Wormhole extends Entry {
 	 * @private
 	 */
 	_loadTextureEvent() {
-
-		// const texLoader = new THREE.TextureLoader();
-		// texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
-		// texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
-		// 	texture => { // onLoad
-		// 		// const geometry = new THREE.BoxGeometry(1, 1, 1);
-		// 		// const material = new MeshBasicMaterial({ map: texture });
-		// 		// const cube = new THREE.Mesh(geometry, material);
-		// 		// scene.add(cube);
-		// 		// ...
-		// 		window.console.log('完了');
-		// 	},
-		// 	xhr => { // onProgress
-		// 		window.console.log('');
-		// 	},
-		// 	xhr => { // onError
-		// 		// ...
-		// 	}
-		// );
 
 		loadTexture(this.texsArray, function () {
 
