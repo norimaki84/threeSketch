@@ -1,8 +1,8 @@
 /**
- * fileOverview:
- * Project:
+ * fileOverview: ページ別クラスの実行
+ * Project: Main
  * File: Main
- * Date:
+ * Date: 18/2/6
  * Author: Teraguchi
  */
 
@@ -17,6 +17,7 @@ import DisplayGpgpu01 from '../Display/DisplayGpgpu01';
 import DisplayObjStudy01 from '../Display/DisplayObjStudy01';
 import DisplayDotMatrix from '../Display/DisplayDotMatrix';
 import DisplayWormhole from "../display/DisplayWormhole";
+import DisplayTextTransform from "../display/DisplayTextTransform";
 
 'use strict';
 
@@ -106,6 +107,12 @@ export default class Main {
 			case 'wormhole':
 
 				new DisplayWormhole();
+
+				break;
+
+			case 'textTransform':
+
+				new DisplayTextTransform();
 
 				break;
     }

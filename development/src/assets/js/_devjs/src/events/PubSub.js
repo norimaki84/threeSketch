@@ -1,17 +1,14 @@
 /**
  * fileOverview: イベントディスパッチャー代替
  * Project:
- * File:
+ * File: PubSub
  * Date:
  * Author:
  */
 
-
 'use strict';
 
-
 export default class PubSub {
-
 
 	/**
 	 * @constructor
@@ -22,7 +19,6 @@ export default class PubSub {
 		this._context = context;
 	}
 
-
 	/**
 	 *
 	 * @param type
@@ -32,7 +28,7 @@ export default class PubSub {
 	 */
 	one(type, callback, context, priority) {
 
-		var handler = function () {
+		let handler = function () {
 			this.off(type, handler);
 			callback.apply(this, arguments);
 		}.bind(this);
@@ -54,14 +50,14 @@ export default class PubSub {
 		priority = priority || 0;
 
 		this._events[type] = {}.hasOwnProperty.call(this._events, type) ? this._events[type] : {};
-		var listenerToInsert = {context: context, callback: callback, priority: priority};
+		let listenerToInsert = {context: context, callback: callback, priority: priority};
 
 		if (this._events[type].listeners) {
-			var listeners = this._events[type].listeners;
-			var inserted = false;
-			for (var i = 0, length = listeners.length; i < length; i++) {
-				var listener = listeners[i];
-				var eventPriority = listener.priority;
+			let listeners = this._events[type].listeners;
+			let inserted = false;
+			for (let i = 0, length = listeners.length; i < length; i++) {
+				let listener = listeners[i];
+				let eventPriority = listener.priority;
 				if (priority < eventPriority) {
 					listeners.splice(i, 0, listenerToInsert);
 					inserted = true;
@@ -106,7 +102,7 @@ export default class PubSub {
 	 * @returns {boolean}
 	 */
 	removeEventListener(type, callback) {
-		var listeners = this._events[type] ? this._events[type].listeners : null;
+		let listeners = this._events[type] ? this._events[type].listeners : null;
 
 		if (!listeners || listeners.length < 1) {
 			return false;
@@ -117,8 +113,8 @@ export default class PubSub {
 			return true;
 		}
 
-		for (var i = 0, length = listeners.length; i < length; i++) {
-			var listener = listeners[i];
+		for (let i = 0, length = listeners.length; i < length; i++) {
+			let listener = listeners[i];
 			if (listener.callback === callback) {
 				listeners.splice(i, 1);
 				return true;
@@ -156,7 +152,7 @@ export default class PubSub {
 	 *
 	 */
 	removeAllEventListener() {
-		for (var key in this._events) {
+		for (let key in this._events) {
 			if (this._events.hasOwnProperty(key)) {
 				this._events[key].listeners.length = 0;
 				delete this._events[key];
@@ -190,7 +186,7 @@ export default class PubSub {
 	 * @returns {boolean}
 	 */
 	hasEventListener(type, callback) {
-		var listeners = this._events[type] ? this._events[type].listeners : null;
+		let listeners = this._events[type] ? this._events[type].listeners : null;
 
 		if (!listeners) {
 			return false;
@@ -200,8 +196,8 @@ export default class PubSub {
 			return listeners.length > 0;
 		}
 
-		for (var i = 0, length = listeners.length; i < length; i++) {
-			var listener = listeners[i];
+		for (let i = 0, length = listeners.length; i < length; i++) {
+			let listener = listeners[i];
 			if (listener.callback === callback) {
 				return true;
 			}
@@ -227,7 +223,7 @@ export default class PubSub {
 	 */
 	dispatchEvent(type, option, target) {
 
-		var event = {
+		let event = {
 			type: type,
 			params: option
 		};
@@ -236,16 +232,16 @@ export default class PubSub {
 			event.target = target;
 		}
 
-		var listeners = this._events[type] ? this._events[type].listeners : null;
+		let listeners = this._events[type] ? this._events[type].listeners : null;
 
 		if (!listeners || listeners.length < 1) {
 			return;
 		}
 
-		for (var i = listeners.length - 1; i >= 0; i--) {
-			var listener = listeners[i];
-			var callback = listener.callback;
-			var callbackContext = listener.context ? listener.context : this._context;
+		for (let i = listeners.length - 1; i >= 0; i--) {
+			let listener = listeners[i];
+			let callback = listener.callback;
+			let callbackContext = listener.context ? listener.context : this._context;
 
 			if (!('target' in event)) {
 				event.target = this;
@@ -253,7 +249,7 @@ export default class PubSub {
 
 			event.currentTarget = this;
 			event.context = callbackContext;
-			var result = null;
+			let result = null;
 
 			if (!callback) {
 				return;
