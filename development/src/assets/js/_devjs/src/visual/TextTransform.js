@@ -64,6 +64,7 @@ export default class TextTransform extends Entry {
     this.camera.position.z = 100;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
+    
 
   }
 
