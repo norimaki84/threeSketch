@@ -13,7 +13,7 @@ import Entry from '../Core/Entry';
 
 export default class TextTransform extends Entry {
 
-  constructor() {
+  constructor(numChars, charWidth, numTextureGridCols, textureGridSize) {
 
     super();
 
@@ -21,6 +21,7 @@ export default class TextTransform extends Entry {
 
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
+
 
     this.camera = null;
     this.renderer = null;
@@ -30,18 +31,22 @@ export default class TextTransform extends Entry {
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
 
+    this.createTextTexture =
+
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
 
 		// this.plane = new Plane();
 
+
+
   }
 
   /**
    * 初期化
    */
-  init(){
+  init() {
 
     this.createCamera();
 		this.createScene();
@@ -49,14 +54,17 @@ export default class TextTransform extends Entry {
 
 		this.Update();
 
+		window.addEventListener('resize', this.onResize, false);
+
 		// this.loadTexture();
   }
 
 
-  /**
-   * カメラ作成
-   */
-  _createCamera(){
+	/**
+	 * カメラ作成
+	 * @private
+	 */
+  _createCamera() {
 
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
@@ -68,10 +76,11 @@ export default class TextTransform extends Entry {
 
   }
 
-  /**
-   * レンダラー作成
-   */
-  _createRenderer(){
+	/**
+	 * レンダラー作成
+	 * @private
+	 */
+  _createRenderer() {
 
 		this.renderer = new THREE.WebGLRenderer({
       alpha              : false,
@@ -88,19 +97,21 @@ export default class TextTransform extends Entry {
 
   }
 
-  /**
-   *　シーン作成
-   */
-  _createScene(){
+	/**
+	 * シーン作成
+	 * @private
+	 */
+  _createScene() {
 
 		this.scene = new THREE.Scene();
 
   }
 
-  /**
-   * 画像をロード
-   * @private
-   */
+
+	/**
+	 * 画像をロード
+	 * @private
+	 */
 	_loadTexture(){
 
 		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
@@ -128,9 +139,10 @@ export default class TextTransform extends Entry {
 
   }
 
-  /**
-   *　画面リサイズイベント
-   */
+	/**
+	 * 画面リサイズイベント
+	 * @private
+	 */
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
