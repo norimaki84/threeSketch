@@ -1,19 +1,18 @@
 /**
  * fileOverview:
  * Project:
- * File: TextTransform
- * Date: 18/2/6
+ * File: ClockTransform
+ * Date: 18/2/9
  * Author: Teraguchi
  */
 
 import Entry from '../Core/Entry';
-// import Plane from './Plane';
 
 'use strict';
 
-export default class TextTransform extends Entry {
+export default class ClockTransform extends Entry {
 
-  constructor(numChars, charWidth, numTextureGridCols, textureGridSize) {
+  constructor() {
 
     super();
 
@@ -31,15 +30,9 @@ export default class TextTransform extends Entry {
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
 
-    // this.createTextTexture =
-
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
-
-		// this.plane = new Plane();
-
-
 
   }
 

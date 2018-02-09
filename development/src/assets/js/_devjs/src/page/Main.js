@@ -18,6 +18,7 @@ import DisplayObjStudy01 from '../Display/DisplayObjStudy01';
 import DisplayDotMatrix from '../Display/DisplayDotMatrix';
 import DisplayWormhole from "../display/DisplayWormhole";
 import DisplayTextTransform from "../display/DisplayTextTransform";
+import DisplayClockTransform from "../display/DisplayClockTransform";
 
 'use strict';
 
@@ -113,6 +114,12 @@ export default class Main {
 			case 'textTransform':
 
 				new DisplayTextTransform();
+
+				break;
+
+			case 'clockTransform':
+
+				new DisplayClockTransform();
 
 				break;
     }
