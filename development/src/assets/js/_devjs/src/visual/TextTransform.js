@@ -7,13 +7,14 @@
  */
 
 import Entry from '../Core/Entry';
+import CaptureText from "./Utils/CaptureText";
 // import Plane from './Plane';
 
 'use strict';
 
 export default class TextTransform extends Entry {
 
-  constructor(numChars, charWidth, numTextureGridCols, textureGridSize) {
+  constructor() {
 
     super();
 
@@ -22,6 +23,7 @@ export default class TextTransform extends Entry {
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
 
+		this.capText = null;
 
     this.camera = null;
     this.renderer = null;
@@ -50,6 +52,30 @@ export default class TextTransform extends Entry {
 
     this.createCamera();
 		this.createScene();
+
+		// ライト
+		this.pointsLight = new THREE.PointLight(0xffffff, 1.0); // 第二引数はintensity：ライトの強度でデフォルトは1.0
+		this.scene.add(this.pointsLight);
+		// Ambiend Light
+		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+		this.scene.add(this.ambientLight);
+
+		// this.capText = new CaptureText('A', 50, 50);
+		// this.capText = new CaptureText('あ', 512, 256);
+		this.capText = new CaptureText('あ', 512, 256);
+
+		// キューブ
+		let geometry = new THREE.BoxGeometry(1, 1, 1);
+		let material = new THREE.MeshPhongMaterial( {
+			map: this.capText.texture,
+			color: 0xffffff,
+			side: THREE.DoubleSide
+		} );
+
+		let cube = new THREE.Mesh(geometry, material);
+		cube.position.set(0, 0, 0);
+		this.scene.add(cube);
+
     this.createRenderer();
 
 		this.Update();
@@ -69,7 +95,7 @@ export default class TextTransform extends Entry {
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 100;
+    this.camera.position.z = 5;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
     
@@ -146,7 +172,6 @@ export default class TextTransform extends Entry {
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
-		this.plane.mesh.material.uniforms.resolution.value.set(document.body.clientWidth, document.body.clientHeight);
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
