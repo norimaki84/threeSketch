@@ -61,21 +61,8 @@ export default class TextTransform extends Entry {
 		this.scene.add(this.ambientLight);
 
 		//
-		this.capText = new CaptureText('あ', 512, 256);
-
-		// キューブ
-		// let geometry = new THREE.BoxGeometry(this.capText.metrics.width, this.capText.metrics.width, this.capText.metrics.width);
-		let geometry = new THREE.BoxGeometry(1, 1, 1);
-		let material = new THREE.MeshPhongMaterial( {
-			map: this.capText.texture,
-			color: 0xffffff,
-			side: THREE.DoubleSide
-		} );
-
-		let cube = new THREE.Mesh(geometry, material);
-		cube.position.set(0, 0, 0);
-		this.scene.add(cube);
-
+		this.capText = new CaptureText('A', 256, 'sans-serif');
+		this.scene.add(this.capText.planeTexture);
     this.createRenderer();
 
 		this.Update();
@@ -92,10 +79,10 @@ export default class TextTransform extends Entry {
 	 */
   _createCamera() {
 
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 10;
+    this.camera.position.z = 1000;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
     

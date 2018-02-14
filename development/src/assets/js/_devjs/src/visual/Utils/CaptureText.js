@@ -12,23 +12,30 @@ import Entry from "../../Core/Entry";
 
 export default class CaptureText extends Entry {
 
-  constructor(text, width, height) {
+  constructor(text, fontSize, fontFamily) {
+  // constructor(text) {
 
 		super();
 
 		this.text = text;
+		this.fontSize = fontSize;
+		this.fontFamily = fontFamily;
 		this.texture = null;
 		this.metrics = null;
+		this.planeTexture = null;
+
+
 
 		// キャンバスの作成
 		this.canvas = document.createElement('canvas');
 		this.context = this.canvas.getContext('2d');
-		this.width = this.canvas.width = width;
-		this.height = this.canvas.height = height;
 
+		this.width = this.canvas.width = this.fontSize;
+		this.height = this.canvas.height = this.fontSize;
 
 		this.drawText = this._drawText.bind(this);
 		this.createTexture = this._createTexture.bind(this);
+		this.createPlane = this._createPlane.bind(this);
 
     this.init();
   }
@@ -41,6 +48,8 @@ export default class CaptureText extends Entry {
 		this.drawText();
 
 		this.createTexture();
+		
+		this.createPlane();
 
   }
 
@@ -57,7 +66,7 @@ export default class CaptureText extends Entry {
 		this.context.fillStyle = '#ffffff';
 
 		// フォントサイズとスタイルの定義
-		this.context.font= '256px sans-serif';
+		this.context.font= this.fontSize + 'px ' + this.fontFamily;
 
 		// 文字の表示位置指定
 		this.context.textAlign = 'center';
@@ -65,10 +74,11 @@ export default class CaptureText extends Entry {
 
 		//幅を測定する文字列を指定
 		this.metrics = this.context.measureText(this.text);
+		
+		window.console.log(this.metrics.width);
 
 		// 文字、文字の開始位置、最大幅
-		// this.context.fillText(this.text, 0, 0, this.width);
-		this.context.fillText(this.text, this.metrics.width, this.metrics.width / 2);
+		this.context.fillText(this.text, this.width / 2, this.height / 2);
 		this.context.fill();
 
 	}
@@ -87,6 +97,23 @@ export default class CaptureText extends Entry {
 		// これをやらないとマテリアルは真っ暗
 		this.texture.needsUpdate = true;
 
+	}
+
+	/**
+	 * テクスチャを貼り付ける板ポリを作成
+	 * @private
+	 */
+	_createPlane() {
+		
+		let geometry = new THREE.PlaneBufferGeometry(this.metrics.width, this.height, 32);
+		
+		let material = new THREE.MeshPhongMaterial( {
+			map: this.texture,
+			color: 0xffffff,
+			side: THREE.DoubleSide
+		} );
+
+		this.planeTexture = new THREE.Mesh(geometry, material);
 	}
 
 }
