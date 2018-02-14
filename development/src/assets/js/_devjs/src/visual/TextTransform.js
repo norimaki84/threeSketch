@@ -51,8 +51,8 @@ export default class TextTransform extends Entry {
 		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		this.scene.add(this.ambientLight);
 
-		//
-		this.capText = new CaptureText('A', 256, 'sans-serif');
+		// テキスト、フォントサイズ、フォント種類、フォントの色
+		this.capText = new CaptureText('A', 256, 'sans-serif', '000000');
 		this.scene.add(this.capText.planeTexture);
     this.createRenderer();
 
@@ -76,7 +76,6 @@ export default class TextTransform extends Entry {
     this.camera.position.z = 1000;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
-    
 
   }
 
@@ -110,7 +109,6 @@ export default class TextTransform extends Entry {
 		this.scene = new THREE.Scene();
 
   }
-
 
 	/**
 	 * 画像をロード

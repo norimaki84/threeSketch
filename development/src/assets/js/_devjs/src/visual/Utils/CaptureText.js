@@ -12,24 +12,21 @@ import Entry from "../../Core/Entry";
 
 export default class CaptureText extends Entry {
 
-  constructor(text, fontSize, fontFamily) {
-  // constructor(text) {
+  constructor(text, fontSize, fontFamily, color) {
 
 		super();
 
 		this.text = text;
 		this.fontSize = fontSize;
 		this.fontFamily = fontFamily;
+		this.color = color;
 		this.texture = null;
 		this.metrics = null;
 		this.planeTexture = null;
 
-
-
 		// キャンバスの作成
 		this.canvas = document.createElement('canvas');
 		this.context = this.canvas.getContext('2d');
-
 		this.width = this.canvas.width = this.fontSize;
 		this.height = this.canvas.height = this.fontSize;
 
@@ -38,6 +35,7 @@ export default class CaptureText extends Entry {
 		this.createPlane = this._createPlane.bind(this);
 
     this.init();
+    
   }
 
   /**
@@ -63,7 +61,7 @@ export default class CaptureText extends Entry {
 		this.context.beginPath();
 
 		// 文字色指定
-		this.context.fillStyle = '#000000';
+		this.context.fillStyle = '#' + this.color;
 
 		// フォントサイズとスタイルの定義
 		this.context.font= this.fontSize + 'px ' + this.fontFamily;
