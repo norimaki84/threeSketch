@@ -63,7 +63,7 @@ export default class CaptureText extends Entry {
 		this.context.beginPath();
 
 		// 文字色指定
-		this.context.fillStyle = '#ffffff';
+		this.context.fillStyle = '#000000';
 
 		// フォントサイズとスタイルの定義
 		this.context.font= this.fontSize + 'px ' + this.fontFamily;
@@ -74,8 +74,7 @@ export default class CaptureText extends Entry {
 
 		//幅を測定する文字列を指定
 		this.metrics = this.context.measureText(this.text);
-		
-		window.console.log(this.metrics.width);
+		// window.console.log('this.metrics.width', this.metrics.width);
 
 		// 文字、文字の開始位置、最大幅
 		this.context.fillText(this.text, this.width / 2, this.height / 2);

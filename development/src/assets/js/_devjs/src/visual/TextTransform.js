@@ -33,15 +33,9 @@ export default class TextTransform extends Entry {
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
 
-    // this.createTextTexture =
-
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
-
-		// this.plane = new Plane();
-
-
 
   }
 
@@ -53,10 +47,7 @@ export default class TextTransform extends Entry {
     this.createCamera();
 		this.createScene();
 
-		// ライト
-		this.pointsLight = new THREE.PointLight(0xffffff, 1.0); // 第二引数はintensity：ライトの強度でデフォルトは1.0
-		this.scene.add(this.pointsLight);
-		// Ambiend Light
+		// AmbientLight
 		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		this.scene.add(this.ambientLight);
 
@@ -96,7 +87,7 @@ export default class TextTransform extends Entry {
   _createRenderer() {
 
 		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
+      alpha              : true,
       antialias          : false,
       stencil            : false,
       depth              : true,
