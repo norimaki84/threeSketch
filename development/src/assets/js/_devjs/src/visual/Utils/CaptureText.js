@@ -18,6 +18,7 @@ export default class CaptureText extends Entry {
 
 		this.text = text;
 		this.texture = null;
+		this.metrics = null;
 
 		// キャンバスの作成
 		this.canvas = document.createElement('canvas');
@@ -56,16 +57,18 @@ export default class CaptureText extends Entry {
 		this.context.fillStyle = '#ffffff';
 
 		// フォントサイズとスタイルの定義
-		this.context.font= '100px sans-serif';
+		this.context.font= '256px sans-serif';
 
 		// 文字の表示位置指定
 		this.context.textAlign = 'center';
 		this.context.textBaseline = 'middle';
 
+		//幅を測定する文字列を指定
+		this.metrics = this.context.measureText(this.text);
+
 		// 文字、文字の開始位置、最大幅
 		// this.context.fillText(this.text, 0, 0, this.width);
-		// this.context.fillText(this.text, 50, 0, 500);
-		this.context.fillText(this.text, 128, 64, this.width);
+		this.context.fillText(this.text, this.metrics.width, this.metrics.width / 2);
 		this.context.fill();
 
 	}

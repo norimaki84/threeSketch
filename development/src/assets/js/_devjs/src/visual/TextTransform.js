@@ -60,11 +60,11 @@ export default class TextTransform extends Entry {
 		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		this.scene.add(this.ambientLight);
 
-		// this.capText = new CaptureText('A', 50, 50);
-		// this.capText = new CaptureText('あ', 512, 256);
+		//
 		this.capText = new CaptureText('あ', 512, 256);
 
 		// キューブ
+		// let geometry = new THREE.BoxGeometry(this.capText.metrics.width, this.capText.metrics.width, this.capText.metrics.width);
 		let geometry = new THREE.BoxGeometry(1, 1, 1);
 		let material = new THREE.MeshPhongMaterial( {
 			map: this.capText.texture,
@@ -95,7 +95,7 @@ export default class TextTransform extends Entry {
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
     
@@ -117,7 +117,7 @@ export default class TextTransform extends Entry {
       canvas: this.canvas
 		});
 
-    this.renderer.setClearColor(0x00000, 0.0);
+    this.renderer.setClearColor(0xffffff, 0.0);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
