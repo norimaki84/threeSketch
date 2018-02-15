@@ -8,7 +8,6 @@
 
 import Entry from '../Core/Entry';
 import CaptureText from "./Utils/CaptureText";
-// import Plane from './Plane';
 
 'use strict';
 
@@ -35,7 +34,7 @@ export default class TextTransform extends Entry {
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		this.loadTexture = this._loadTexture.bind(this);
+
 
   }
 
@@ -60,7 +59,6 @@ export default class TextTransform extends Entry {
 
 		window.addEventListener('resize', this.onResize, false);
 
-		// this.loadTexture();
   }
 
 
@@ -109,23 +107,6 @@ export default class TextTransform extends Entry {
 		this.scene = new THREE.Scene();
 
   }
-
-	/**
-	 * 画像をロード
-	 * @private
-	 */
-	_loadTexture(){
-
-		this.plane.loadTexture('../../../../assets/resource/img/shibuya01.jpg', () => {
-			this.scene.add(this.plane.mesh);
-			window.addEventListener('resize', () => {
-				this.onResize();
-			}, false);
-			this.onResize();
-			this.Update();
-		});
-
-	}
 
   /**
    * 更新

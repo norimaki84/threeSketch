@@ -35,7 +35,7 @@ export default class CaptureText extends Entry {
 		this.createPlane = this._createPlane.bind(this);
 
     this.init();
-    
+
   }
 
   /**
