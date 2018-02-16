@@ -31,6 +31,7 @@ export default class TextTransform extends Entry {
     this.createCamera = this._createCamera.bind(this);
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
+		this.createLight = this._createLight.bind(this);
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
@@ -45,10 +46,8 @@ export default class TextTransform extends Entry {
 
     this.createCamera();
 		this.createScene();
+		this.createLight();
 
-		// AmbientLight
-		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-		this.scene.add(this.ambientLight);
 
 		// テキスト、フォントサイズ、フォント種類、フォントの色
 		this.capText = new CaptureText('A', 256, 'sans-serif', '000000');
@@ -107,6 +106,18 @@ export default class TextTransform extends Entry {
 		this.scene = new THREE.Scene();
 
   }
+
+	/**
+	 *  ライト作成
+	 * @private
+	 */
+	_createLight() {
+
+		// AmbientLight
+		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+		this.scene.add(this.ambientLight);
+
+	}
 
   /**
    * 更新

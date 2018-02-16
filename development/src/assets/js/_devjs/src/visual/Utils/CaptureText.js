@@ -23,6 +23,16 @@ export default class CaptureText extends Entry {
 		this.texture = null;
 		this.metrics = null;
 		this.planeTexture = null;
+		this.uniforms = null;
+
+		// オフスクリーンレンダリングで使用
+		this.baseScene = null;
+		this.baseCamera = null;
+		this.baseLight = null;
+		this.baseGeometry = null;
+		this.baseMaterial = null;
+		this.baseMesh = null;
+		this.renderTarget = null;
 
 		// キャンバスの作成
 		this.canvas = document.createElement('canvas');
@@ -32,6 +42,7 @@ export default class CaptureText extends Entry {
 
 		this.drawText = this._drawText.bind(this);
 		this.createTexture = this._createTexture.bind(this);
+		this.offScreenEvent = this._offScreenEvent.bind(this);
 		this.createPlane = this._createPlane.bind(this);
 
     this.init();
@@ -46,7 +57,9 @@ export default class CaptureText extends Entry {
 		this.drawText();
 
 		this.createTexture();
-		
+
+		// this.offScreenEvent();
+
 		this.createPlane();
 
   }
@@ -97,6 +110,54 @@ export default class CaptureText extends Entry {
 	}
 
 	/**
+	 * オフスクリーンレンダリングイベント
+	 * @private
+	 */
+	_offScreenEvent() {
+
+		// オフスクリーンレンダリングの描画処理（renderTargetへの描画用）
+		this.baseScene = new THREE.Scene();
+
+		// オフスクリーンレンダリングの描画処理用カメラ
+		this.baseCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+		this.baseCamera.position.z = 1;
+
+		// オフスクリーンレンダリング用ライトを追加
+		this.baseLight = new THREE.DirectionalLight(new THREE.Color(0xffffff), 1);
+		this.baseLight.position.set(0, 10, 20);
+		this.baseScene.add(this.baseLight);
+
+		// ベース用のマテリアルとジオメトリ
+		this.baseGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+		//
+		this.uniforms = {
+			u_time: { type: "f", value: 1.0 },
+			u_resolution: { type: "v2", value: new THREE.Vector2() },
+		};
+		this.baseMaterial = new THREE.RawShaderMaterial({
+			uniforms: this.uniforms,
+			vertexShader: require('../../../../glsl/textTransform.vert'),
+			fragmentShader: require('../../../../glsl/textTransform.frag'),
+			side: THREE.DoubleSide,
+			transparent: true
+		});
+		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
+		this.baseScene.add(this.baseMesh);
+
+
+		// オフスクリーンレンダリング用
+		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
+			magFilter: THREE.NearestFilter,
+			minFilter: THREE.NearestFilter,
+			wrapS: THREE.ClampToEdgeWrapping,
+			wrapT: THREE.ClampToEdgeWrapping
+		});
+
+	}
+
+
+	/**
 	 * テクスチャを貼り付ける板ポリを作成
 	 * @private
 	 */
@@ -108,7 +169,7 @@ export default class CaptureText extends Entry {
 			map: this.texture,
 			color: 0xffffff,
 			side: THREE.DoubleSide
-		} );
+		});
 
 		this.planeTexture = new THREE.Mesh(geometry, material);
 	}
