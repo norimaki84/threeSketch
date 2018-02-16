@@ -125,6 +125,9 @@ export default class TextTransform extends Entry {
    */
   _Update() {
 
+		// オフスクリーンレンダリング
+		this.renderer.render(this.capText.baseScene, this.capText.baseCamera, this.capText.renderTarget);
+
 		this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame( () => {

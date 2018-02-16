@@ -58,7 +58,7 @@ export default class CaptureText extends Entry {
 
 		this.createTexture();
 
-		// this.offScreenEvent();
+		this.offScreenEvent();
 
 		this.createPlane();
 
@@ -132,13 +132,14 @@ export default class CaptureText extends Entry {
 
 		//
 		this.uniforms = {
+			textureUnit: { type: 't', value: this.texture },
 			u_time: { type: "f", value: 1.0 },
 			u_resolution: { type: "v2", value: new THREE.Vector2() },
 		};
 		this.baseMaterial = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
-			vertexShader: require('../../../../glsl/textTransform.vert'),
-			fragmentShader: require('../../../../glsl/textTransform.frag'),
+			vertexShader: require('../../../../../glsl/textTransform.vert'),
+			fragmentShader: require('../../../../../glsl/textTransform.frag'),
 			side: THREE.DoubleSide,
 			transparent: true
 		});
@@ -162,11 +163,12 @@ export default class CaptureText extends Entry {
 	 * @private
 	 */
 	_createPlane() {
+		let that = this;
 		
 		let geometry = new THREE.PlaneBufferGeometry(this.metrics.width, this.height, 32);
 		
 		let material = new THREE.MeshPhongMaterial( {
-			map: this.texture,
+			map: that.renderTarget,
 			color: 0xffffff,
 			side: THREE.DoubleSide
 		});
