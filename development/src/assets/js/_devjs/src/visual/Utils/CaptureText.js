@@ -130,6 +130,8 @@ export default class CaptureText extends Entry {
 		// ベース用のマテリアルとジオメトリ
 		this.baseGeometry = new THREE.BoxGeometry(1, 1, 1);
 
+		window.console.log(this.texture);
+
 		//
 		this.uniforms = {
 			textureUnit: { type: 't', value: this.texture },
@@ -163,12 +165,12 @@ export default class CaptureText extends Entry {
 	 * @private
 	 */
 	_createPlane() {
-		let that = this;
+		window.console.log('this.renderTarget.texture', this.renderTarget.texture);
 		
 		let geometry = new THREE.PlaneBufferGeometry(this.metrics.width, this.height, 32);
 		
 		let material = new THREE.MeshPhongMaterial( {
-			map: that.renderTarget,
+			map: this.renderTarget.texture,
 			color: 0xffffff,
 			side: THREE.DoubleSide
 		});
