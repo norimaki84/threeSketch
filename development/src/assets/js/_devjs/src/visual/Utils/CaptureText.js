@@ -100,7 +100,9 @@ export default class CaptureText extends Entry {
 	_createTexture() {
 
 		// テクスチャの作成
-		this.texture = new THREE.Texture(this.canvas);
+		// this.texture = new THREE.Texture(this.canvas);
+		this.texture = new THREE.CanvasTexture(this.canvas);
+
 
 		this.texture.minFilter = THREE.LinearFilter;
 
@@ -128,15 +130,13 @@ export default class CaptureText extends Entry {
 		this.baseScene.add(this.baseLight);
 
 		// ベース用のマテリアルとジオメトリ
-		this.baseGeometry = new THREE.BoxGeometry(1, 1, 1);
-
-		window.console.log(this.texture);
+		this.baseGeometry = new THREE.PlaneBufferGeometry(1, 1, 1);
 
 		//
 		this.uniforms = {
 			textureUnit: { type: 't', value: this.texture },
 			u_time: { type: "f", value: 1.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2() },
+			u_resolution: { type: "v2", value: new THREE.Vector2(192, this.height) },
 		};
 		this.baseMaterial = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
@@ -157,6 +157,12 @@ export default class CaptureText extends Entry {
 			wrapT: THREE.ClampToEdgeWrapping
 		});
 
+
+		window.console.log('this.metrics.width', this.metrics.width);
+		window.console.log('this.height', this.height);
+
+		this.renderTarget.setSize(this.metrics.width, this.height);
+
 	}
 
 
@@ -165,14 +171,14 @@ export default class CaptureText extends Entry {
 	 * @private
 	 */
 	_createPlane() {
-		window.console.log('this.renderTarget.texture', this.renderTarget.texture);
 		
 		let geometry = new THREE.PlaneBufferGeometry(this.metrics.width, this.height, 32);
 		
 		let material = new THREE.MeshPhongMaterial( {
 			map: this.renderTarget.texture,
-			color: 0xffffff,
-			side: THREE.DoubleSide
+			color: 0x000000,
+			// side: THREE.DoubleSide
+			side: THREE.FrontSide
 		});
 
 		this.planeTexture = new THREE.Mesh(geometry, material);

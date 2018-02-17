@@ -52,6 +52,7 @@ export default class TextTransform extends Entry {
 		// テキスト、フォントサイズ、フォント種類、フォントの色
 		this.capText = new CaptureText('A', 256, 'sans-serif', '000000');
 		this.scene.add(this.capText.planeTexture);
+
     this.createRenderer();
 
 		this.Update();
