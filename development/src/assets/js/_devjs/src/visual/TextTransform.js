@@ -142,12 +142,14 @@ export default class TextTransform extends Entry {
 	 * @private
 	 */
   _onResize() {
+
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    
   }
 
 
