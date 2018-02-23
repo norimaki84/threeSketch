@@ -157,10 +157,6 @@ export default class CaptureText extends Entry {
 			wrapT: THREE.ClampToEdgeWrapping
 		});
 
-
-		window.console.log('this.metrics.width', this.metrics.width);
-		window.console.log('this.height', this.height);
-
 		this.renderTarget.setSize(this.metrics.width, this.height);
 
 	}
