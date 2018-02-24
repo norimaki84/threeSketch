@@ -51,6 +51,7 @@ export default class ClockTexture extends Entry {
 		if (minutes.toString().length === 1) minutes = `0${minutes}`;
 		if (seconds.toString().length === 1) seconds = `0${seconds}`;
 
+		//
 		return `${hours}:${minutes}:${seconds}`;
 
 	}
