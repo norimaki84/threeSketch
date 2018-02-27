@@ -100,7 +100,6 @@ export default class CaptureText extends Entry {
 	_createTexture() {
 
 		// テクスチャの作成
-		// this.texture = new THREE.Texture(this.canvas);
 		this.texture = new THREE.CanvasTexture(this.canvas);
 
 
