@@ -129,6 +129,8 @@ export default class TextTransform extends Entry {
 		// オフスクリーンレンダリング
 		this.renderer.render(this.capText.baseScene, this.capText.baseCamera, this.capText.renderTarget);
 
+		this.capText.uniforms.u_time.value += 1.0;
+
 		this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame( () => {

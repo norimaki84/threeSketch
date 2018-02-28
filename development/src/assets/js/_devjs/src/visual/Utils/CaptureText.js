@@ -131,9 +131,9 @@ export default class CaptureText extends Entry {
 		// ベース用のマテリアルとジオメトリ
 		this.baseGeometry = new THREE.PlaneBufferGeometry(1, 1, 1);
 
-		//
+		// ユニフォーム変数
 		this.uniforms = {
-			textureUnit: { type: 't', value: this.texture },
+			texture: { type: 't', value: this.texture },
 			u_time: { type: "f", value: 1.0 },
 			u_resolution: { type: "v2", value: new THREE.Vector2(192, this.height) },
 		};

@@ -1,6 +1,6 @@
 precision mediump float;
 
-uniform sampler2D textureUnit;
+uniform sampler2D texture;
 uniform float u_time;
 //uniform float strength;
 //uniform vec2 u_resolution;
@@ -12,11 +12,11 @@ varying vec2 vUv;
 
 void main(){
 
-    //    vec4 color = vec4( vColor );
-    //    color.r += sin( vPosition.x * 10.0 + u_time ) * 0.5;
-    //    gl_FragColor = color;
-    //    gl_FragColor = vec4(1.0,0.0,1.0,1.0);
-
-    gl_FragColor = texture2D(textureUnit, vUv);
+    float frequency = 0.01; // 周波数
+    float amplitude = 0.1; // 振幅
+    float speed = 0.01; // スピード
+    float offset = sin(gl_FragCoord.x * frequency + u_time * speed) * amplitude;
+    vec4 dest = texture2D(texture, vec2(vUv.x, vUv.y + offset));
+    gl_FragColor = dest;
 
 }
