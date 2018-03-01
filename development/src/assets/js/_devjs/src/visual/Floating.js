@@ -18,13 +18,9 @@ export default class Floating extends Entry{
     super();
 
     this.canvas = document.getElementById('webgl-output');
-		this.canvasEl = $('#Floating #webgl-output');
 
-		// this.width = document.body.clientWidth;
-		// this.height = document.body.clientHeight;
-
-		this.width = 512;
-		this.height = 512;
+		this.width = document.body.clientWidth;
+		this.height = document.body.clientHeight;
 
 		this.camera = null;
     this.scene = null;
@@ -38,19 +34,19 @@ export default class Floating extends Entry{
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
+		this.createLight = this._createLight.bind(this);
 
-		this.updateStrength = this._updateStrength.bind(this);
+		//this.updateStrength = this._updateStrength.bind(this);
 		this.draw = this._draw.bind(this);
 
 		this.uniforms = {};
 		this.u_time = null;
 		this.textureUnit = null;
 		this.mesh = null;
-		this.createMesh = this._createMesh.bind(this);
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		this.loadTexture = this._loadTexture.bind(this);
+		// this.loadTexture = this._loadTexture.bind(this);
 
 
   }
@@ -65,59 +61,51 @@ export default class Floating extends Entry{
 		this.createScene();
 		this.createRenderer();
 
-		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-			this.scene.add(this.mesh);
-			this.updateStrength();
-			window.addEventListener('resize', () => {
-				// this.onResize();
-			}, false);
-			// this.onResize();
-
-			this.Update();
-		});
-
   }
 
 	/**
 	 * マウスオーバー・マウスアウトでuniforms変数を更新
 	 * @private
 	 */
-	_updateStrength(){
-		let that = this;
-		this.canvasEl
-			.mouseover(function() {
-				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-					value: 15,
-					ease: Linear.easeNone,
-					overwrite: true,
-					onUpdate: () => {
-						return that.draw();
-					}
-				});
-			})
-			.mouseout(function() {
-				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-					value: 0,
-					ease: Linear.easeNone,
-					overwrite: true,
-					onUpdate: () => {
-						return that.draw();
-					}
-				});
-			});
-	}
+	// _updateStrength(){
+	// 	let that = this;
+	// 	this.canvasEl
+	// 		.mouseover(function() {
+	// 			TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
+	// 				value: 15,
+	// 				ease: Linear.easeNone,
+	// 				overwrite: true,
+	// 				onUpdate: () => {
+	// 					return that.draw();
+	// 				}
+	// 			});
+	// 		})
+	// 		.mouseout(function() {
+	// 			TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
+	// 				value: 0,
+	// 				ease: Linear.easeNone,
+	// 				overwrite: true,
+	// 				onUpdate: () => {
+	// 					return that.draw();
+	// 				}
+	// 			});
+	// 		});
+	// }
 
 	/**
 	 * 再描画
 	 * @private
 	 */
 	_draw(){
+
 		this.renderer.render(this.scene, this.camera);
+
 	}
 
 
   /**
    * カメラ作成
+	 * @private
    */
   _createCamera(){
 
@@ -132,10 +120,23 @@ export default class Floating extends Entry{
 
 	/**
 	 *　シーン作成
+	 * @private
 	 */
 	_createScene(){
 
 		this.scene = new THREE.Scene();
+
+	}
+
+	/**
+	 *  ライト作成
+	 * @private
+	 */
+	_createLight() {
+
+		// AmbientLight
+		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+		this.scene.add(this.ambientLight);
 
 	}
 
@@ -153,36 +154,12 @@ export default class Floating extends Entry{
       canvas: this.canvas
 		});
 
-    this.renderer.setClearColor(0xEEEEEE, 1.0);
+    this.renderer.setClearColor(0xffffff, 1.0);
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(this.width, this.height);
 
   }
 
-	/**
-	 *
-	 * @returns {pe.params.Mesh|{}|Aa|*|Ln.params.Mesh|Mt}
-	 * @private
-	 */
-	_createMesh() {
-		this.uniforms = {
-			u_time: { type: "f", value: this.u_time },
-			strength: { type: "1f", value: 0 },
-			// strength: { type: "f", value: 0.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
-			// u_mouse: { type: "v2", value: new THREE.Vector2() },
-			textureUnit: { type: 't', value: this.textureUnit }
-			// textureUnit: { type: 't', value: this.capture.texture() }
-		};
-		return new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(512, 512),
-			new THREE.RawShaderMaterial({
-				uniforms: this.uniforms,
-				vertexShader: require('../../../../glsl/floating.vert'),
-				fragmentShader: require('../../../../glsl/floating.frag'),
-			})
-		);
-	}
 
 	/**
 	 * 更新
@@ -200,22 +177,6 @@ export default class Floating extends Entry{
 			this.Update();
 		});
 
-	}
-
-	/**
-	 * 画像をロード
-	 * @private
-	 */
-	_loadTexture(image, callback) {
-		let that = this;
-		const loader = new THREE.TextureLoader();
-		loader.load(image, (texture) => {
-			texture.magFilter = THREE.NearestFilter;
-			texture.minFilter = THREE.NearestFilter;
-			that.textureUnit = texture;
-			this.mesh = this.createMesh();
-			callback();
-		});
 	}
 
 

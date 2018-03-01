@@ -2,23 +2,25 @@
  * fileOverview:
  * Project:
  * File: Capture
- * Date: 17/11/29
+ * Date: 18/2/28
  * Author: Teraguchi
  */
 
 'use strict';
 
-export default class Capture extends THREE.Scene{
+// import Entry from "../../Core/Entry";
+
+export default class Capture extends THREE.Scene {
 
   constructor() {
 
     super();
 
-    this._texture;
+    this.Texture = null;
 
-    // this.texture = this._texture.bind(this);
-    // this.render = this._render.bind(this);
-    // this.size = this._size.bind(this);
+    this.texture = this._texture.bind(this);
+    this.render = this._render.bind(this);
+    this.size = this._size.bind(this);
 
   }
 
@@ -27,17 +29,16 @@ export default class Capture extends THREE.Scene{
 	 */
 	init(){
 
-		// this._texture = new THREE.WebGLRenderTarget(16, 16);
-		this._texture = new THREE.WebGLRenderTarget(512, 512);
+		this.Texture = new THREE.WebGLRenderTarget(16, 16);
 
   }
 
 	/**
    * テクスチャ
 	 */
-	texture(){
+	_texture(){
 
-	  return this._texture.texture;
+	  return this.Texture.texture;
 
   }
 
@@ -46,10 +47,10 @@ export default class Capture extends THREE.Scene{
 	 * @param renderer
 	 * @param camera
 	 */
-  render(renderer, camera){
+  _render(renderer, camera){
 		//this -> オフスクリーンレンダリング用のScene, camera -> オフスクリーンレンダリング用のCamera,
 		//第三引数にはテクスチャを指定
-    renderer.render(this, camera, this._texture);
+    renderer.render(this, camera, this.Texture);
 
   }
 
@@ -58,10 +59,10 @@ export default class Capture extends THREE.Scene{
 	 * @param width
 	 * @param height
 	 */
-  size(width, height){
+  _size(width, height){
 
     let ratio = window.devicePixelRatio || 1;
-		this._texture.setSize(width * ratio, height * ratio);
+		this.Texture.setSize(width * ratio, height * ratio);
 
   }
 
