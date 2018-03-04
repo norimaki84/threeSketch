@@ -55,7 +55,7 @@ export default class Floating extends Entry{
   /**
    * 初期化
    */
-  init(){
+  init() {
 
 		this.createCamera();
 		this.createScene();
@@ -96,7 +96,7 @@ export default class Floating extends Entry{
 	 * 再描画
 	 * @private
 	 */
-	_draw(){
+	_draw() {
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -107,7 +107,7 @@ export default class Floating extends Entry{
    * カメラ作成
 	 * @private
    */
-  _createCamera(){
+  _createCamera() {
 
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
@@ -122,7 +122,7 @@ export default class Floating extends Entry{
 	 *　シーン作成
 	 * @private
 	 */
-	_createScene(){
+	_createScene() {
 
 		this.scene = new THREE.Scene();
 
@@ -143,7 +143,7 @@ export default class Floating extends Entry{
   /**
    * レンダラー作成
    */
-  _createRenderer(){
+  _createRenderer() {
 
 		this.renderer = new THREE.WebGLRenderer({
       alpha              : false,
