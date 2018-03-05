@@ -36,8 +36,6 @@ export default class Floating extends Entry{
 		this.createRenderer = this._createRenderer.bind(this);
 		this.createLight = this._createLight.bind(this);
 
-		//this.updateStrength = this._updateStrength.bind(this);
-		this.draw = this._draw.bind(this);
 
 		this.uniforms = {};
 		this.u_time = null;
@@ -46,8 +44,7 @@ export default class Floating extends Entry{
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		// this.loadTexture = this._loadTexture.bind(this);
-
+		this.offScreenEvent = this._offScreenEvent.bind(this);
 
   }
 
@@ -61,46 +58,11 @@ export default class Floating extends Entry{
 		this.createScene();
 		this.createRenderer();
 
+		this.offScreenEvent();
+
+		window.addEventListener('resize', this.onResize, false );
+
   }
-
-	/**
-	 * マウスオーバー・マウスアウトでuniforms変数を更新
-	 * @private
-	 */
-	// _updateStrength(){
-	// 	let that = this;
-	// 	this.canvasEl
-	// 		.mouseover(function() {
-	// 			TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-	// 				value: 15,
-	// 				ease: Linear.easeNone,
-	// 				overwrite: true,
-	// 				onUpdate: () => {
-	// 					return that.draw();
-	// 				}
-	// 			});
-	// 		})
-	// 		.mouseout(function() {
-	// 			TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-	// 				value: 0,
-	// 				ease: Linear.easeNone,
-	// 				overwrite: true,
-	// 				onUpdate: () => {
-	// 					return that.draw();
-	// 				}
-	// 			});
-	// 		});
-	// }
-
-	/**
-	 * 再描画
-	 * @private
-	 */
-	_draw() {
-
-		this.renderer.render(this.scene, this.camera);
-
-	}
 
 
   /**
@@ -109,10 +71,10 @@ export default class Floating extends Entry{
    */
   _createCamera() {
 
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 600;
+    this.camera.position.z = 1000;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -137,6 +99,56 @@ export default class Floating extends Entry{
 		// AmbientLight
 		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		this.scene.add(this.ambientLight);
+
+	}
+
+	/**
+	 * オフスクリーンレンダリングイベント
+	 * @private
+	 */
+	_offScreenEvent() {
+
+		// オフスクリーンレンダリングの描画処理（renderTargetへの描画用）
+		this.baseScene = new THREE.Scene();
+
+		// オフスクリーンレンダリングの描画処理用カメラ
+		this.baseCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+		this.baseCamera.position.z = 1;
+
+		// オフスクリーンレンダリング用ライトを追加
+		this.baseLight = new THREE.DirectionalLight(new THREE.Color(0xffffff), 1);
+		this.baseLight.position.set(0, 10, 20);
+		this.baseScene.add(this.baseLight);
+
+		// ベース用のマテリアルとジオメトリ
+		this.baseGeometry = new THREE.PlaneBufferGeometry(1, 1, 1);
+
+		// ユニフォーム変数
+		this.uniforms = {
+			texture: { type: 't', value: this.texture },
+			u_time: { type: "f", value: 1.0 },
+			u_resolution: { type: "v2", value: new THREE.Vector2() },
+		};
+		this.baseMaterial = new THREE.RawShaderMaterial({
+			uniforms: this.uniforms,
+			vertexShader: require('../../../../glsl/floating.vert'),
+			fragmentShader: require('../../../../glsl/floating.frag'),
+			side: THREE.DoubleSide,
+			transparent: true
+		});
+		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
+		this.baseScene.add(this.baseMesh);
+
+
+		// オフスクリーンレンダリング用
+		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
+			magFilter: THREE.NearestFilter,
+			minFilter: THREE.NearestFilter,
+			wrapS: THREE.ClampToEdgeWrapping,
+			wrapT: THREE.ClampToEdgeWrapping
+		});
+
+		this.renderTarget.setSize(this.width, this.height);
 
 	}
 
