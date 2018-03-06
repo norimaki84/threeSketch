@@ -1,7 +1,7 @@
 precision mediump float;
 
 uniform float u_time;
-uniform sampler2D textureUnit;
+uniform sampler2D texture;
 varying vec2 vUv;
 
 
@@ -13,6 +13,6 @@ void main()	{
     float offset = sin(gl_FragCoord.x * frequency + u_time * speed) * amplitude;
     //vec4 dest = texture2D(texture, vec2(vUv.x, vUv.y + offset));
 
-    gl_FragColor = texture2D(textureUnit, vUv);
+    gl_FragColor = texture2D(texture, vUv);
     
 }

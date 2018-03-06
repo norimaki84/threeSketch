@@ -30,21 +30,31 @@ export default class Floating extends Entry{
 		// this.capture = new Capture();
 		// this.capture.init();
 		// this.capture.size(512,512);
+		this.baseScene = null;
+		this.baseCamera = null;
+		this.baseLight = null;
+		this.baseGeometry = null;
+		this.baseMaterial = null;
+		this.baseMesh = null;
+		this.renderTarget = null;
 
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
 		this.createLight = this._createLight.bind(this);
-
+		this.createPlane = this._createPlane.bind(this);
 
 		this.uniforms = {};
 		this.u_time = null;
-		this.textureUnit = null;
+		this.texture = null;
 		this.mesh = null;
 
+		this.offScreenEvent = this._offScreenEvent.bind(this);
+		this.loadTexture = this._loadTexture.bind(this);
+
+		this.utilEvent = this._utilEvent.bind(this);
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		this.offScreenEvent = this._offScreenEvent.bind(this);
 
   }
 
@@ -56,11 +66,21 @@ export default class Floating extends Entry{
 
 		this.createCamera();
 		this.createScene();
+		this.createLight();
 		this.createRenderer();
+		this.utilEvent();
 
-		this.offScreenEvent();
+		this.loadTexture('../../../../assets/resource/img/water.jpg', () => {
 
-		window.addEventListener('resize', this.onResize, false );
+			this.offScreenEvent();
+
+			this.createPlane();
+
+			window.addEventListener('resize', this.onResize, false );
+
+			this.onResize();
+			this.Update();
+		});
 
   }
 
@@ -74,7 +94,7 @@ export default class Floating extends Entry{
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 1000;
+    this.camera.position.z = 1400;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -99,6 +119,45 @@ export default class Floating extends Entry{
 		// AmbientLight
 		this.ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		this.scene.add(this.ambientLight);
+
+	}
+
+
+  /**
+   * レンダラー作成
+   */
+  _createRenderer() {
+
+		this.renderer = new THREE.WebGLRenderer({
+      alpha              : true,
+      antialias          : false,
+      stencil            : false,
+      depth              : true,
+      premultipliedAlpha : false,
+      canvas: this.canvas
+		});
+
+    this.renderer.setClearColor(0x000000, 1.0);
+    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    this.renderer.setSize(this.width, this.height);
+
+  }
+
+	/**
+	 *
+	 * @private
+	 */
+	_createPlane (){
+
+		const geometry = new THREE.PlaneBufferGeometry(1024, 724, 32);
+
+		const material = new THREE.MeshPhongMaterial( {
+			map: this.renderTarget.texture,
+			side: THREE.DoubleSide
+		});
+
+		const Plane = new THREE.Mesh(geometry, material);
+		this.scene.add(Plane);
 
 	}
 
@@ -152,26 +211,23 @@ export default class Floating extends Entry{
 
 	}
 
-  /**
-   * レンダラー作成
-   */
-  _createRenderer() {
+	/**
+	 * 画像をロード
+	 * @private
+	 */
+	_loadTexture(image, callback) {
 
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
+		let that = this;
+		const loader = new THREE.TextureLoader();
+		loader.load(image, (texture) => {
+			texture.magFilter = THREE.NearestFilter;
+			texture.minFilter = THREE.NearestFilter;
+			that.texture = texture;
+			//window.console.log('that.texture', that.texture);
+			callback();
 		});
 
-    this.renderer.setClearColor(0xffffff, 1.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
-
+	}
 
 	/**
 	 * 更新
@@ -181,7 +237,8 @@ export default class Floating extends Entry{
 
 		// this.uniforms.u_time.value += 0.05;
 
-		// this.capture.render(this.scene, this.camera);
+		// オフスクリーンレンダリング
+		this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -191,6 +248,22 @@ export default class Floating extends Entry{
 
 	}
 
+	/**
+	 *
+	 * @private
+	 */
+	_utilEvent (){
+
+		//軸の長さ
+		let axis = new THREE.AxesHelper(1000);
+		//this.scene.add(axis);
+
+		// カメラ
+		let controls;
+		controls = new THREE.OrbitControls(this.camera);
+		controls.autoRotate = true;
+
+	}
 
   /**
    *　画面リサイズイベント
