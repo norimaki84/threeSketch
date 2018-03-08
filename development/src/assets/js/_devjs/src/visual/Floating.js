@@ -186,7 +186,7 @@ export default class Floating extends Entry{
 		this.uniforms = {
 			texture: { type: 't', value: this.texture },
 			u_time: { type: "f", value: 1.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2() },
+			u_resolution: { type: "v2", value: new THREE.Vector2(1024, 724) },
 		};
 		this.baseMaterial = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
@@ -198,7 +198,7 @@ export default class Floating extends Entry{
 		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
 		this.baseScene.add(this.baseMesh);
 
-
+		
 		// オフスクリーンレンダリング用
 		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
 			magFilter: THREE.NearestFilter,
