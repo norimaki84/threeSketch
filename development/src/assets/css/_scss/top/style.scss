@@ -59,3 +59,28 @@ canvas {
   }
 
 }
+
+#webgl-output{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.sketchTitle{
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 10;
+  font-size: 30px;
+  color: #fff;
+}
+
+.sketchDes{
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 10;
+  font-size: 20x;
+  color: #fff;
+}

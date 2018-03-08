@@ -249,3 +249,35 @@ canvas
     bottom: 0;
     left: 0;
 }
+
+#webgl-output
+{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.sketchTitle
+{
+    font-size: 30px;
+
+    position: absolute;
+    z-index: 10;
+    top: 50px;
+    left: 50px;
+
+    color: #fff;
+}
+
+.sketchDes
+{
+    font-size: 20x;
+
+    position: absolute;
+    z-index: 10;
+    top: 100px;
+    left: 50px;
+
+    color: #fff;
+}
