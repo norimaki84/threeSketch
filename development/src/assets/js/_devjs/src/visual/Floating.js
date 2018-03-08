@@ -235,7 +235,7 @@ export default class Floating extends Entry{
 	 */
 	_Update() {
 
-		// this.uniforms.u_time.value += 0.05;
+		this.uniforms.u_time.value += 0.1;
 
 		// オフスクリーンレンダリング
 		this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
