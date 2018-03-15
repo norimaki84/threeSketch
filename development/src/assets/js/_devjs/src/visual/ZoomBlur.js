@@ -176,6 +176,7 @@ export default class ZoomBlur extends Entry{
 	 * @private
 	 */
 	_createMesh() {
+
 		this.uniforms = {
 			textureUnit: { type: 't', value: this.textureUnit },
 			u_time: { type: "f", value: this.u_time },
@@ -191,6 +192,7 @@ export default class ZoomBlur extends Entry{
 				fragmentShader: require('../../../../glsl/zoomblur.frag'),
 			})
 		);
+
 	}
 
 	/**
@@ -216,6 +218,7 @@ export default class ZoomBlur extends Entry{
 	 * @private
 	 */
 	_loadTexture(image, callback) {
+
 		let that = this;
 		const loader = new THREE.TextureLoader();
 		loader.load(image, (texture) => {
@@ -226,7 +229,8 @@ export default class ZoomBlur extends Entry{
 			this.mesh.scale.set(512, 512, 512);
 			window.console.log();
 			callback();
-		});
+		})
+
 	}
 
 
@@ -234,12 +238,14 @@ export default class ZoomBlur extends Entry{
    *　画面リサイズイベント
    */
   _onResize() {
+
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    
   }
 
 
