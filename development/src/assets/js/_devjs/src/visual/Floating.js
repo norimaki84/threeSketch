@@ -147,7 +147,7 @@ export default class Floating extends Entry{
 	 *
 	 * @private
 	 */
-	_createPlane (){
+	_createPlane () {
 
 		const geometry = new THREE.PlaneBufferGeometry(1024, 724, 32);
 
@@ -252,7 +252,7 @@ export default class Floating extends Entry{
 	 *
 	 * @private
 	 */
-	_utilEvent (){
+	_utilEvent() {
 
 		//軸の長さ
 		let axis = new THREE.AxesHelper(1000);
