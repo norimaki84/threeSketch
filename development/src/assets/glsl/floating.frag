@@ -19,7 +19,5 @@ void main()	{
     vec4 dest = texture2D(texture, vec2(vUv.x, vUv.y) + (offset * vignette));
 //    vec4 dest = texture2D(texture, vec2(vUv.x, vUv.y) + (offset / vignette));
     gl_FragColor = dest;
-
-    //gl_FragColor = texture2D(texture, vUv);
     
 }
