@@ -1,4 +1,5 @@
 precision mediump float;
+precision mediump int;
 
 attribute vec3 position;
 
