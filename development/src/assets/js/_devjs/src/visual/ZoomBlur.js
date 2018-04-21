@@ -9,7 +9,6 @@
 'use strict';
 
 import Entry from '../Core/Entry';
-// import Capture from "./Capture";
 
 export default class ZoomBlur extends Entry{
 
@@ -20,9 +19,6 @@ export default class ZoomBlur extends Entry{
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#ZoomBlur #webgl-output');
 
-		// this.width = document.body.clientWidth;
-		// this.height = document.body.clientHeight;
-
 		this.width = 512;
 		this.height = 512;
 		this.ratio = 1.0;
@@ -30,11 +26,6 @@ export default class ZoomBlur extends Entry{
 		this.camera = null;
     this.scene = null;
 		this.renderer = null;
-
-		//オフスクリーンレンダリング
-		// this.capture = new Capture();
-		// this.capture.init();
-		// this.capture.size(512,512);
 
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
@@ -69,7 +60,7 @@ export default class ZoomBlur extends Entry{
 
 		let retina = window.devicePixelRatio;
 		if(retina < 2) {
-			// window.console.log('Retinaディスプレイとかの高解像度ではないんです。');
+			// window.console.log('Retinaディスプレイとかの高解像度ではないです。');
 			this.ratio = 1.0;
 		} else if(retina >= 2) {
 			// window.console.log('Retinaディスプレイとかの高解像度です！');
@@ -96,7 +87,7 @@ export default class ZoomBlur extends Entry{
 	_updateStrength(){
 		let that = this;
 		this.canvasEl
-			.mouseover(function() {
+			.mouseover(() => {
 				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
 					value: 15,
 					ease: Linear.easeNone,
@@ -106,7 +97,7 @@ export default class ZoomBlur extends Entry{
 					}
 				});
 			})
-			.mouseout(function() {
+			.mouseout(() => {
 				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
 					value: 0,
 					ease: Linear.easeNone,
@@ -200,10 +191,6 @@ export default class ZoomBlur extends Entry{
 	 * @private
 	 */
 	_Update() {
-
-		// this.uniforms.u_time.value += 0.05;
-
-		// this.capture.render(this.scene, this.camera);
 
 		this.renderer.render(this.scene, this.camera);
 

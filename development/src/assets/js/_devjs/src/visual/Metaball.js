@@ -31,6 +31,7 @@ export default class Metaball extends Entry {
 		this.pointsLight = null;
 		this.ambientLight = null;
 		this.controls = null;
+		this.dpr = window.devicePixelRatio;
 
 		this.uniforms = {};
 
@@ -133,7 +134,7 @@ export default class Metaball extends Entry {
 		this.uniforms = {
 			// texture: { type: 't', value: this.texture },
 			u_time: { type: "f", value: 1.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2() },
+			u_resolution: { type: "v2", value: new THREE.Vector2(window.innerWidth * this.dpr, window.innerHeight * this.dpr) },
 		};
 
 		this.geometry = new THREE.PlaneBufferGeometry(2, 2);

@@ -1,3 +1,5 @@
+#pragma glslify: cnoise = require(glsl-noise/classic/3d)
+
 precision mediump float;
 precision mediump int;
 
