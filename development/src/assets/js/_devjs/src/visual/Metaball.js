@@ -71,7 +71,7 @@ export default class Metaball extends Entry {
     this.camera = new THREE.PerspectiveCamera(60, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 1;
+    this.camera.position.z = 1.5;
 
 		// this.camera.rotation.y = Math.PI;
 
@@ -137,7 +137,9 @@ export default class Metaball extends Entry {
 			u_resolution: { type: "v2", value: new THREE.Vector2(window.innerWidth * this.dpr, window.innerHeight * this.dpr) },
 		};
 
-		this.geometry = new THREE.PlaneBufferGeometry(2, 2);
+		// this.geometry = new THREE.PlaneBufferGeometry(2, 2);
+		this.geometry = new THREE.IcosahedronGeometry(0.5, 4);
+
 
 		this.material = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
@@ -156,7 +158,7 @@ export default class Metaball extends Entry {
    */
   _Update() {
 
-		this.uniforms.u_time.value += 0.05;
+		this.uniforms.u_time.value += 0.01;
 
 		this.renderer.render(this.scene, this.camera);
 
