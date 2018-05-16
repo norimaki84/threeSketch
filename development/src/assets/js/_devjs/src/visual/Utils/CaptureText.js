@@ -145,6 +145,7 @@ export default class CaptureText extends Entry {
 			transparent: true
 		});
 		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
+		this.baseMesh.scale.set(0.8, 0.8, 0.8); // テクスチャサイズをScaleで調整(モーフィングした時に描画領域からはみ出してしまう場合)
 		this.baseScene.add(this.baseMesh);
 
 
@@ -177,6 +178,8 @@ export default class CaptureText extends Entry {
 		});
 
 		this.planeTexture = new THREE.Mesh(geometry, material);
+		this.planeTexture.scale.set(0.9, 0.9, 0.9);
+
 	}
 
 }
