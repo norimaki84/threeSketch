@@ -20,6 +20,7 @@ import DisplayDotMatrix from '../Display/DisplayDotMatrix';
 import DisplayWormhole from "../display/DisplayWormhole";
 import DisplayTextTransform from "../display/DisplayTextTransform";
 import DisplayClockTransform from "../display/DisplayClockTransform";
+import DisplaySimpleGlitch from "../display/DisplaySimpleGlitch";
 
 'use strict';
 
@@ -127,6 +128,12 @@ export default class Main {
 			case 'clockTransform':
 
 				new DisplayClockTransform();
+
+				break;
+
+			case 'simpleGlitch':
+
+				new DisplaySimpleGlitch();
 
 				break;
 
