@@ -15,7 +15,7 @@ export default class DisplayTop {
 	constructor() {
 
 		this.countTimer = new countTimer(5);
-		// this.countTimer.start();
+		this.countTimer.start();
 
 		this.setup();
 		this.setEvents();

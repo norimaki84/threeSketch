@@ -36,11 +36,47 @@ export default class countTimer {
 
   }
 
-  _start() {
+	/**
+	 * カウントスタート
+	 * @private
+	 */
+	_start() {
 
 		this.requestId = requestAnimationFrame(() => {
 			this.start();
 		});
+
+
+		// this.countUp(this.countVal);
+		// this.countDown(this.countVal);
+
+  }
+
+	_clear() {
+
+	}
+
+	/**
+	 * カウントアップ
+	 * @private
+	 */
+	_countUp() {
+
+		this.currentTime = new Date().getTime();
+		this.status = this.currentTime - this.startTime;
+		this.timeVal = this.computeDuration(this.status);
+		window.console.log(this.timeVal);
+		if(this.timeVal == this.countVal){
+			cancelAnimationFrame(this.requestId);
+		}
+
+  }
+
+	/**
+	 * カウントダウン
+	 * @private
+	 */
+  _countDown() {
 
 		this.currentTime = new Date().getTime();
 		this.status = this.currentTime - this.startTime;
@@ -49,30 +85,6 @@ export default class countTimer {
 		if(this.timeVal == 0){
 			cancelAnimationFrame(this.requestId);
 		}
-
-		// this.countDown(countVal);
-
-  }
-
-	_clear() {
-
-	}
-
-	_countUp() {
-
-  }
-
-  _countDown() {
-
-		// this.requestId = window.requestAnimationFrame(this.start());
-		// this.currentTime = new Date().getTime();
-		// this.status = this.currentTime - this.startTime;
-		// this.timeVal = countVal - this.computeDuration(this.status);
-		// window.console.log(this.timeVal);
-		// if(this.timeVal == 0){
-		// 	window.cancelAnimationFrame(this.requestId);
-		// 	window.console.log('timerEnd');
-		// }
 
   }
 
