@@ -8,14 +8,9 @@
 
 'use strict';
 
-import countTimer from '../func/countTimer';
-
 export default class DisplayTop {
 
 	constructor() {
-
-		this.countTimer = new countTimer(5);
-		this.countTimer.start();
 
 		this.setup();
 		this.setEvents();

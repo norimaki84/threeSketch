@@ -1,18 +1,28 @@
 /**
  * fileOverview:
  * Project:
- * File: countTimer
- * Date: 18/2/9
+ * File: simpleTimer
+ * Date: 18/6/9
  * Author: Teraguchi
  */
 
 'use strict';
 
-export default class countTimer {
-
-  constructor(countVal) {
-
+export default class simpleTimer {
+	/**
+	 * @param countVal :　カウントする値
+	 * @param callback :　コールバック関数
+	 * @param setting : true = countUp、false = countDown（引数なしの場合のデフォルトはtrue）
+	 */
+  constructor(countVal, callback, setting) {
   	this.countVal = countVal;
+		this.callback = callback;
+  	this.setting = setting;
+		if(typeof this.setting == 'undefined'){
+			this.setting = true;
+		} else {
+			this.setting = false;
+		}
 
     this.startTime = null;
     this.currentTime = null;
@@ -22,8 +32,8 @@ export default class countTimer {
 
     this.start = this._start.bind(this);
     this.clear = this._clear.bind(this);
-    this.countUp = this._countUp.bind(this);
-    this.countDown = this._countDown.bind(this);
+		this.countUp = this._countUp.bind(this);
+		this.countDown = this._countDown.bind(this);
     this.computeDuration = this._computeDuration.bind(this);
 
     this.init();
@@ -46,13 +56,17 @@ export default class countTimer {
 			this.start();
 		});
 
-
-		// this.countUp(this.countVal);
-		// this.countDown(this.countVal);
+		const allocate = this.setting ? this.countUp(this.countVal) : this.countDown(this.countVal);
 
   }
 
+	/**
+	 * タイマークリア
+	 * @private
+	 */
 	_clear() {
+
+		cancelAnimationFrame(this.requestId);
 
 	}
 
@@ -68,15 +82,16 @@ export default class countTimer {
 		window.console.log(this.timeVal);
 		if(this.timeVal == this.countVal){
 			cancelAnimationFrame(this.requestId);
+			this.callback();
 		}
 
-  }
+	}
 
 	/**
 	 * カウントダウン
 	 * @private
 	 */
-  _countDown() {
+	_countDown() {
 
 		this.currentTime = new Date().getTime();
 		this.status = this.currentTime - this.startTime;
@@ -84,9 +99,10 @@ export default class countTimer {
 		window.console.log(this.timeVal);
 		if(this.timeVal == 0){
 			cancelAnimationFrame(this.requestId);
+			this.callback();
 		}
 
-  }
+	}
 
 	/**
    * ミリ秒を時分秒へ変換
