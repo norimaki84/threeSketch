@@ -59,7 +59,7 @@ export default class Distort extends Entry{
   /**
    * 初期化
    */
-  init(){
+  init() {
 
 		this.createCamera();
 		this.createScene();
@@ -82,7 +82,7 @@ export default class Distort extends Entry{
 	 * マウスオーバー・マウスアウトでuniforms変数を更新
 	 * @private
 	 */
-	_updateStrength(){
+	_updateStrength() {
 		let that = this;
 		this.canvasEl
 			.mouseover(function() {
@@ -111,15 +111,17 @@ export default class Distort extends Entry{
 	 * 再描画
 	 * @private
 	 */
-	_draw(){
+	_draw() {
+
 		this.renderer.render(this.scene, this.camera);
+
 	}
 
 
   /**
    * カメラ作成
    */
-  _createCamera(){
+  _createCamera() {
 
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
     this.camera.position.x = 0;
@@ -133,7 +135,7 @@ export default class Distort extends Entry{
 	/**
 	 *　シーン作成
 	 */
-	_createScene(){
+	_createScene() {
 
 		this.scene = new THREE.Scene();
 
@@ -142,7 +144,7 @@ export default class Distort extends Entry{
   /**
    * レンダラー作成
    */
-  _createRenderer(){
+  _createRenderer() {
 
 		this.renderer = new THREE.WebGLRenderer({
       alpha              : false,
