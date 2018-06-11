@@ -181,6 +181,8 @@ html
 
 body
 {
+    font-family:  Consolas, 'Courier New', Courier, Monaco, monospace;
+
     width: 100%;
     height: 100%;
     margin: 0;
@@ -280,6 +282,28 @@ canvas
     left: 50px;
 
     color: #fff;
+}
+
+#ZoomBlur .sketchTitle
+{
+    color: #000;
+}
+
+#ZoomBlur .sketchDes
+{
+    color: #000;
+}
+
+#ZoomBlur #webgl-output
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    margin: 0 auto;
+
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 }
 
 #Dissolve #webgl-output

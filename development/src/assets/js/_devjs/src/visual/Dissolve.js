@@ -180,8 +180,8 @@ export default class Dissolve extends Entry{
 			new THREE.PlaneBufferGeometry(512, 512),
 			new THREE.RawShaderMaterial({
 				uniforms: this.uniforms,
-				vertexShader: require('../../../../glsl/distort.vert'),
-				fragmentShader: require('../../../../glsl/distort.frag'),
+				vertexShader: require('../../../../glsl/dissolve.vert'),
+				fragmentShader: require('../../../../glsl/dissolve.frag'),
 			})
 		);
 	}

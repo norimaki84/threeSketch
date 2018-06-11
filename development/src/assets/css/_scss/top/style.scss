@@ -14,6 +14,7 @@ body {
   margin: 0;
   background-color: #fff;
   counter-reset: number 0;
+  font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
 }
 canvas {
   width: 100%;
@@ -83,6 +84,23 @@ canvas {
   z-index: 10;
   font-size: 20x;
   color: #fff;
+}
+
+#ZoomBlur {
+  .sketchTitle {
+    color: #000;
+  }
+  .sketchDes {
+    color: #000;
+  }
+  #webgl-output {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 }
 
 #Dissolve {
