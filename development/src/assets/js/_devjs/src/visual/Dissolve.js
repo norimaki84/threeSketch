@@ -1,8 +1,8 @@
 /**
  * fileOverview:
- * Project: GLSL Distort
+ * Project: GLSL Dissolve
  * File: Floating
- * Date: 17/12/21
+ * Date: 18/6/11
  * Author: Teraguchi
  */
 
@@ -11,7 +11,7 @@
 import Entry from '../Core/Entry';
 // import Capture from "./Capture";
 
-export default class Distort extends Entry{
+export default class Dissolve extends Entry{
 
   constructor() {
 

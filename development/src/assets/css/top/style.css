@@ -281,3 +281,15 @@ canvas
 
     color: #fff;
 }
+
+#Dissolve #webgl-output
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    margin: 0 auto;
+
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}

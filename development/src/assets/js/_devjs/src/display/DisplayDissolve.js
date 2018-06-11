@@ -1,20 +1,20 @@
 /**
  * fileOverview:
  * Project:
- * File: DisplayDistort
- * Date: 17/12/27
+ * File: DisplayDissolve
+ * Date: 18/6/11
  * Author: Teraguchi
  */
 
-import Distort from '../visual/Distort';
+import Dissolve from '../visual/Dissolve';
 
 'use strict';
 
-export default class DisplayDistort {
+export default class DisplayDissolve {
 
 	constructor() {
 
-		this.distort = new Distort();
+		this.dissolve = new Dissolve();
 
 		this.setup();
 		this.setEvents();
@@ -23,7 +23,7 @@ export default class DisplayDistort {
 
 	setup() {
 
-		this.distort.init();
+		this.dissolve.init();
 
 	}
 

@@ -9,7 +9,7 @@
 import DisplayTop from '../Display/DisplayTop';
 import DisplayZoomBlur from '../Display/DisplayZoomBlur';
 import DisplayFloating from '../Display/DisplayFloating';
-import DisplayDistort from '../Display/DisplayDistort';
+import DisplayDissolve from '../Display/DisplayDissolve';
 import DisplayMetaball from '../Display/DisplayMetaball';
 import Display3DCarousel from '../Display/Display3DCarousel';
 import DisplayTextureBg from '../Display/DisplayTextureBg';
@@ -65,9 +65,9 @@ export default class Main {
 
 				break;
 
-			case 'Distort':
+			case 'Dissolve':
 
-				new DisplayDistort();
+				new DisplayDissolve();
 
 				break;
 
