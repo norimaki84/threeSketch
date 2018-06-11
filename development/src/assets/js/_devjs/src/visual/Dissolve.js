@@ -26,6 +26,9 @@ export default class Dissolve extends Entry{
 		this.width = 512;
 		this.height = 512;
 
+		this.currentTime = null;
+		this.mesh = null;
+
 		this.camera = null;
     this.scene = null;
 		this.renderer = null;
@@ -65,16 +68,16 @@ export default class Dissolve extends Entry{
 		this.createScene();
 		this.createRenderer();
 
-		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-			this.scene.add(this.mesh);
-			this.updateStrength();
-			window.addEventListener('resize', () => {
-				// this.onResize();
-			}, false);
-			// this.onResize();
-
-			this.Update();
-		});
+		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
+		// 	this.scene.add(this.mesh);
+		// 	// this.updateStrength();
+		// 	window.addEventListener('resize', () => {
+		// 		// this.onResize();
+		// 	}, false);
+		// 	// this.onResize();
+		//
+		// 	this.Update();
+		// });
 
   }
 
