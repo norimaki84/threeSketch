@@ -45,6 +45,9 @@ canvas {
       counter-increment: number 1;      /* number カウンタの増加数をセット */
       content: "0" counter(number) ". ";      /* 表示形式を指定 */
     }
+    li:nth-of-type(9) ~ li:before {
+      content: counter(number) ". ";
+    }
   }
 }
 

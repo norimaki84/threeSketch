@@ -29,7 +29,6 @@ export default class DisplayDissolve {
 
 	onLoad() {
 
-
 	}
 
 	setEvents() {

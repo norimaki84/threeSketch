@@ -233,6 +233,11 @@ canvas
     /* 表示形式を指定 */
 }
 
+#top .link_list li:nth-of-type(9) ~ li:before
+{
+    content: counter(number) '. ';
+}
+
 #textureBg
 {
     overflow: hidden;
