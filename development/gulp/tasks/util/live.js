@@ -9,6 +9,7 @@ import PATH from '../../config';
 
 gulp.task("browserSync", ()=>{
     browserSync({
+			  open: 'external',
         server: {
             notify: false,
             baseDir: '../src/' // ルートとなるディレクトリを指定
