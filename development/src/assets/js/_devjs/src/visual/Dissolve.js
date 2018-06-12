@@ -20,13 +20,8 @@ export default class Dissolve extends Entry{
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#top #webgl-output');
 
-
-
-		this.width = document.body.clientWidth;
-		this.height = document.body.clientHeight;
-
-		// this.width = 512;
-		// this.height = 512;
+		this.width = 512;
+		this.height = 512;
 
 		this.currentTime = null;
 		this.geometry = null;
@@ -42,11 +37,6 @@ export default class Dissolve extends Entry{
 		this.camera = null;
     this.scene = null;
 		this.renderer = null;
-
-		//オフスクリーンレンダリング
-		// this.capture = new Capture();
-		// this.capture.init();
-		// this.capture.size(512,512);
 
 		this.createLight = this._createLight.bind(this);
 
@@ -68,8 +58,6 @@ export default class Dissolve extends Entry{
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 
-
-
   }
 
 
@@ -78,27 +66,12 @@ export default class Dissolve extends Entry{
    */
   init() {
 
-		this.clock = new THREE.Clock();
-
 		this.createCamera();
 		this.createScene();
 		this.createRenderer();
 		this.createLight();
 
-		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-
 		this.changeImg();
-
-		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-		// 	this.scene.add(this.mesh);
-		// 	// this.updateStrength();
-		// 	window.addEventListener('resize', () => {
-		// 		// this.onResize();
-		// 	}, false);
-		// 	// this.onResize();
-		//
-		// 	this.Update();
-		// });
 
   }
 
@@ -108,10 +81,10 @@ export default class Dissolve extends Entry{
    */
   _createCamera() {
 
-    this.camera = new THREE.PerspectiveCamera(45, 1, 1, 40000);
+    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 15000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 4;
+    this.camera.position.z = 6;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -229,11 +202,11 @@ export default class Dissolve extends Entry{
 	}
 
 	/**
-	 *
+	 * メッシュを作成・シェーダもアタッチ
 	 * @returns {pe.params.Mesh|{}|Aa|*|Ln.params.Mesh|Mt}
 	 * @private
 	 */
-	_createMesh() {
+	_createMesh(frontMap, backMap, heightMap) {
 		this.geometry = new THREE.BufferGeometry();
 
 		// 平面用の頂点を定義
@@ -288,15 +261,15 @@ export default class Dissolve extends Entry{
 		this.uniforms = {
 			frontMap: {
 				type: "t",
-				value: this.frontMap
+				value: frontMap
 			},
 			backMap: {
 				type: "t",
-				value: this.backMap
+				value: backMap
 			},
 			heightMap: {
 				type: "t",
-				value: this.heightMap
+				value: heightMap
 			},
 			uTime: {
 				type: "f",
@@ -320,33 +293,15 @@ export default class Dissolve extends Entry{
 		this.mesh.position.set(0, 0, 0);
 		this.scene.add(this.mesh);
 
-
-		// return new THREE.Mesh(
-		// 	new THREE.PlaneBufferGeometry(512, 512),
-		// 	new THREE.RawShaderMaterial({
-		// 		uniforms: this.uniforms,
-		// 		vertexShader: require('../../../../glsl/dissolve.vert'),
-		// 		fragmentShader: require('../../../../glsl/dissolve.frag'),
-		// 	})
-		// );
 	}
 
 	/**
 	 * 更新
 	 * @private
 	 */
-	_Update(time) {
-
-		// this.currentTime = time / 1000;
-
-		// this.mesh.material.uniforms.uTime.value = this.currentTime;
-		// this.mesh.material.uniforms.uTime.value = this.delta;
+	_Update() {
 
 		this.uniforms.uTime.value += 0.01;
-
-		window.console.log(this.uniforms.uTime.value);
-
-		this.controls.update();
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -361,12 +316,14 @@ export default class Dissolve extends Entry{
    *　画面リサイズイベント
    */
   _onResize() {
+
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+
   }
 
 
