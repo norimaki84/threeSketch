@@ -285,48 +285,42 @@ export default class Dissolve extends Entry{
 		this.geometry.computeBoundingBox();
 		this.geometry.computeBoundingSphere();
 
+		this.uniforms = {
+			frontMap: {
+				type: "t",
+				value: this.frontMap
+			},
+			backMap: {
+				type: "t",
+				value: this.backMap
+			},
+			heightMap: {
+				type: "t",
+				value: this.heightMap
+			},
+			uTime: {
+				type: "f",
+				value: 0
+			},
+			range: {
+				type: "f",
+				value: 3.0
+			}
+		};
+
 		this.material = new THREE.RawShaderMaterial({
 			transparent: true,
 			vertexShader: require('../../../../glsl/dissolve.vert'),
 			fragmentShader: require('../../../../glsl/dissolve.frag'),
 			side: THREE.DoubleSide,
-			uniforms: {
-				frontMap: {
-					type: "t",
-					value: this.frontMap
-				},
-				backMap: {
-					type: "t",
-					value: this.backMap
-				},
-				heightMap: {
-					type: "t",
-					value: this.heightMap
-				},
-				uTime: {
-					type: "f",
-					value: 0
-				},
-				range: {
-					type: "f",
-					value: 3.0
-				}
-			}
+			uniforms: this.uniforms
 		});
 
 		this.mesh = new THREE.Mesh(this.geometry, this.material);
 		this.mesh.position.set(0, 0, 0);
 		this.scene.add(this.mesh);
 
-		// this.uniforms = {
-		// 	u_time: { type: "f", value: this.u_time },
-		// 	strength: { type: "1f", value: 0 },
-		// 	// strength: { type: "f", value: 0.0 },
-		// 	u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
-		// 	// u_mouse: { type: "v2", value: new THREE.Vector2() },
-		// 	textureUnit: { type: 't', value: this.textureUnit }
-		// 	// textureUnit: { type: 't', value: this.capture.texture() }
-		// };
+
 		// return new THREE.Mesh(
 		// 	new THREE.PlaneBufferGeometry(512, 512),
 		// 	new THREE.RawShaderMaterial({
@@ -347,9 +341,10 @@ export default class Dissolve extends Entry{
 
 		// this.mesh.material.uniforms.uTime.value = this.currentTime;
 		// this.mesh.material.uniforms.uTime.value = this.delta;
-		// this.mesh.material.uniforms.uTime.value  += 1.05;
 
-		// this.uniforms.u_time.value += 0.05;
+		this.uniforms.uTime.value += 0.01;
+
+		window.console.log(this.uniforms.uTime.value);
 
 		this.controls.update();
 
