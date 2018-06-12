@@ -1,17 +1,17 @@
 precision mediump float;
+precision mediump int;
 
-attribute vec2 position;
-attribute vec2 texCoord;
+attribute vec3 position;
+attribute vec2 uvs;
 
-uniform vec2 u_resolution;
+uniform mat4 projectionMatrix;
+uniform mat4 modelViewMatrix;
 
-varying vec2 vertex_texCoord;
+varying vec2 vUv;
 
 void main() {
 
-   vec2 clipSpace = (position / u_resolution) * 2.0 - 1.0;
-
-   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
-   vertex_texCoord = texCoord;
+    vUv = uvs;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 
 }

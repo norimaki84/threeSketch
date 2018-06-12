@@ -20,14 +20,22 @@ export default class Dissolve extends Entry{
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#top #webgl-output');
 
-		// this.width = document.body.clientWidth;
-		// this.height = document.body.clientHeight;
+		this.width = document.body.clientWidth;
+		this.height = document.body.clientHeight;
 
-		this.width = 512;
-		this.height = 512;
+		// this.width = 512;
+		// this.height = 512;
 
 		this.currentTime = null;
+		this.geometry = null;
+		this.material = null;
 		this.mesh = null;
+
+		this.frontMap = null;
+
+		this.frontDiffuseMapLoader = null;
+		this.backDiffuseMapLoader = null;
+		this.heightMapLoader = null;
 
 		this.camera = null;
     this.scene = null;
@@ -38,9 +46,13 @@ export default class Dissolve extends Entry{
 		// this.capture.init();
 		// this.capture.size(512,512);
 
+		this.createLight = this._createLight.bind(this);
+
     this.createCamera = this._createCamera.bind(this);
     this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
+
+		this.changeImg = this._changeImg.bind(this);
 
 		this.updateStrength = this._updateStrength.bind(this);
 		this.draw = this._draw.bind(this);
@@ -53,7 +65,6 @@ export default class Dissolve extends Entry{
 
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
-		this.loadTexture = this._loadTexture.bind(this);
 
 
   }
@@ -67,6 +78,9 @@ export default class Dissolve extends Entry{
 		this.createCamera();
 		this.createScene();
 		this.createRenderer();
+		this.createLight();
+
+		this.changeImg();
 
 		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 		// 	this.scene.add(this.mesh);
@@ -80,6 +94,93 @@ export default class Dissolve extends Entry{
 		// });
 
   }
+
+  /**
+   * カメラ作成
+	 * @private
+   */
+  _createCamera() {
+
+    this.camera = new THREE.PerspectiveCamera(45, 1, 1, 40000);
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 40;
+
+    this.camera.lookAt(new THREE.Vector3(0,0,0));
+
+  }
+
+	/**
+	 *　シーン作成
+	 * @private
+	 */
+	_createScene() {
+
+		this.scene = new THREE.Scene();
+
+	}
+
+  /**
+   * レンダラー作成
+	 * @private
+   */
+  _createRenderer() {
+
+		this.renderer = new THREE.WebGLRenderer({
+      alpha              : false,
+      antialias          : false,
+      stencil            : false,
+      depth              : true,
+      premultipliedAlpha : false,
+      canvas: this.canvas
+		});
+
+    this.renderer.setClearColor(0xEEEEEE, 1.0);
+    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    this.renderer.setSize(this.width, this.height);
+
+  }
+
+	/**
+	 * ライト作成
+	 * @private
+	 */
+	_createLight() {
+
+		let directionalLight = new THREE.DirectionalLight(0xffffff, .4);
+		this.scene.add(directionalLight);
+		directionalLight.position.set(0, 2, 4);
+
+		let ambientLight = new THREE.AmbientLight(0xffffff, 1);
+		this.scene.add(ambientLight);
+
+	}
+
+	/**
+	 * 画像の切り替えイベント
+	 * @private
+	 */
+	_changeImg() {
+
+		this.frontDiffuseMapLoader = new THREE.TextureLoader();
+		this.backDiffuseMapLoader = new THREE.TextureLoader();
+		this.heightMapLoader = new THREE.TextureLoader();
+
+		this.frontDiffuseMapLoader.load("../../../../assets/resource/img/dissolve01.png", function (frontMap) {
+			this.backDiffuseMapLoader.load("../../../../assets/resource/img/dissolve02.png", function (backMap) {
+				this.heightMapLoader.load("../../../../assets/resource/img/0a4h0.png", function (heightMap) {
+					this.createMesh(frontMap, backMap, heightMap);
+					window.addEventListener('resize', () => {
+						this.onResize();
+					}, false);
+					this.onResize();
+					this.Update();
+
+				}.bind(this));
+			}.bind(this));
+		}.bind(this));
+
+	}
 
 	/**
 	 * マウスオーバー・マウスアウトでuniforms変数を更新
@@ -120,84 +221,129 @@ export default class Dissolve extends Entry{
 
 	}
 
-
-  /**
-   * カメラ作成
-   */
-  _createCamera() {
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 600;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
-
-  }
-
-	/**
-	 *　シーン作成
-	 */
-	_createScene() {
-
-		this.scene = new THREE.Scene();
-
-	}
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer() {
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
-		});
-
-    this.renderer.setClearColor(0xEEEEEE, 1.0);
-    // this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
-
 	/**
 	 *
 	 * @returns {pe.params.Mesh|{}|Aa|*|Ln.params.Mesh|Mt}
 	 * @private
 	 */
 	_createMesh() {
-		this.uniforms = {
-			u_time: { type: "f", value: this.u_time },
-			strength: { type: "1f", value: 0 },
-			// strength: { type: "f", value: 0.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
-			// u_mouse: { type: "v2", value: new THREE.Vector2() },
-			textureUnit: { type: 't', value: this.textureUnit }
-			// textureUnit: { type: 't', value: this.capture.texture() }
-		};
-		return new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(512, 512),
-			new THREE.RawShaderMaterial({
-				uniforms: this.uniforms,
-				vertexShader: require('../../../../glsl/dissolve.vert'),
-				fragmentShader: require('../../../../glsl/dissolve.frag'),
-			})
-		);
+		this.geometry = new THREE.BufferGeometry();
+
+		// 平面用の頂点を定義
+		// d - c
+		// |   |
+		// a - b
+		let vertexPositions = [
+			[-1.0, -1.0, 1.0], // a
+			[ 1.0, -1.0, 1.0], // b
+			[ 1.0,  1.0, 1.0], // c
+			[-1.0,  1.0, 1.0]  // d
+		];
+
+		// Typed Arrayで頂点データを保持
+		let vertices = new Float32Array(vertexPositions.length * 3);
+
+		let uvs = new Float32Array(8);
+
+		for (let i = 0; i < vertexPositions.length; i++) {
+			let vo = i * 3;
+
+			vertices[vo] = vertexPositions[i][0];
+			vertices[vo + 1] = vertexPositions[i][1];
+			vertices[vo + 2] = vertexPositions[i][2];
+		}
+
+		uvs[0] = 0;
+		uvs[1] = 0;
+
+		uvs[2] = 1;
+		uvs[3] = 0;
+
+		uvs[4] = 1;
+		uvs[5] = 1;
+
+		uvs[6] = 0;
+		uvs[7] = 1;
+
+		// 頂点インデックスを生成
+		const indices = new Uint16Array([
+			0, 1, 2,
+			2, 3, 0
+		]);
+
+		this.geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+		this.geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+		this.geometry.addAttribute('uvs', new THREE.BufferAttribute(uvs, 2));
+
+		this.geometry.computeBoundingBox();
+		this.geometry.computeBoundingSphere();
+
+		this.material = new THREE.RawShaderMaterial({
+			transparent: true,
+			vertexShader: require('../../../../glsl/dissolve.vert'),
+			fragmentShader: require('../../../../glsl/dissolve.frag'),
+			side: THREE.DoubleSide,
+			uniforms: {
+				frontMap: {
+					type: "t",
+					value: this.frontMap
+				},
+				backMap: {
+					type: "t",
+					value: this.backMap
+				},
+				heightMap: {
+					type: "t",
+					value: this.heightMap
+				},
+				uTime: {
+					type: "f",
+					value: 0
+				},
+				range: {
+					type: "f",
+					value: 3.0
+				}
+			}
+		});
+
+		this.mesh = new THREE.Mesh(this.geometry, this.material);
+		this.mesh.position.set(0, 0, 0);
+		this.scene.add(this.mesh);
+		
+		window.console.log('aa');
+
+		// this.uniforms = {
+		// 	u_time: { type: "f", value: this.u_time },
+		// 	strength: { type: "1f", value: 0 },
+		// 	// strength: { type: "f", value: 0.0 },
+		// 	u_resolution: { type: "v2", value: new THREE.Vector2(512, 512) },
+		// 	// u_mouse: { type: "v2", value: new THREE.Vector2() },
+		// 	textureUnit: { type: 't', value: this.textureUnit }
+		// 	// textureUnit: { type: 't', value: this.capture.texture() }
+		// };
+		// return new THREE.Mesh(
+		// 	new THREE.PlaneBufferGeometry(512, 512),
+		// 	new THREE.RawShaderMaterial({
+		// 		uniforms: this.uniforms,
+		// 		vertexShader: require('../../../../glsl/dissolve.vert'),
+		// 		fragmentShader: require('../../../../glsl/dissolve.frag'),
+		// 	})
+		// );
 	}
 
 	/**
 	 * 更新
 	 * @private
 	 */
-	_Update() {
+	_Update(time) {
+
+		// this.currentTime = time / 1000;
+
+		// this.mesh.material.uniforms.uTime.value = this.currentTime;
+		this.mesh.material.uniforms.uTime.value  += 1.05;
 
 		// this.uniforms.u_time.value += 0.05;
-
-		// this.capture.render(this.scene, this.camera);
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -205,22 +351,6 @@ export default class Dissolve extends Entry{
 			this.Update();
 		});
 
-	}
-
-	/**
-	 * 画像をロード
-	 * @private
-	 */
-	_loadTexture(image, callback) {
-		let that = this;
-		const loader = new THREE.TextureLoader();
-		loader.load(image, (texture) => {
-			texture.magFilter = THREE.NearestFilter;
-			texture.minFilter = THREE.NearestFilter;
-			that.textureUnit = texture;
-			this.mesh = this.createMesh();
-			callback();
-		});
 	}
 
 
