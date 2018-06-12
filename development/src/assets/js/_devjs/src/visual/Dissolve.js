@@ -20,6 +20,8 @@ export default class Dissolve extends Entry{
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#top #webgl-output');
 
+
+
 		this.width = document.body.clientWidth;
 		this.height = document.body.clientHeight;
 
@@ -67,6 +69,7 @@ export default class Dissolve extends Entry{
 		this.Update = this._Update.bind(this);
 
 
+
   }
 
 
@@ -75,10 +78,14 @@ export default class Dissolve extends Entry{
    */
   init() {
 
+		this.clock = new THREE.Clock();
+
 		this.createCamera();
 		this.createScene();
 		this.createRenderer();
 		this.createLight();
+
+		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
 		this.changeImg();
 
@@ -104,7 +111,7 @@ export default class Dissolve extends Entry{
     this.camera = new THREE.PerspectiveCamera(45, 1, 1, 40000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
-    this.camera.position.z = 40;
+    this.camera.position.z = 4;
 
     this.camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -310,8 +317,6 @@ export default class Dissolve extends Entry{
 		this.mesh = new THREE.Mesh(this.geometry, this.material);
 		this.mesh.position.set(0, 0, 0);
 		this.scene.add(this.mesh);
-		
-		window.console.log('aa');
 
 		// this.uniforms = {
 		// 	u_time: { type: "f", value: this.u_time },
@@ -341,9 +346,12 @@ export default class Dissolve extends Entry{
 		// this.currentTime = time / 1000;
 
 		// this.mesh.material.uniforms.uTime.value = this.currentTime;
-		this.mesh.material.uniforms.uTime.value  += 1.05;
+		// this.mesh.material.uniforms.uTime.value = this.delta;
+		// this.mesh.material.uniforms.uTime.value  += 1.05;
 
 		// this.uniforms.u_time.value += 0.05;
+
+		this.controls.update();
 
 		this.renderer.render(this.scene, this.camera);
 
