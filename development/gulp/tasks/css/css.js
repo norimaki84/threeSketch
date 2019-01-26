@@ -4,7 +4,6 @@ import minifyCSS from 'gulp-minify-css';
 import csscomb from 'gulp-csscomb';
 import plumber from "gulp-plumber";
 import notify from "gulp-notify";
-import styledocco from 'gulp-styledocco';
 import autoprefixer from "gulp-autoprefixer";
 import sassGlob from 'gulp-sass-glob';
 import PATH from '../../config';
@@ -35,22 +34,3 @@ gulp.task("minifyCSS", ()=>{
       .pipe(gulp.dest(PATH.release.css));
 
 });
-
-// ------------------------------------------------------------
-//  styleguide
-// ------------------------------------------------------------
-// gulp.task("styleguide", ()=>{
-//
-//     return sass(PATH.dev.scss, {
-//             style: 'expanded',
-//             compass : true,
-//             sourcemap: true
-//         })
-//         .pipe(plumber())
-//         .pipe(gulp.dest('./styleguide'))
-//         .pipe(styledocco({
-//             out: './styleguide',
-//             name: 'My Project',
-//             'no-minify': true
-//         }))
-// });

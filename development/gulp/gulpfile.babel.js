@@ -34,7 +34,7 @@ gulp.task('publish', (callback)=>{
     'clean',
     ['compileHTML','compileSCSS','concatJSLibs'],
     ['minifyHTML','minifyCSS','minifyJS'],
-    ['copyResource'],
+    ['copyPHP','copyResource'],
     callback
   );
 
