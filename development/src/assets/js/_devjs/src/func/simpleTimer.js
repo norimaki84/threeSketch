@@ -9,6 +9,7 @@
 'use strict';
 
 export default class simpleTimer {
+
 	/**
 	 * @param countVal :　カウントする値
 	 * @param callback :　コールバック関数
