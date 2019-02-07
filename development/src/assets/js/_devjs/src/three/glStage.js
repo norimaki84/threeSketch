@@ -1,13 +1,5 @@
 // import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 // import * as THREE from 'three'
-// window.THREE = THREE;
-// const ARjs = require('ar.js');
-// import ARjs from 'ar.js'
-
-// import ARjs from 'ar.js'
-
-// require('../../libs/ar.min');
-// var aaaa = require('ar.js');
 
 // import RawShaderMesh from './modules/RawShaderMesh';
 
