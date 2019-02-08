@@ -114,24 +114,15 @@ export default class glStage {
 		this._camera.lookAt( 0, 0, 0 );
 		this._scene.add(this._camera);
 		// ==========================================
-		// this._renderer.setClearColor(0x010c22, 0.0);										// レンダラの背景色
-		this._renderer.setClearColor(new THREE.Color("black"), 0);										// レンダラの背景色
-		// this._renderer.setSize(window.innerWidth, window.innerHeight);  // レンダラのサイズ
-		this._renderer.setSize(640, 480);  // レンダラのサイズ
-		this._renderer.domElement.style.position = "absolute";      // レンダラの位置は絶対値
-		this._renderer.domElement.style.top = "0px";      // レンダラの上端
-		this._renderer.domElement.style.left = "0px";     // レンダラの左端
+		this._renderer.setClearColor(0x010c22, 0.0);										// レンダラの背景色
+		this._renderer.setSize(window.innerWidth, window.innerHeight);  // レンダラのサイズ
 
 		this._renderer.setPixelRatio(window.devicePixelRatio);
 
-		// window.console.log(window.innerWidth);
-		// window.console.log(window.innerHeight);
 		// ==========================================
 
 		// this._rawShaderMesh.setup();
 		// this._scene.add(this._rawShaderMesh.mesh);
-
-
 
 		document.getElementById( 'stage' ).appendChild( this._renderer.domElement );
 
