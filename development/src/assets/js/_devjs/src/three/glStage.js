@@ -20,8 +20,7 @@ export default class glStage {
 		 * @type {PerspectiveCamera}
 		 * @private
 		 */
-		// this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-		this._camera = THREE.Camera();
+		this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 
 		/**
 		 * シーンの作成
