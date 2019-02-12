@@ -70,11 +70,6 @@ export default class ZoomBlur extends Entry{
 		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
 			this.updateStrength();
-			window.addEventListener('resize', () => {
-				// this.onResize();
-			}, false);
-			// this.onResize();
-
 			this.Update();
 		});
 
