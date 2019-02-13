@@ -6,7 +6,7 @@ gulp.task("browserSync", ()=>{
 		notify: false,
 		open: 'external',
 		server: {
-			baseDir: '../src/'
+			baseDir: './src/'
 		}
 	});
 });

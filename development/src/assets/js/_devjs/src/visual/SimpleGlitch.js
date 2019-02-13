@@ -6,16 +6,14 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 import Plane from './Plane';
 
 'use strict';
 
-export default class SimpleGlitch extends Entry {
+export default class SimpleGlitch {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

@@ -7,8 +7,10 @@
  */
 
 import * as THREE from 'three'
+const OrbitControls = require('three-orbitcontrols');
 import Entry from '../Core/Entry';
 // require('../../libs/loaders/OBJLoader');
+require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js');
 // require('three/examples/js/controls/TrackballControls.js');
 
 'use strict';

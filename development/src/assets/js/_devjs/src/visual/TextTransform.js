@@ -6,16 +6,14 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 import CaptureText from "./Utils/CaptureText";
 
 'use strict';
 
-export default class TextTransform extends Entry {
+export default class TextTransform {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

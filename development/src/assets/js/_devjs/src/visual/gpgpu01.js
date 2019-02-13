@@ -6,10 +6,21 @@
  * Author: Teraguchi
  */
 
+// const THREE = require('three');
 import * as THREE from 'three';
+// const THREE = require('three');
 // import loadTexture from '../utils/modules/loadTexture';
-import GPUComputationRenderer from '../../libs/GPUComputationRenderer';
+// import GPUComputationRenderer from '../../libs/GPUComputationRenderer';
 // const GPUComputationRenderer = require('../../libs/GPUComputationRenderer');
+// let GPUComputationRenderer = require('imports-loader?THREE=three!three/examples/js/GPUComputationRenderer.js');
+require('imports-loader?THREE=three!three/examples/js/GPUComputationRenderer.js');
+// require('../../libs/GPUComputationRenderer.js');
+// require('../../libs/GPUComputationRenderer');
+
+// import "imports-loader?THREE=three!three/examples/js/GPUComputationRenderer.js";
+// import GPUComputationRenderer from "imports-loader?THREE=three!three/examples/js/GPUComputationRenderer.js";
+//
+// import "imports-loader?THREE=three!three/examples/js/controls/TransformControls.js";
 
 'use strict';
 

@@ -8,13 +8,11 @@
 
 'use strict';
 
-import Entry from "../../Core/Entry";
+import * as THREE from 'three';
 
-export default class WormholeParticle extends Entry {
+export default class WormholeParticle {
 
   constructor(scene, burst, time) {
-
-		super();
 
   	// 引数をメンバ変数に渡す
 		this.scene = scene;

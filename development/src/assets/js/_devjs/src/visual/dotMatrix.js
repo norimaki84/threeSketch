@@ -6,7 +6,8 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
+
 // import PlaneCover from './PlaneCover';
 // require('../../libs/loaders/OBJLoader');
 // require('../../libs/three_post/DotMatrixShader');
@@ -14,11 +15,9 @@ import Entry from '../Core/Entry';
 
 'use strict';
 
-export default class dotMatrix extends Entry {
+export default class dotMatrix {
 
 	constructor() {
-
-		super();
 
 		this.canvas = document.getElementById('webgl-output');
 

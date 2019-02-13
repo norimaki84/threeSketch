@@ -1,5 +1,5 @@
 // config
-let PROJECT_ROOT = '../';
+let PROJECT_ROOT = './';
 
 let DEV = 'src/';
 

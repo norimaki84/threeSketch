@@ -6,17 +6,16 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+// import Entry from '../Core/Entry';
+import * as THREE from 'three';
 import WormholeParticle from "./Utils/WormholeParticle";
 // import loadTexture from '../utils/modules/loadTexture';
 
 'use strict';
 
-export default class Wormhole extends Entry {
+export default class Wormhole {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

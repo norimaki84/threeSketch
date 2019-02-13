@@ -8,13 +8,11 @@
 
 'use strict';
 
-import Entry from "../../Core/Entry";
+import * as THREE from 'three';
 
-export default class CaptureText extends Entry {
+export default class CaptureText {
 
   constructor(text, fontSize, fontFamily, color) {
-
-		super();
 
 		this.text = text;
 		this.fontSize = fontSize;

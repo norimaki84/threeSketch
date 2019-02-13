@@ -53,7 +53,11 @@ module.exports = {
 						}
 					}
 				]
-			}
+			},
+			// {
+			// 	test: require.resolve("some-module"),
+			// 	use: "imports-loader?this=>window"
+			// }
 		]
 	},
 	resolve: {
