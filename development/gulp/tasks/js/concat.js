@@ -11,7 +11,8 @@ gulp.task('concatJSLibs', ()=>{
     let src = [
                 PATH.dev.devjs + 'libs/jquery.js',
 			          PATH.dev.devjs + 'libs/TweenMax.min.js',
-                PATH.dev.devjs + 'libs/ua-parser.min.js'
+                PATH.dev.devjs + 'libs/ua-parser.min.js',
+                // PATH.dev.devjs + 'libs/three.min.js'
               ];
 
     gulp.src(src)

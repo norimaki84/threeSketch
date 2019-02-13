@@ -2,7 +2,7 @@
  * テクスチャのプリローダー機構
  * @type {Ad|bi}
  */
-
+import * as THREE from 'three';
 const textureLoader = new THREE.TextureLoader();
 
 export default function(imgs, callback) {

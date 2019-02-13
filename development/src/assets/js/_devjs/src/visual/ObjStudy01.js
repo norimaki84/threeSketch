@@ -6,8 +6,10 @@
  * Author: Teraguchi
  */
 
+import * as THREE from 'three'
 import Entry from '../Core/Entry';
-require('../../libs/loaders/OBJLoader');
+// require('../../libs/loaders/OBJLoader');
+// require('three/examples/js/controls/TrackballControls.js');
 
 'use strict';
 

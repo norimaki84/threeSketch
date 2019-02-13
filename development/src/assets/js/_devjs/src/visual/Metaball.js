@@ -6,15 +6,13 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 
 'use strict';
 
-export default class Metaball extends Entry {
+export default class Metaball {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

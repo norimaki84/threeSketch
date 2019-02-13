@@ -7,14 +7,13 @@
  */
 
 'use strict';
+import * as THREE from 'three';
 
-import Entry from '../Core/Entry';
+// import Entry from '../Core/Entry';
 
-export default class ZoomBlur extends Entry{
+export default class ZoomBlur {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#ZoomBlur #webgl-output');

@@ -6,17 +6,16 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 // import loadTexture from '../utils/modules/loadTexture';
-require('../../libs/GPUComputationRenderer');
+import GPUComputationRenderer from '../../libs/GPUComputationRenderer';
+// const GPUComputationRenderer = require('../../libs/GPUComputationRenderer');
 
 'use strict';
 
-export default class gpgpu01 extends Entry {
+export default class gpgpu01 {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

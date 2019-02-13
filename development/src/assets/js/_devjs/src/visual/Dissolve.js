@@ -8,14 +8,12 @@
 
 'use strict';
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 // import Capture from "./Capture";
 
-export default class Dissolve extends Entry{
+export default class Dissolve {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 		this.canvasEl = $('#top #webgl-output');

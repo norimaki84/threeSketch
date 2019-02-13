@@ -8,14 +8,11 @@
 
 'use strict';
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 
-
-export default class Plane extends Entry{
+export default class Plane {
 
   constructor() {
-
-    super();
 
 		this.uniforms = {};
 		this.texture = null;

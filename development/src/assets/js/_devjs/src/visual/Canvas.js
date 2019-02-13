@@ -6,15 +6,13 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 
 'use strict';
 
-export default class Canvas extends Entry{
+export default class Canvas {
 
   constructor() {
-
-    super();
 
     this.uniforms = {
       u_time: { type: "f", value: 1.0 },

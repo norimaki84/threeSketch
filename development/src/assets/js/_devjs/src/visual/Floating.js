@@ -8,14 +8,13 @@
 
 'use strict';
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
+const OrbitControls = require('three-orbitcontrols');
 // import Capture from "./Capture";
 
-export default class Floating extends Entry{
+export default class Floating {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

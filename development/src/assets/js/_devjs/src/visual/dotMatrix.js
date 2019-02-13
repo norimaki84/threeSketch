@@ -8,9 +8,9 @@
 
 import Entry from '../Core/Entry';
 // import PlaneCover from './PlaneCover';
-require('../../libs/loaders/OBJLoader');
-require('../../libs/three_post/DotMatrixShader');
-require('../../libs/three_post/AdditiveBlendShader');
+// require('../../libs/loaders/OBJLoader');
+// require('../../libs/three_post/DotMatrixShader');
+// require('../../libs/three_post/AdditiveBlendShader');
 
 'use strict';
 

@@ -60,18 +60,19 @@
   "dependencies": {
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
+    "glsl-camera-ray": "^1.0.0",
     "glsl-easings": "^1.0.0",
     "glsl-noise": "0.0.0",
-    "glslify": "^5.1.0",
-    "glslify-loader": "^1.0.2",
     "glsl-raytrace": "git://github.com/fand/glsl-raytrace.git#add-reduction",
     "glsl-sdf-normal": "^1.0.0",
     "glsl-square-frame": "^1.0.1",
-    "glsl-camera-ray": "^1.0.0",
+    "glslify": "^5.1.0",
+    "glslify-loader": "^1.0.2",
     "imagemin-jpegoptim": "^4.1.0",
     "imagemin-pngquant": "^4.1.0",
     "lodash": "^4.17.4",
     "raw-loader": "^0.5.1",
-    "three": "^0.98.0"
+    "three": "^0.98.0",
+    "three-orbitcontrols": "^2.101.1"
   }
 }

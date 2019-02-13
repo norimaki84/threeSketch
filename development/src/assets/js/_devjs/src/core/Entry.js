@@ -5,9 +5,10 @@
  * Date: 17/11/09
  * Author: Teraguchi
  */
-
-require("babel-polyfill");
-require('../../libs/OrbitControls.js');
+import * as THREE from 'three'
+// require("babel-polyfill");
+// require('../../libs/OrbitControls.js');
+// require('three/OrbitControls');
 
 'use strict';
 

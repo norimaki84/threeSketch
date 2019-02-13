@@ -6,16 +6,14 @@
  * Author: Teraguchi
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 import loadTexture from '../utils/modules/loadTexture';
 
 'use strict';
 
-export default class Carousel extends Entry {
+export default class Carousel {
 
   constructor() {
-
-    super();
 
     this.canvas = document.getElementById('webgl-output');
 

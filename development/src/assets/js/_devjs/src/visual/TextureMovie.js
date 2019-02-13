@@ -6,17 +6,15 @@
  * Author:
  */
 
-import Entry from '../Core/Entry';
+import * as THREE from 'three';
 // import TitleObject from "./TitleObject";
 // import Camera from './Utils/Camera';
 
 'use strict';
 
-export default class TextureMovie extends Entry{
+export default class TextureMovie {
 
   constructor() {
-
-    super();
 
     this.uniforms = {
       u_time: { type: "f", value: 1.0 },
