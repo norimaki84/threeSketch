@@ -178,12 +178,10 @@ export default class GPUComputationRenderer {
       // Adds dependencies uniforms to the ShaderMaterial
       let material = variable.material;
       let uniforms = material.uniforms;
+
       if(variable.dependencies !== null) {
-
         for(let d = 0; d < variable.dependencies.length; d++) {
-
           let depVar = variable.dependencies[d];
-
           if(depVar.name !== variable.name) {
             // Checks if variable exists
             let found = false;
@@ -197,6 +195,7 @@ export default class GPUComputationRenderer {
               return "Variable dependency not found. Variable=" + variable.name + ", dependency=" + depVar.name;
             }
           }
+
           uniforms[depVar.name] = { value: null };
           material.fragmentShader = "\nuniform sampler2D " + depVar.name + ";\n" + material.fragmentShader;
         }
