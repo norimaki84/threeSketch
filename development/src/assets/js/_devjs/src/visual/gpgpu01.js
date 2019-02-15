@@ -75,8 +75,8 @@ export default class gpgpu01 {
    * 初期化
    */
   init(){
-  	
-    this.createCamera();
+
+  	this.createCamera();
 		this.createScene();
     this.createRenderer();
     this.controlsUtil();

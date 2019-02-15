@@ -100,6 +100,7 @@
 'use strict';
 
 import * as THREE from 'three';
+
 export default class GPUComputationRenderer {
 
   constructor(sizeX, sizeY, renderer){
