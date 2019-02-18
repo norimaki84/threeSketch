@@ -121,7 +121,13 @@ export default class GPUComputationRenderer {
     this.scene.add(this.mesh);
   }
 
-
+	/**
+	 * 使用する変数を追加
+	 * @param variableName
+	 * @param computeFragmentShader
+	 * @param initialValueTexture
+	 * @returns {{minFilter, material: ShaderMaterial, initialValueTexture: *, name: *, wrapT: null, wrapS: null, renderTargets: Array, dependencies: null, magFilter}}
+	 */
   addVariable(variableName, computeFragmentShader, initialValueTexture) {
 
     let material = this.createShaderMaterial(computeFragmentShader);

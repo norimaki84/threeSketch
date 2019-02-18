@@ -175,7 +175,7 @@ export default class gpgpu01 {
 		let dtVelocity = this.gpuCompute.createTexture();
 
 		// テクスチャにGPUで計算するために初期情報を埋めていく
-		this.fillTextures( dtPosition, dtVelocity );
+		this.fillTextures(dtPosition, dtVelocity);
 
 		// shaderプログラムのアタッチ
 		this.velocityVariable = this.gpuCompute.addVariable( "textureVelocity", document.getElementById( 'computeShaderVelocity' ).textContent, dtVelocity );
@@ -377,11 +377,11 @@ export default class gpgpu01 {
 		// 	}
 		// );
 
-		loadTexture(this.texsArray, function () {
-
-			window.console.log('リソース読み込み完了');
-
-		});
+		// loadTexture(this.texsArray, function () {
+		//
+		// 	window.console.log('リソース読み込み完了');
+		//
+		// });
 
 	}
 
