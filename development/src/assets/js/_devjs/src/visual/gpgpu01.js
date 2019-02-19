@@ -84,8 +84,6 @@ export default class gpgpu01 {
 		this.initComputeRenderer();
 		this.initPosition();
 
-		// this.loadTextureEvent();
-
 		this.Update();
 
 		window.addEventListener('resize', this.onResize, false );
