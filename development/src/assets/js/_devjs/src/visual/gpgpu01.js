@@ -27,10 +27,31 @@ export default class gpgpu01 {
 
     this.stats = null;
 
-    // 基本セット
-    this.camera = null;
-    this.renderer = null;
-    this.scene = null;
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 5.0, 15000);
+
+		/**
+		 *
+		 * @type {Scene}
+		 */
+		this.scene = new THREE.Scene();
+
+		/**
+		 *
+		 * @type {WebGLRenderer}
+		 */
+		this.renderer = new THREE.WebGLRenderer({
+			alpha              : false,
+			antialias          : false,
+			stencil            : false,
+			depth              : true,
+			premultipliedAlpha : false,
+			canvas: this.canvas
+		});
+
 		this.geometry = null;
 		this.pointsLight = null;
 		this.ambientLight = null;
@@ -45,9 +66,6 @@ export default class gpgpu01 {
 		this.particleUniforms = null;
 		this.effectController = null;
 
-    this.createCamera = this._createCamera.bind(this);
-    this.createRenderer = this._createRenderer.bind(this);
-    this.createScene = this._createScene.bind(this);
     this.createLight = this._createLight.bind(this);
     this.controlsUtil = this._controlsUtil.bind(this);
 
@@ -64,8 +82,7 @@ export default class gpgpu01 {
     this.initPosition = this._initPosition.bind(this);
     this.fillTextures = this._fillTextures.bind(this);
     this.getCameraConstant = this._getCameraConstant.bind(this);
-
-
+    
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 
@@ -76,9 +93,15 @@ export default class gpgpu01 {
    */
   init(){
 
-  	this.createCamera();
-		this.createScene();
-    this.createRenderer();
+  	this.camera.position.x = 0;
+		this.camera.position.y = 120;
+		this.camera.position.z = 200;
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
+
+		this.renderer.setClearColor(0x000000, 0.0);
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(this.width, this.height);
+
     this.controlsUtil();
 
 		this.initComputeRenderer();
@@ -89,51 +112,6 @@ export default class gpgpu01 {
 		window.addEventListener('resize', this.onResize, false );
 
   }
-
-
-  /**
-   * カメラ作成
-   */
-  _createCamera() {
-
-    this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 5.0, 15000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 120;
-    this.camera.position.z = 200;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
-
-  }
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer() {
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
-		});
-
-    this.renderer.setClearColor(0x000000, 0.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
-
-  /**
-   *　シーン作成
-   */
-  _createScene() {
-
-		this.scene = new THREE.Scene();
-
-  }
-
 
 	/**
 	 * ライト作成
