@@ -82,7 +82,7 @@ export default class gpgpu01 {
     this.initPosition = this._initPosition.bind(this);
     this.fillTextures = this._fillTextures.bind(this);
     this.getCameraConstant = this._getCameraConstant.bind(this);
-    
+
     this.onResize = this._onResize.bind(this);
 		this.Update = this._Update.bind(this);
 
