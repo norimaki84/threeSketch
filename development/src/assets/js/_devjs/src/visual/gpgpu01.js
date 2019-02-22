@@ -109,7 +109,7 @@ export default class gpgpu01 {
 
 		this.Update();
 
-		window.addEventListener('resize', this.onResize, false );
+		window.addEventListener('resize', this.onResize);
 
   }
 
