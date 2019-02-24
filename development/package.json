@@ -54,6 +54,8 @@
     "imagemin-pngquant": "^4.2.2",
     "pngquant-bin": "^3.1.0",
     "raw-loader": "^0.5.1",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.5",
     "webpack": "^4.29.3",
     "webpack-stream": "^3.2.0"
   },
