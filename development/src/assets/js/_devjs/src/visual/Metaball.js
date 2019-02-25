@@ -56,7 +56,7 @@ export default class Metaball {
 		this.createMesh();
 
 		this.Update();
-		window.addEventListener('resize', this.onResize, false );
+		window.addEventListener('resize', this.onResize);
 
   }
 
