@@ -22,13 +22,30 @@ export default class ZoomBlur {
 		this.height = 512;
 		this.ratio = 1.0;
 
-		this.camera = null;
-    this.scene = null;
-		this.renderer = null;
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
 
-    this.createCamera = this._createCamera.bind(this);
-    this.createScene = this._createScene.bind(this);
-		this.createRenderer = this._createRenderer.bind(this);
+		/**
+		 *
+		 * @type {Scene}
+		 */
+		this.scene = new THREE.Scene();
+
+		/**
+		 *
+		 * @type {WebGLRenderer}
+		 */
+		this.renderer = new THREE.WebGLRenderer({
+			alpha              : false,
+			antialias          : false,
+			stencil            : false,
+			depth              : true,
+			premultipliedAlpha : false,
+			canvas: this.canvas
+		});
 
 		this.updateStrength = this._updateStrength.bind(this);
 		this.draw = this._draw.bind(this);
@@ -52,9 +69,14 @@ export default class ZoomBlur {
    */
   init(){
 
-		this.createCamera();
-		this.createScene();
-		this.createRenderer();
+		this.camera.position.x = 0;
+		this.camera.position.y = 0;
+		this.camera.position.z = 600;
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
+
+		this.renderer.setClearColor(0xEEEEEE, 1.0);
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(this.width, this.height);
 
 
 		let retina = window.devicePixelRatio;
@@ -110,50 +132,6 @@ export default class ZoomBlur {
 	_draw(){
 		this.renderer.render(this.scene, this.camera);
 	}
-
-
-  /**
-   * カメラ作成
-   */
-  _createCamera(){
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 1000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 600;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
-
-  }
-
-	/**
-	 *　シーン作成
-	 */
-	_createScene(){
-
-		this.scene = new THREE.Scene();
-
-	}
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer(){
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
-		});
-
-    this.renderer.setClearColor(0xEEEEEE, 1.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
 
 	/**
 	 *
@@ -226,7 +204,7 @@ export default class ZoomBlur {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    
+
   }
 
 
