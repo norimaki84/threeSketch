@@ -28,7 +28,13 @@ export default class dotMatrix {
 		// 基本セット
 		this.camera = null;
 		this.renderer = null;
-		this.scene = null;
+
+		/**
+		 *
+		 * @type {Scene}
+		 */
+		this.scene = new THREE.Scene();
+
 		this.composer = null;
 		this.cubeHolder = null;
 
@@ -78,7 +84,6 @@ export default class dotMatrix {
 		// this.planeCover = new PlaneCover();
 
 		this.createCamera = this._createCamera.bind(this);
-		this.createScene = this._createScene.bind(this);
 		this.createRenderer = this._createRenderer.bind(this);
 		this.createLight = this._createLight.bind(this);
 
@@ -179,15 +184,6 @@ export default class dotMatrix {
 		this.renderer.setClearColor(0x000000, 0.0);
 		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
 		this.renderer.setSize(this.width, this.height);
-
-	}
-
-	/**
-	 *　シーン作成
-	 */
-	_createScene() {
-
-		this.scene = new THREE.Scene();
 
 	}
 
