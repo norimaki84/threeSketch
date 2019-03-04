@@ -291,7 +291,8 @@ export default class GPUComputationRenderer {
 			magFilter: magFilter,
 			format: THREE.RGBAFormat,
 			type: ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) ? THREE.HalfFloatType : THREE.FloatType,
-			stencilBuffer: false
+			stencilBuffer: false,
+			depthBuffer: false
 		} );
 
 		return renderTarget;
@@ -329,9 +330,14 @@ export default class GPUComputationRenderer {
 
 
 	doRenderTarget(material, output) {
+
+  	let currentRenderTarget = this.renderer.getRenderTarget();
+
 		this.mesh.material = material;
-		this.renderer.render(this.scene, this.camera, output);
+		this.renderer.setRenderTarget(output);
+		this.renderer.render(this.scene, this.camera);
 		this.mesh.material = this.passThruShader;
+		this.renderer.setRenderTarget( currentRenderTarget );
 	}
 
 
