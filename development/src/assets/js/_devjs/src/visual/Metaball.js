@@ -20,7 +20,12 @@ export default class Metaball {
     this.height = document.body.clientHeight;
 
     // 基本セット
-    this.camera = null;
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(60, this.width / this.height, 0.1, 1000);
+
     this.renderer = null;
     this.scene = null;
 		this.geometry = null;
@@ -33,7 +38,6 @@ export default class Metaball {
 
 		this.uniforms = {};
 
-    this.createCamera = this._createCamera.bind(this);
     this.createRenderer = this._createRenderer.bind(this);
     this.createScene = this._createScene.bind(this);
     this.createLight = this._createLight.bind(this);
@@ -48,32 +52,19 @@ export default class Metaball {
    * 初期化
    */
   init(){
-  	
+
+		this.camera.position.x = 0;
+		this.camera.position.y = 0;
+		this.camera.position.z = 1.5;
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
+
 		this.createRenderer();
-		this.createCamera();
 		this.createScene();
 		this.createLight();
 		this.createMesh();
 
 		this.Update();
 		window.addEventListener('resize', this.onResize);
-
-  }
-
-
-  /**
-   * カメラ作成
-   */
-  _createCamera() {
-
-    this.camera = new THREE.PerspectiveCamera(60, this.width / this.height, 0.1, 1000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 1.5;
-
-		// this.camera.rotation.y = Math.PI;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
 
   }
 
