@@ -21,9 +21,30 @@ export default class Floating {
 		this.width = document.body.clientWidth;
 		this.height = document.body.clientHeight;
 
-		this.camera = null;
-    this.scene = null;
-		this.renderer = null;
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
+
+		/**
+		 *
+		 * @type {Scene}
+		 */
+		this.scene = new THREE.Scene();
+
+		/**
+		 *
+		 * @type {WebGLRenderer}
+		 */
+		this.renderer = new THREE.WebGLRenderer({
+			alpha              : true,
+			antialias          : false,
+			stencil            : false,
+			depth              : true,
+			premultipliedAlpha : false,
+			canvas: this.canvas
+		});
 
 		//オフスクリーンレンダリング
 		// this.capture = new Capture();
@@ -37,9 +58,6 @@ export default class Floating {
 		this.baseMesh = null;
 		this.renderTarget = null;
 
-    this.createCamera = this._createCamera.bind(this);
-    this.createScene = this._createScene.bind(this);
-		this.createRenderer = this._createRenderer.bind(this);
 		this.createLight = this._createLight.bind(this);
 		this.createPlane = this._createPlane.bind(this);
 
@@ -63,10 +81,16 @@ export default class Floating {
    */
   init() {
 
-		this.createCamera();
-		this.createScene();
+		this.camera.position.x = 0;
+		this.camera.position.y = 0;
+		this.camera.position.z = 1400;
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
+
+		this.renderer.setClearColor(0x000000, 1.0);
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(this.width, this.height);
+
 		this.createLight();
-		this.createRenderer();
 		this.utilEvent();
 
 		this.loadTexture('../../../../assets/resource/img/water.jpg', () => {
@@ -83,32 +107,6 @@ export default class Floating {
 
   }
 
-
-  /**
-   * カメラ作成
-	 * @private
-   */
-  _createCamera() {
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 1400;
-
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
-
-  }
-
-	/**
-	 *　シーン作成
-	 * @private
-	 */
-	_createScene() {
-
-		this.scene = new THREE.Scene();
-
-	}
-
 	/**
 	 *  ライト作成
 	 * @private
@@ -120,27 +118,6 @@ export default class Floating {
 		this.scene.add(this.ambientLight);
 
 	}
-
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer() {
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : true,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : false,
-      canvas: this.canvas
-		});
-
-    this.renderer.setClearColor(0x000000, 1.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
 
 	/**
 	 *
@@ -196,7 +173,7 @@ export default class Floating {
 		});
 		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
 		this.baseScene.add(this.baseMesh);
-		
+
 		// オフスクリーンレンダリング用
 		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
 			magFilter: THREE.NearestFilter,
@@ -206,6 +183,8 @@ export default class Floating {
 		});
 
 		this.renderTarget.setSize(this.width, this.height);
+
+		this.renderer.setRenderTarget(this.baseScene, this.baseCamera, this.renderTarget);
 
 	}
 
@@ -236,7 +215,7 @@ export default class Floating {
 		this.uniforms.u_time.value += 0.1;
 
 		// オフスクリーンレンダリング
-		this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
+		// this.renderer.setRenderTarget(this.baseScene, this.baseCamera, this.renderTarget);
 
 		this.renderer.render(this.scene, this.camera);
 
