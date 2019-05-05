@@ -16,6 +16,8 @@ export default class Floating {
 
   constructor() {
 
+  	// this.renderTarget = null;
+
     this.canvas = document.getElementById('webgl-output');
 
 		this.width = document.body.clientWidth;
@@ -42,7 +44,7 @@ export default class Floating {
 			antialias          : false,
 			stencil            : false,
 			depth              : true,
-			premultipliedAlpha : false,
+			premultipliedAlpha : true,
 			canvas: this.canvas
 		});
 
@@ -176,15 +178,15 @@ export default class Floating {
 
 		// オフスクリーンレンダリング用
 		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
-			magFilter: THREE.NearestFilter,
-			minFilter: THREE.NearestFilter,
 			wrapS: THREE.ClampToEdgeWrapping,
-			wrapT: THREE.ClampToEdgeWrapping
+			wrapT: THREE.ClampToEdgeWrapping,
+			minFilter: THREE.NearestFilter,
+			magFilter: THREE.NearestFilter,
+			stencilBuffer: false,
+			depthBuffer: false
 		});
 
 		this.renderTarget.setSize(this.width, this.height);
-
-		this.renderer.setRenderTarget(this.baseScene, this.baseCamera, this.renderTarget);
 
 	}
 
@@ -200,7 +202,6 @@ export default class Floating {
 			texture.magFilter = THREE.NearestFilter;
 			texture.minFilter = THREE.NearestFilter;
 			that.texture = texture;
-			//window.console.log('that.texture', that.texture);
 			callback();
 		});
 
@@ -215,7 +216,10 @@ export default class Floating {
 		this.uniforms.u_time.value += 0.1;
 
 		// オフスクリーンレンダリング
-		// this.renderer.setRenderTarget(this.baseScene, this.baseCamera, this.renderTarget);
+		this.renderer.setRenderTarget(this.renderTarget);
+		this.renderer.render(this.baseScene, this.baseCamera);
+		this.renderer.setRenderTarget(null);
+		this.renderer.clear();
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -254,6 +258,9 @@ export default class Floating {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+	onLoad() {
+
+	}
 
 	setEvents() {
 

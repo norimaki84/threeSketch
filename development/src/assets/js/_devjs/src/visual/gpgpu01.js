@@ -48,7 +48,7 @@ export default class gpgpu01 {
 			antialias          : false,
 			stencil            : false,
 			depth              : true,
-			premultipliedAlpha : false,
+			premultipliedAlpha : true,
 			canvas: this.canvas
 		});
 

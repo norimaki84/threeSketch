@@ -86,7 +86,7 @@ export default class TextTransform {
       antialias          : false,
       stencil            : false,
       depth              : true,
-      premultipliedAlpha : false,
+      premultipliedAlpha : true,
       canvas: this.canvas
 		});
 
@@ -125,7 +125,11 @@ export default class TextTransform {
   _Update() {
 
 		// オフスクリーンレンダリング
-		this.renderer.render(this.capText.baseScene, this.capText.baseCamera, this.capText.renderTarget);
+		// this.renderer.render(this.capText.baseScene, this.capText.baseCamera, this.capText.renderTarget);
+		this.renderer.setRenderTarget(this.capText.renderTarget);
+		this.renderer.render(this.capText.baseScene, this.capText.baseCamera);
+		this.renderer.setRenderTarget(null);
+		this.renderer.clear();
 
 		this.capText.uniforms.u_time.value += 1.0;
 

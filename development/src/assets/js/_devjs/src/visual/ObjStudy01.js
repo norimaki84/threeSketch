@@ -104,7 +104,7 @@ export default class ObjStudy01 extends Entry {
       antialias          : false,
       stencil            : false,
       depth              : true,
-      premultipliedAlpha : false,
+      premultipliedAlpha : true,
       canvas: this.canvas
 		});
 
@@ -265,7 +265,11 @@ export default class ObjStudy01 extends Entry {
 		this.uniforms.u_time.value += 0.009;
 
 		// オフスクリーンレンダリング
-		this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
+		// this.renderer.render(this.baseScene, this.baseCamera, this.renderTarget);
+		this.renderer.setRenderTarget(this.renderTarget);
+		this.renderer.render(this.baseScene, this.baseCamera);
+		this.renderer.setRenderTarget(null);
+		this.renderer.clear();
 
 		//
 		this.renderer.render(this.scene, this.camera);

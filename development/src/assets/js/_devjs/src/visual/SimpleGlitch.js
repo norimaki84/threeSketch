@@ -75,7 +75,7 @@ export default class SimpleGlitch {
       antialias          : false,
       stencil            : false,
       depth              : true,
-      premultipliedAlpha : false,
+      premultipliedAlpha : true,
       canvas: this.canvas
 		});
 
