@@ -27,9 +27,31 @@ export default class ObjStudy01 extends Entry {
     this.height = document.body.clientHeight;
 
     // 基本セット
-    this.camera = null;
-    this.renderer = null;
-    this.scene = null;
+		/**
+		 *
+		 * @type {Scene}
+		 */
+		this.scene = new THREE.Scene();
+
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1.0, 2000);
+
+		/**
+		 *
+		 * @type {WebGLRenderer}
+		 */
+		this.renderer = new THREE.WebGLRenderer({
+			alpha              : false,
+			antialias          : false,
+			stencil            : false,
+			depth              : true,
+			premultipliedAlpha : true,
+			canvas: this.canvas
+		});
+
 		this.pointsLight = null;
 		this.ambientLight = null;
 		this.uniforms = null;
@@ -43,9 +65,6 @@ export default class ObjStudy01 extends Entry {
 		this.baseMesh = null;
 		this.renderTarget = null;
 
-    this.createCamera = this._createCamera.bind(this);
-    this.createScene = this._createScene.bind(this);
-		this.createRenderer = this._createRenderer.bind(this);
     this.createLight = this._createLight.bind(this);
 		this.offScreenEvent = this._offScreenEvent.bind(this);
     this.loadModel = this._loadModel.bind(this);
@@ -60,9 +79,15 @@ export default class ObjStudy01 extends Entry {
    */
   init(){
 
-		this.createScene();
-    this.createCamera();
-    this.createRenderer();
+		this.camera.position.x = 5;
+		this.camera.position.y = 10;
+		this.camera.position.z = 10;
+		this.camera.lookAt(this.scene.position);
+
+		this.renderer.setClearColor(0x000000, 0.0);
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(this.width, this.height);
+
 		this.createLight();
 
 		this.offScreenEvent();
@@ -76,51 +101,6 @@ export default class ObjStudy01 extends Entry {
 		this.onResize();
 
 		window.addEventListener('resize', this.onResize, false );
-  }
-
-
-  /**
-   * カメラ作成
-   */
-  _createCamera() {
-
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1.0, 2000);
-    this.camera.position.x = 5;
-    this.camera.position.y = 10;
-    this.camera.position.z = 10;
-
-    // this.camera.lookAt(new THREE.Vector3(0,0,0));
-    this.camera.lookAt(this.scene.position);
-
-  }
-
-  /**
-   * レンダラー作成
-   */
-  _createRenderer() {
-
-		this.renderer = new THREE.WebGLRenderer({
-      alpha              : false,
-      antialias          : false,
-      stencil            : false,
-      depth              : true,
-      premultipliedAlpha : true,
-      canvas: this.canvas
-		});
-
-    this.renderer.setClearColor(0x000000, 0.0);
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(this.width, this.height);
-
-  }
-
-  /**
-   *　シーン作成
-   */
-  _createScene() {
-
-		this.scene = new THREE.Scene();
-
   }
 
 

@@ -16,8 +16,6 @@ export default class Floating {
 
   constructor() {
 
-  	// this.renderTarget = null;
-
     this.canvas = document.getElementById('webgl-output');
 
 		this.width = document.body.clientWidth;

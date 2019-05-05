@@ -21,19 +21,35 @@ export default class dotMatrix {
 
 		this.canvas = document.getElementById('webgl-output');
 
-		//
 		this.width = document.body.clientWidth;
 		this.height = document.body.clientHeight;
 
 		// 基本セット
-		this.camera = null;
-		this.renderer = null;
-
 		/**
 		 *
 		 * @type {Scene}
 		 */
 		this.scene = new THREE.Scene();
+
+		/**
+		 *
+		 * @type {PerspectiveCamera}
+		 */
+		this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 20, 3000);
+
+		/**
+		 *
+		 * @type {WebGLRenderer}
+		 */
+		this.renderer = new THREE.WebGLRenderer({
+			alpha              : false,
+			antialias          : false,
+			stencil            : false,
+			depth              : true,
+			premultipliedAlpha : true,
+			canvas: this.canvas
+		});
+
 
 		this.composer = null;
 		this.cubeHolder = null;
@@ -79,12 +95,7 @@ export default class dotMatrix {
 		this.baseGeometry02 = null;
 		this.baseMaterial02 = null;
 		this.baseMesh02 = null;
-		// this.renderTarget02 = null;
 
-		// this.planeCover = new PlaneCover();
-
-		this.createCamera = this._createCamera.bind(this);
-		this.createRenderer = this._createRenderer.bind(this);
 		this.createLight = this._createLight.bind(this);
 
 		this.createCubeHolder = this._createCubeHolder.bind(this);
@@ -103,9 +114,15 @@ export default class dotMatrix {
 	 */
 	init(){
 
-		this.createScene();
-		this.createCamera();
-		this.createRenderer();
+		this.camera.position.x = 0;
+		this.camera.position.y = 0;
+		this.camera.position.z = 1000;
+		this.camera.lookAt(this.scene.position);
+
+		this.renderer.setClearColor(0x000000, 0.0);
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(this.width, this.height);
+
 		this.createLight();
 
 		this.offScreenEvent();
@@ -149,42 +166,6 @@ export default class dotMatrix {
 		this.onResize();
 
 		window.addEventListener('resize', this.onResize, false );
-	}
-
-
-	/**
-	 * カメラ作成
-	 */
-	_createCamera() {
-
-		this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 20, 3000);
-		this.camera.position.x = 0;
-		this.camera.position.y = 0;
-		this.camera.position.z = 1000;
-
-		// this.camera.lookAt(new THREE.Vector3(0,0,0));
-		this.camera.lookAt(this.scene.position);
-
-	}
-
-	/**
-	 * レンダラー作成
-	 */
-	_createRenderer() {
-
-		this.renderer = new THREE.WebGLRenderer({
-			alpha              : false,
-			antialias          : false,
-			stencil            : false,
-			depth              : true,
-			premultipliedAlpha : true,
-			canvas: this.canvas
-		});
-
-		this.renderer.setClearColor(0x000000, 0.0);
-		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-		this.renderer.setSize(this.width, this.height);
-
 	}
 
 	/**
@@ -383,9 +364,6 @@ export default class dotMatrix {
 		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
 		this.baseScene.add(this.baseMesh);
 
-
-
-
 		//
 		this.renderTargetParameters02 = {
 			// magFilter: THREE.NearestFilter,
@@ -432,7 +410,6 @@ export default class dotMatrix {
 		this.baseScene02.add(this.baseMesh02);
 
 
-
 	}
 
 	/**
@@ -467,8 +444,16 @@ export default class dotMatrix {
 		// this.uniforms.u_time.value += 0.009;
 
 		// オフスクリーンレンダリング = this.dotsCompose
-		this.renderer.render(this.baseScene, this.baseCamera, this.fbo01);
-		this.renderer.render(this.baseScene02, this.baseCamera02, this.fbo02);
+		// this.renderer.render(this.baseScene, this.baseCamera, this.fbo01);
+		// this.renderer.render(this.baseScene02, this.baseCamera02, this.fbo02);
+
+		this.renderer.setRenderTarget(this.fbo01);
+		this.renderer.render(this.baseScene, this.baseCamera);
+		this.renderer.setRenderTarget(this.fbo02);
+		this.renderer.render(this.baseScene02, this.baseCamera02);
+
+		this.renderer.setRenderTarget(null);
+		this.renderer.clear();
 
 		//
 		this.renderer.render(this.scene, this.camera);
