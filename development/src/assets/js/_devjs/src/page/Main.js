@@ -21,6 +21,7 @@ import DisplayWormhole from "../display/DisplayWormhole";
 import DisplayTextTransform from "../display/DisplayTextTransform";
 import DisplayClockTransform from "../display/DisplayClockTransform";
 import DisplaySimpleGlitch from "../display/DisplaySimpleGlitch";
+import DisplayMorphingGLSL from "../display/DisplayMorphingGLSL";
 
 'use strict';
 
@@ -134,6 +135,12 @@ export default class Main {
 			case 'simpleGlitch':
 
 				new DisplaySimpleGlitch();
+
+				break;
+
+			case 'MorphingGLSL':
+
+				new DisplayMorphingGLSL();
 
 				break;
 
