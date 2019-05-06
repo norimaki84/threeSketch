@@ -46,6 +46,8 @@ export default class MorphingGLSL {
 			canvas: this.canvas
 		});
 
+		this.timeLoad = this.timePrev = performance.now();
+
 		this.updateStrength = this._updateStrength.bind(this);
 		this.draw = this._draw.bind(this);
 
@@ -146,14 +148,17 @@ export default class MorphingGLSL {
 	_createMesh() {
 
 		this.uniforms = {
+			u_time: { type: "f", value: 1.0 },
+			// u_resolution: { type: "v2", value: new THREE.Vector2() },
+			u_resolution: { type: "v2", value: new THREE.Vector2(this.width, this.height) },
 			// textureUnit: { type: 't', value: this.textureUnit },
 			// u_time: { type: "f", value: this.u_time },
-			u_time: { type: "f", value: 0 },
+			// u_time: { type: "f", value: 0 },
 			// u_resolution: { type: "v2", value: new THREE.Vector2(this.width * this.ratio, this.height * this.ratio) },
 			// u_ratio: { type: "1f", value: this.ratio }
 		};
 		return new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(1, 1),
+			new THREE.PlaneBufferGeometry(2, 2),
 			new THREE.RawShaderMaterial({
 				uniforms: this.uniforms,
 				vertexShader: require('../../../../glsl/MorphingGLSL.vert'),
@@ -171,8 +176,14 @@ export default class MorphingGLSL {
 
 		// let speed += 1;
 
-		this.uniforms.u_time.value += 1;
+		// this.uniforms.u_time.value += 0.05;
+		// this.uniforms.u_time.value += 1;
+
+		let now = performance.now();
+		this.uniforms.u_time.value = (now - this.timeLoad) / 1000.0;
 		
+		// window.console.log(this.uniforms.u_time.value);
+
 		// window.console.log(this.u_time);
 
 		this.renderer.render(this.scene, this.camera);
@@ -218,6 +229,7 @@ export default class MorphingGLSL {
   }
 
   onLoad() {
+
 		// this.mesh = this.createMesh();
 		// this.mesh.scale.set(512, 512, 512);
 	}
