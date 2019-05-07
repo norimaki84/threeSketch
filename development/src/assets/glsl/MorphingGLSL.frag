@@ -17,23 +17,22 @@ uniform vec2 u_vec2;
 uniform vec3 u_vec3;
 uniform vec4 u_vec4;
 
-float cubicPulse( float c, float w, float x )
-{
+float cubicPulse(float c, float w, float x) {
     x = abs(x - c);
-    if( x>w ) return 0.0;
+    if (x>w) return 0.0;
     x /= w;
     return 1.0 - x*x*(3.0-2.0*x);
 }
 
-float sdBox( in vec2 p, in vec2 b )
+float sdBox(in vec2 p, in vec2 b)
 {
     vec2 d = abs(p)-b;
-    return length(max(d,vec2(0))) + min(max(d.x,d.y),0.0);
+    return length(max(d, vec2(0))) + min(max(d.x, d.y), 0.0);
 }
 
 mat2 rotate(float angle)
 {
-    return mat2( cos(angle),-sin(angle),sin(angle),cos(angle) );
+    return mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 }
 
 vec2 center(vec2 st)
@@ -46,9 +45,9 @@ vec2 center(vec2 st)
 float morph(vec2 st, vec2 pos, float size, float m)
 {
     float c = length(st-pos)-size;//-0.01*sin(u_time);
-    float s = sdBox(st-pos,vec2(size))-.013;
+    float s = sdBox(st-pos, vec2(size))-.013;
 
-    return mix(c,s,m);
+    return mix(c, s, m);
 }
 
 float scene(vec2 st) {
@@ -65,21 +64,21 @@ float scene(vec2 st) {
     st += 0.5;
 
     float d = 0.0;
-    d = morph(st,position,0.1,t);
+    d = morph(st, position, 0.1, t);
 
     // t = r + sin(r);
 
     float dist = 0.18 + 0.15 * t;
     float offset = 0.0;//PI*.13;
-    for(int i = 0; i < COUNT; i++)
+    for (int i = 0; i < COUNT; i++)
     {
         float p = float(i)/ float(COUNT);
         vec2 w = vec2(
         position.x+dist*sin(r+sin(r)+TWO_PI*p+offset),
         position.y+dist*cos(r+sin(r)+TWO_PI*p+offset));
         float c = length(st-w)-.025;
-        c = morph(st,w,.02,t);
-        d = min(d,c);
+        c = morph(st, w, .02, t);
+        d = min(d, c);
     }
 
     return d;
@@ -92,13 +91,13 @@ float traceShadows(vec2 position, vec2 lightPosition){
     float rayProgress = 0.0;
     // float nearest = 9999.0;
 
-    for(int i=0 ;i<SAMPLES; i++){
+    for (int i=0;i<SAMPLES; i++){
         float sceneDist = scene(position + direction * rayProgress);
 
-        if(sceneDist <= 0.0){
+        if (sceneDist <= 0.0){
             return 0.0;
         }
-        if(rayProgress > lightDistance){
+        if (rayProgress > lightDistance){
             // return clamp(nearest,0.0,1.0);
             return 1.0;
         }
@@ -112,17 +111,17 @@ float traceShadows(vec2 position, vec2 lightPosition){
 
 
 void main() {
-//    vec2 st = gl_FragCoord.xy/u_resolution.xy;
-//    gl_FragColor=vec4(st.x,st.y,0.0,1.0);
+    //    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    //    gl_FragColor=vec4(st.x,st.y,0.0,1.0);
 
     vec2 st = gl_FragCoord.xy / u_resolution.xy;
-    st = center( st );
+    st = center(st);
 
     // light
     vec2 pos = vec2(0.5);
-    vec3 light = vec3(0.5+.3*sin(u_time),1.3,.5);
-    light = vec3(-0.3,1.3,.5);
-    light = vec3(0.5+1.0*sin(-u_time*1.0),0.5+1.0*cos(-u_time*1.0),.5);       //rotating light
+    vec3 light = vec3(0.5+.3*sin(u_time), 1.3, .5);
+    light = vec3(-0.3, 1.3, .5);
+    light = vec3(0.5+1.0*sin(-u_time*1.0), 0.5+1.0*cos(-u_time*1.0), .5);//rotating light
     // light = vec3(.5+3.0*sin(u_time),.5+3.0*cos(u_time),.5);       //rotating light
     // light = vec3(
     // .5+.0+3.0*abs(sin(u_time*.25))+sin(-15.0),
@@ -130,22 +129,22 @@ void main() {
 
     // scene
     float sdf = scene(st);
-    float shadows = traceShadows(st,light.xy);
+    float shadows = traceShadows(st, light.xy);
 
     // add debug light
     // sdf = min(sdf,length(st-light.xy)-light.z);
 
     // cutoff sdf
     // sdf = step(0.001,-sign(sdf));
-    sdf = smoothstep(0.001,0.003,-sdf);
+    sdf = smoothstep(0.001, 0.003, -sdf);
 
     // vignette
-    float vignette = pow((1.0-length(st-0.5)-.01),.7)*0.5;
+    float vignette = pow((1.0-length(st-0.5)-.01), .7)*0.5;
 
     // color
     vec3 color = vec3(0.07);
     color += sdf;
-    color += max(shadows * 0.1,-vignette);
+    color += max(shadows * 0.1, -vignette);
     color += vignette;
 
 
