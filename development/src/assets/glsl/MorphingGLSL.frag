@@ -24,26 +24,22 @@ float cubicPulse(float c, float w, float x) {
     return 1.0 - x*x*(3.0-2.0*x);
 }
 
-float sdBox(in vec2 p, in vec2 b)
-{
+float sdBox(in vec2 p, in vec2 b) {
     vec2 d = abs(p)-b;
     return length(max(d, vec2(0))) + min(max(d.x, d.y), 0.0);
 }
 
-mat2 rotate(float angle)
-{
+mat2 rotate(float angle) {
     return mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 }
 
-vec2 center(vec2 st)
-{
+vec2 center(vec2 st) {
     float aspect = u_resolution.x/u_resolution.y;
     st.x = st.x * aspect - aspect * 0.5 + 0.5;
     return st;
 }
 
-float morph(vec2 st, vec2 pos, float size, float m)
-{
+float morph(vec2 st, vec2 pos, float size, float m) {
     float c = length(st-pos)-size;//-0.01*sin(u_time);
     float s = sdBox(st-pos, vec2(size))-.013;
 
