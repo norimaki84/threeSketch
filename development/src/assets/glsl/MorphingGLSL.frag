@@ -66,28 +66,26 @@ float scene(vec2 st) {
 
     float dist = 0.18 + 0.15 * t;
     float offset = 0.0;//PI*.13;
-    for (int i = 0; i < COUNT; i++)
-    {
-        float p = float(i)/ float(COUNT);
+    for (int i = 0; i < COUNT; i++) {
+        float p = float(i) / float(COUNT);
         vec2 w = vec2(
-        position.x+dist*sin(r+sin(r)+TWO_PI*p+offset),
-        position.y+dist*cos(r+sin(r)+TWO_PI*p+offset));
-        float c = length(st-w)-.025;
+        position.x+dist*sin(r + sin(r) + TWO_PI * p + offset),
+        position.y+dist*cos(r + sin(r) + TWO_PI * p + offset));
+        float c = length(st - w) - 0.025;
         c = morph(st, w, .02, t);
         d = min(d, c);
     }
-
     return d;
 }
 
-float traceShadows(vec2 position, vec2 lightPosition){
+float traceShadows(vec2 position, vec2 lightPosition) {
     vec2 direction = normalize(lightPosition - position);
     float lightDistance = length(lightPosition - position);
 
     float rayProgress = 0.0;
     // float nearest = 9999.0;
 
-    for (int i=0;i<SAMPLES; i++){
+    for (int i = 0; i < SAMPLES; i++) {
         float sceneDist = scene(position + direction * rayProgress);
 
         if (sceneDist <= 0.0){
@@ -97,11 +95,9 @@ float traceShadows(vec2 position, vec2 lightPosition){
             // return clamp(nearest,0.0,1.0);
             return 1.0;
         }
-
         // nearest = min(nearest, sceneDist);
         rayProgress = rayProgress + sceneDist;
     }
-
     return 0.0;
 }
 
@@ -135,12 +131,12 @@ void main() {
     sdf = smoothstep(0.001, 0.003, -sdf);
 
     // vignette
-    float vignette = pow((1.0-length(st-0.5)-.01), .7)*0.5;
+    float vignette = pow((1.0 - length(st - 0.5) - 0.01), 0.7) * 0.5;
 
     // color
     vec3 color = vec3(0.07);
     color += sdf;
-    color += max(shadows * 0.1, -vignette);
+    color += max(shadows * 0.1, - vignette);
     color += vignette;
 
 
