@@ -1,9 +1,9 @@
 // config
 let PROJECT_ROOT = './';
 
-let DEV = 'src/';
+let DEV = 'src/sketch/';
 
-let RELEASE = '../docs/';
+let RELEASE = '../docs/sketch/';
 
 let BUILD = 'build/';
 
