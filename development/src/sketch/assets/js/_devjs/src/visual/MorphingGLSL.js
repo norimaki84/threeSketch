@@ -179,8 +179,10 @@ export default class MorphingGLSL {
 		// this.uniforms.u_time.value += 0.05;
 		// this.uniforms.u_time.value += 1;
 
-		let now = performance.now();
-		this.uniforms.u_time.value = (now - this.timeLoad) / 1000.0;
+		// let now = performance.now();
+		// this.uniforms.u_time.value = (now - this.timeLoad) / 1000.0;
+
+		this.uniforms.u_time.value += 0.05;
 
 		// window.console.log(this.uniforms.u_time.value);
 
