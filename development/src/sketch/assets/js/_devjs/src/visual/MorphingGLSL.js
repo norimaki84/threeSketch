@@ -155,7 +155,7 @@ export default class MorphingGLSL {
 			// u_time: { type: "f", value: this.u_time },
 			// u_time: { type: "f", value: 0 },
 			// u_resolution: { type: "v2", value: new THREE.Vector2(this.width * this.ratio, this.height * this.ratio) },
-			// u_ratio: { type: "1f", value: this.ratio }
+			u_ratio: { type: "1f", value: this.ratio }
 		};
 		return new THREE.Mesh(
 			new THREE.PlaneBufferGeometry(2, 2),
@@ -181,7 +181,7 @@ export default class MorphingGLSL {
 
 		let now = performance.now();
 		this.uniforms.u_time.value = (now - this.timeLoad) / 1000.0;
-		
+
 		// window.console.log(this.uniforms.u_time.value);
 
 		// window.console.log(this.u_time);

@@ -11,6 +11,7 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform float u_ratio;
 
 uniform float u_float;
 uniform vec2 u_vec2;
@@ -50,7 +51,7 @@ float scene(vec2 st) {
     // this is where our sdf world is going to be
     vec2 position = vec2(0.5);
 
-    float t = 0.5-0.5*sin(u_time);
+    float t = 0.5 - 0.5 * sin(u_time);
     // float s = 0.5-0.5*sin(u_time);
 
     float r = u_time*2.0;
@@ -106,7 +107,8 @@ void main() {
     //    vec2 st = gl_FragCoord.xy/u_resolution.xy;
     //    gl_FragColor=vec4(st.x,st.y,0.0,1.0);
 
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = (gl_FragCoord.xy / u_resolution.xy) / u_ratio;
+//    vec2 st = (gl_FragCoord.xy * 1.0 - u_resolution) / u_resolution.y;
     st = center(st);
 
     // light
