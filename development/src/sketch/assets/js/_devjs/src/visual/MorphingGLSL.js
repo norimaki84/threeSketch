@@ -184,7 +184,7 @@ export default class MorphingGLSL {
 
 		this.uniforms.u_time.value += 0.05;
 
-		// window.console.log(this.uniforms.u_time.value);
+		window.console.log("this.uniforms.u_time.value ", this.uniforms.u_time.value);
 
 		// window.console.log(this.u_time);
 
