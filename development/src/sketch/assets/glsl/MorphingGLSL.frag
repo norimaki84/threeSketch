@@ -1,6 +1,6 @@
-#ifdef GL_ES
+//#ifdef GL_ES
 precision mediump float;
-#endif
+//#endif
 
 #define PI 3.14159265359
 #define HALF_PI 1.57079632675
@@ -20,13 +20,13 @@ uniform vec4 u_vec4;
 
 float cubicPulse(float c, float w, float x) {
     x = abs(x - c);
-    if (x>w) return 0.0;
+    if (x > w) return 0.0;
     x /= w;
-    return 1.0 - x*x*(3.0-2.0*x);
+    return 1.0 - x * x * (3.0 - 2.0 * x);
 }
 
 float sdBox(in vec2 p, in vec2 b) {
-    vec2 d = abs(p)-b;
+    vec2 d = abs(p) - b;
     return length(max(d, vec2(0))) + min(max(d.x, d.y), 0.0);
 }
 
