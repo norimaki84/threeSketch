@@ -7,6 +7,7 @@
  */
 
 import * as THREE from 'three';
+import * as dat from 'dat.gui';
 import CaptureText from "./Utils/CaptureText";
 
 'use strict';
@@ -19,6 +20,8 @@ export default class TextTransform {
 
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
+
+		this.gui = new dat.GUI();
 
 		this.capText = null;
 
@@ -48,8 +51,10 @@ export default class TextTransform {
 
 
 		// テキスト、フォントサイズ、フォント種類、フォントの色
-		this.capText = new CaptureText('A', 256, 'sans-serif', '000000');
+		this.capText = new CaptureText('No', 256, 'sans-serif', '000000');
 		this.scene.add(this.capText.planeTexture);
+
+		window.console.log(this.capText.planeTexture);
 
     this.createRenderer();
 
@@ -66,7 +71,7 @@ export default class TextTransform {
 	 */
   _createCamera() {
 
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 10000);
+    this.camera = new THREE.PerspectiveCamera(95, this.width / this.height, 0.1, 10000);
     this.camera.position.x = 0;
     this.camera.position.y = 0;
     this.camera.position.z = 1000;
@@ -131,11 +136,13 @@ export default class TextTransform {
 		this.renderer.setRenderTarget(null);
 		this.renderer.clear();
 
+		this.capText.drawText();
+
 		this.capText.uniforms.u_time.value += 1.0;
 
 		this.renderer.render(this.scene, this.camera);
 
-    requestAnimationFrame( () => {
+    requestAnimationFrame(() => {
       this.Update();
     });
 
@@ -153,9 +160,10 @@ export default class TextTransform {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    
+
   }
 
+	onLoad() {}
 
 	setEvents() {
 

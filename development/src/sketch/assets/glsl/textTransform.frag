@@ -9,7 +9,6 @@ uniform float u_time;
 
 varying vec2 vUv;
 
-
 void main(){
 
     float frequency = 0.02; // 周波数
@@ -19,7 +18,8 @@ void main(){
 //    vec4 dest = texture2D(texture, vec2(vUv.x, vUv.y + offset));
 
     vec2 zure = vec2(sin(vUv.y * 12.0 + u_time * 0.1) * 0.02, 0.0);
-    vec4 dest = texture2D(texture, vUv + zure + offset);
+//    vec4 dest = texture2D(texture, vUv + zure + offset);
+    vec4 dest = texture2D(texture, vUv);
 
     gl_FragColor = dest;
 

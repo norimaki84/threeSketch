@@ -23,6 +23,8 @@ export default class CaptureText {
 		this.planeTexture = null;
 		this.uniforms = null;
 
+		this.paddingWidth = 400;
+
 		// オフスクリーンレンダリングで使用
 		this.baseScene = null;
 		this.baseCamera = null;
@@ -34,10 +36,11 @@ export default class CaptureText {
 
 		// キャンバスの作成
 		this.canvas = document.createElement('canvas');
-		this.context = this.canvas.getContext('2d');
+		this.ct = this.canvas.getContext('2d');
+		// this.width = 0;
+		// this.height = 0;
 		this.width = this.canvas.width = this.fontSize;
 		this.height = this.canvas.height = this.fontSize;
-
 		this.drawText = this._drawText.bind(this);
 		this.createTexture = this._createTexture.bind(this);
 		this.offScreenEvent = this._offScreenEvent.bind(this);
@@ -69,25 +72,28 @@ export default class CaptureText {
 	_drawText() {
 
 		// 文字の描画開始
-		this.context.beginPath();
+		this.ct.beginPath();
 
 		// 文字色指定
-		this.context.fillStyle = '#' + this.color;
+		this.ct.fillStyle = '#' + this.color;
 
 		// フォントサイズとスタイルの定義
-		this.context.font= this.fontSize + 'px ' + this.fontFamily;
+		this.ct.font= this.fontSize + 'px ' + this.fontFamily;
 
 		// 文字の表示位置指定
-		this.context.textAlign = 'center';
-		this.context.textBaseline = 'middle';
+		this.ct.textAlign = 'center';
+		this.ct.textBaseline = 'middle';
 
-		//幅を測定する文字列を指定
-		this.metrics = this.context.measureText(this.text);
-		// window.console.log('this.metrics.width', this.metrics.width);
+		// 文字列の長さからcanvasサイズを取得
+		this.metrics = this.ct.measureText(this.text);
+		// this.width = this.canvas.width = this.metrics.width;
+		// this.height = this.canvas.height = "auto";
 
 		// 文字、文字の開始位置、最大幅
-		this.context.fillText(this.text, this.width / 2, this.height / 2);
-		this.context.fill();
+		this.ct.fillText(this.text, this.width / 2, this.height / 2);
+		this.ct.fill();
+
+		this.ct.closePath();
 
 	}
 
@@ -99,7 +105,6 @@ export default class CaptureText {
 
 		// テクスチャの作成
 		this.texture = new THREE.CanvasTexture(this.canvas);
-
 
 		this.texture.minFilter = THREE.LinearFilter;
 
@@ -118,7 +123,8 @@ export default class CaptureText {
 		this.baseScene = new THREE.Scene();
 
 		// オフスクリーンレンダリングの描画処理用カメラ
-		this.baseCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+		// this.baseCamera = new THREE.PerspectiveCamera(95, 1, 0.1, 1000);
+		this.baseCamera = new THREE.PerspectiveCamera(45, this.metrics.width / this.height, 0.1, 5000);
 		this.baseCamera.position.z = 1;
 
 		// オフスクリーンレンダリング用ライトを追加
@@ -132,23 +138,23 @@ export default class CaptureText {
 		// ユニフォーム変数
 		this.uniforms = {
 			texture: { type: 't', value: this.texture },
-			u_time: { type: "f", value: 1.0 },
-			u_resolution: { type: "v2", value: new THREE.Vector2(192, this.height) },
+			u_time: { type: 'f', value: 1.0 },
+			// u_resolution: { type: "v2", value: new THREE.Vector2(this.metrics.width, this.height) },
 		};
 		this.baseMaterial = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
 			vertexShader: require('../../../../../glsl/textTransform.vert'),
 			fragmentShader: require('../../../../../glsl/textTransform.frag'),
 			side: THREE.DoubleSide,
-			transparent: true
+			transparent: true,
 		});
 		this.baseMesh = new THREE.Mesh(this.baseGeometry, this.baseMaterial);
-		this.baseMesh.scale.set(0.8, 0.8, 0.8); // テクスチャサイズをScaleで調整(モーフィングした時に描画領域からはみ出してしまう場合)
+		this.baseMesh.scale.set(1.0, 1.0, 1.0); // テクスチャサイズをScaleで調整(モーフィングした時に描画領域からはみ出してしまう場合)
 		this.baseScene.add(this.baseMesh);
 
 
 		// オフスクリーンレンダリング用
-		this.renderTarget = new THREE.WebGLRenderTarget(1, 1, {
+		this.renderTarget = new THREE.WebGLRenderTarget(16, 16, {
 			magFilter: THREE.NearestFilter,
 			minFilter: THREE.NearestFilter,
 			wrapS: THREE.ClampToEdgeWrapping,
@@ -159,24 +165,21 @@ export default class CaptureText {
 
 	}
 
-
 	/**
 	 * テクスチャを貼り付ける板ポリを作成
 	 * @private
 	 */
 	_createPlane() {
-		
+
 		let geometry = new THREE.PlaneBufferGeometry(this.metrics.width, this.height, 32);
-		
+
 		let material = new THREE.MeshPhongMaterial( {
 			map: this.renderTarget.texture,
 			color: 0x000000,
-			// side: THREE.DoubleSide
 			side: THREE.FrontSide
 		});
 
 		this.planeTexture = new THREE.Mesh(geometry, material);
-		this.planeTexture.scale.set(0.9, 0.9, 0.9);
 
 	}
 
