@@ -353,5 +353,27 @@
       "tit": "",
       "url": ""
     }
+  },
+  "textEffect": {
+    "title": "TextEffect | threeSketch",
+    "description": "",
+    "keyword": "",
+    "fb": {
+      "des": "",
+      "img": "",
+      "siteName": "",
+      "tit": "",
+      "type": "website",
+      "url": ""
+    },
+    "tw": {
+      "card": "summary_large_image",
+      "creator": "",
+      "des": "",
+      "img": "",
+      "siteName": "",
+      "tit": "",
+      "url": ""
+    }
   }
 }

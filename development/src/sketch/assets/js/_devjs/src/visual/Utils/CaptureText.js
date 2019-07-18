@@ -42,6 +42,7 @@ export default class CaptureText {
 		this.width = this.canvas.width = this.fontSize;
 		this.height = this.canvas.height = this.fontSize;
 		this.drawText = this._drawText.bind(this);
+
 		this.createTexture = this._createTexture.bind(this);
 		this.offScreenEvent = this._offScreenEvent.bind(this);
 		this.createPlane = this._createPlane.bind(this);
@@ -86,8 +87,9 @@ export default class CaptureText {
 
 		// 文字列の長さからcanvasサイズを取得
 		this.metrics = this.ct.measureText(this.text);
-		// this.width = this.canvas.width = this.metrics.width;
-		// this.height = this.canvas.height = "auto";
+		// this.metrics = this.ct.measureText(this.text).width;
+		// this.width = this.canvas.width = this.metrics + 50;
+		// this.height = this.canvas.height = this.fontSize + 50;
 
 		// 文字、文字の開始位置、最大幅
 		this.ct.fillText(this.text, this.width / 2, this.height / 2);

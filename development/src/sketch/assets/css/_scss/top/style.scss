@@ -123,6 +123,23 @@ canvas {
   }
 }
 
+#textEffect {
+  .sketchTitle {
+    color: #000;
+  }
+  .sketchDes {
+    color: #000;
+  }
+  #webgl-output {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
 #Dissolve {
   #webgl-output {
     margin: 0 auto;

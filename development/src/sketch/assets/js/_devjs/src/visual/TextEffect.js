@@ -1,7 +1,7 @@
 /**
  * fileOverview:
  * Project:
- * File: TextTransform
+ * File: TextEffect
  * Date: 18/2/6
  * Author: Teraguchi
  */
@@ -12,7 +12,7 @@ import CaptureText from "./Utils/CaptureText";
 
 'use strict';
 
-export default class TextTransform {
+export default class TextEffect {
 
   constructor() {
 

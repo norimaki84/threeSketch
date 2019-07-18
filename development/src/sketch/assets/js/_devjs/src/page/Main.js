@@ -2,7 +2,7 @@
  * fileOverview: ページ別クラスの実行
  * Project: Main
  * File: Main
- * Date: 18/2/6
+ * Date: 19/7/18(update)
  * Author: Teraguchi
  */
 
@@ -22,6 +22,7 @@ import DisplayTextTransform from "../display/DisplayTextTransform";
 import DisplayClockTransform from "../display/DisplayClockTransform";
 import DisplaySimpleGlitch from "../display/DisplaySimpleGlitch";
 import DisplayMorphingGLSL from "../display/DisplayMorphingGLSL";
+import DisplayTextEffect from "../display/DisplayTextEffect";
 
 'use strict';
 
@@ -144,13 +145,19 @@ export default class Main {
 
 				break;
 
+			case 'textEffect':
+
+				new DisplayTextEffect();
+
+				break;
+
     }
 
   }
 
   onLoad() {
 
-    
+
   }
 
   onRender() {
@@ -161,7 +168,7 @@ export default class Main {
   setEvents() {
 
     $(document).on('ready', this.onReady.bind(this));
-    $(window).on('load', this.onLoad.bind(this));        
+    $(window).on('load', this.onLoad.bind(this));
 
   }
 
