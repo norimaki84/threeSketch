@@ -21,6 +21,8 @@ export default class TextEffect {
     this.width = document.body.clientWidth;
     this.height = document.body.clientHeight;
 
+    this.canvasWidth = null;
+
 		this.gui = new dat.GUI();
 
 		this.capText = null;
@@ -83,12 +85,10 @@ export default class TextEffect {
 		// this.capText = new CaptureText('No', 256, 'sans-serif', '000000');
 		// this.scene.add(this.capText.planeTexture);
 		// let x = window.innerWidth / 2 - 300;
-		this.posX = this.width / 2;
+		this.posX = this.width / 2 - 300;
 		this.posY = this.height / 2 - 300;
 		this.mesh = this.createLabel('Norimaki.jp', this.posX, this.posY, 0, 100, '000', 'bold', 'sans-serif', 'ffff00', 50);
 		this.scene.add(this.mesh);
-
-		// window.console.log(this.capText.planeTexture);
 
 		this.Update();
 
@@ -134,7 +134,7 @@ export default class TextEffect {
 
 		let textWidth = context.measureText(text).width;
 
-		canvas.width = textWidth + backgroundMargin;
+		this.canvasWidth = canvas.width = textWidth + backgroundMargin;
 		canvas.height = size + backgroundMargin;
 		context = canvas.getContext('2d');
 		context.font = weight + ' ' + size + 'px ' + font;
@@ -159,10 +159,6 @@ export default class TextEffect {
 			u_time: { type: 'f', value: 1.0 },
 		};
 
-		// let material = new THREE.MeshBasicMaterial({
-		// 	map : texture
-		// });
-
 		let material = new THREE.RawShaderMaterial({
 			uniforms: this.uniforms,
 			vertexShader: require('../../../../glsl/textTransform.vert'),
@@ -177,7 +173,6 @@ export default class TextEffect {
 		mesh.position.x = x - canvas.width;
 		mesh.position.y = y - canvas.height;
 		mesh.position.z = z;
-
 		return mesh;
 	}
 
@@ -208,6 +203,8 @@ export default class TextEffect {
 
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
+
+		this.posX = this.canvasWidth / 2;
 
     // this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.aspect = this.width / this.height;
