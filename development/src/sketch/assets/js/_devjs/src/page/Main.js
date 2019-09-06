@@ -2,7 +2,7 @@
  * fileOverview: ページ別クラスの実行
  * Project: Main
  * File: Main
- * Date: 19/7/18(update)
+ * Date: 19/9/6(update)
  * Author: Teraguchi
  */
 
@@ -23,6 +23,7 @@ import DisplayClockTransform from "../display/DisplayClockTransform";
 import DisplaySimpleGlitch from "../display/DisplaySimpleGlitch";
 import DisplayMorphingGLSL from "../display/DisplayMorphingGLSL";
 import DisplayTextEffect from "../display/DisplayTextEffect";
+import DisplayMaskEffect from "../display/DisplayMaskEffect";
 
 'use strict';
 
@@ -151,6 +152,11 @@ export default class Main {
 
 				break;
 
+			case 'maskEffect':
+
+				new DisplayMaskEffect();
+
+				break;
     }
 
   }
