@@ -23,6 +23,23 @@ export default class Utils {
 		return Math.random() * (max - min) + min;
 	}
 
+	randomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	// 1 / rangeの確率でtrueを取得
+	// -----------------------------------
+	// @range : 2以上の分母(int)
+	// return : true or false(boolean)
+	// -----------------------------------
+	hit(range) {
+		return (this.randomInt(0, range - 1) == 0);
+	}
+
+	range(val) {
+		return this.random(-val, val);
+	}
+
 	/**
 	 * ランダムな数(int)
 	 * @param min : 最小値(int)
