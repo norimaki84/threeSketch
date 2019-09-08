@@ -388,3 +388,21 @@ canvas
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
 }
+
+#maskEffect .sketchTitle
+{
+    color: #000;
+}
+
+#maskEffect .sketchDes
+{
+    color: #000;
+}
+
+#maskEffect #webgl-output
+{
+    position: fixed;
+
+    width: 100%;
+    height: 100%;
+}

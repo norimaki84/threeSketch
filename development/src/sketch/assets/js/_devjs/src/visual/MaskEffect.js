@@ -16,27 +16,16 @@ export default class MaskEffect {
   constructor() {
 
     this.canvas = document.getElementById('webgl-output');
-
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    // this.width = window.innerWidth;
+    // this.height = window.innerHeight;
 
     // 基本セット
-		/**
-		 *
-		 * @type {PerspectiveCamera}
-		 */
-
 		this.utils = new Utils();
 
     this.renderer = null;
-    this.scene = null;
-		this.geometry = null;
-		this.material = null;
-		this.mesh = null;
-		this.pointsLight = null;
-		this.ambientLight = null;
-		this.controls = null;
-		this.dpr = window.devicePixelRatio;
+
+    this.mainScene = null;
+    this.mainCamera = null;
 
 		this.maskScene = null;
 		this.maskTg = null;
@@ -47,10 +36,21 @@ export default class MaskEffect {
 		this.maskMesh = null;
 		this.baseMesh = [];
 
-		this.uniforms = {};
+		this.dest = null;
+		this.bgColor = 0x131521;
 
 		this.setupMask = this._setupMask.bind(this);
 		this.setupBase = this._setupBase.bind(this);
+
+		this.geometry = null;
+		this.material = null;
+		this.mesh = null;
+		this.pointsLight = null;
+		this.ambientLight = null;
+		this.controls = null;
+		this.dpr = window.devicePixelRatio;
+
+		this.uniforms = {};
 
 		this.onLoad = this._onLoad.bind(this);
 
@@ -66,23 +66,23 @@ export default class MaskEffect {
    */
   init(){
 
-		let sw = $(window).width();
-		let sh = window.innerHeight;
-
 		this.renderer = new THREE.WebGLRenderer({
+			canvas: this.canvas,
 			alpha : true,
 			antialias : false,
 			stencil : false,
-			depth              : true,
-			premultipliedAlpha : true,
 			powerPreference : 'low-power',
-			canvas: this.canvas,
 		});
 		this.renderer.autoCLear = true;
 
-		this.scene = new THREE.Scene();
+		// メインシーン
+		this.mainScene = new THREE.Scene();
 
-		this.camera = new THREE.PerspectiveCamera(80, 1, 0.1, 50000);
+		// メインカメラ
+		this.mainCamera = new THREE.PerspectiveCamera(80, 1, 0.1, 50000);
+
+		let sw = $(window).width();
+		let sh = window.innerHeight;
 
 		// マスク用のシーン作成
 		this.setupMask();
@@ -90,16 +90,92 @@ export default class MaskEffect {
 		// ベースとなるシーン作成
 		this.setupBase();
 
+		// 描画部分
 		this.createMesh();
 
 		this.Update();
 
-		window.addEventListener('resize', this.onResize);
-
+		// 毎フレーム実行
+		window.requestAnimationFrame(this.Update);
+		// window.addEventListener('resize', this.onResize);
   }
 
 	/**
-	 * メッシュ作成
+	 * 更新
+	 * @private
+	 */
+	_Update() {
+
+		let sw = window.innerWidth;
+		let sh = window.innerHeight;
+
+		// カメラ設定
+		// ピクセル等倍になるように
+		this.mainCamera.aspect = sw / sh;
+		this.mainCamera.updateProjectionMatrix();
+		this.mainCamera.position.z = sh / Math.tan(this.mainCamera.fov * Math.PI / 360) / 2;
+
+		// レンダラーの設定
+		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+		this.renderer.setSize(sw, sh);
+
+		// マスクとなるシーンのアニメーション
+		let maskSize = sw * 0.3;
+		this.maskMesh.scale.set(maskSize, maskSize, maskSize);
+		this.maskMesh.rotation.x += 0.005;
+		this.maskMesh.rotation.y -= 0.006;
+		this.maskMesh.rotation.z += 0.011;
+
+		// マスク用シーンのレンダリング
+		this.renderer.setClearColor(this.bgColor, 0);
+		this.maskTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
+		this.renderer.setRenderTarget(this.maskTg);
+		this.renderer.render(this.maskScene, this.mainCamera);
+		// this.renderer.setRenderTarget(null);
+
+		// ベースとなるシーンのアニメーション
+		for(let i = 0; i < this.baseMesh.length; i++) {
+			let o = this.baseMesh[i];
+			let m = o.mesh;
+			let scaleNoise = o.scaleNoise;
+			let posXNoise = o.posXNoise;
+			let posYNoise = o.posYNoise;
+			let speedNoise = o.speedNoise;
+
+			// くるくる
+			m.rotation.x += 0.005 * speedNoise;
+			m.rotation.y -= 0.006 * speedNoise;
+			m.rotation.z += 0.011 * speedNoise;
+
+			// 位置とサイズ
+			let bs = Math.min(sw, sh);
+			m.scale.set(bs * scaleNoise, bs * scaleNoise, bs * scaleNoise);
+			m.position.set(sw * posXNoise, sh * posYNoise, 0);
+		}
+
+		// ベースとなるシーンのレンダリング
+		this.renderer.setClearColor(this.bgColor, 1);
+		this.baseTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
+		this.renderer.setRenderTarget(this.baseTg);
+		this.renderer.render(this.baseScene, this.mainCamera);
+		this.renderer.setRenderTarget(null);　// TODO:RenderTargetをクリアするのを忘れない：その１
+
+		// 出力用メッシュを画面サイズに
+		this.dest.scale.set(sw, sh, 1);
+
+		// レンダリング
+		this.renderer.setClearColor(0x131521, 1);
+		this.renderer.render(this.mainScene, this.mainCamera);
+		this.renderer.setRenderTarget(null); // TODO:RenderTargetをクリアするのを忘れない：その２
+
+		requestAnimationFrame( () => {
+		  this.Update();
+		});
+
+	}
+
+	/**
+	 * メッシュ作成(描画部分)
 	 * @private
 	 */
 	_createMesh() {
@@ -114,8 +190,8 @@ export default class MaskEffect {
 			vertexShader: require('../../../../glsl/maskEffect.vert'),
 			fragmentShader: require('../../../../glsl/maskEffect.frag')
 		});
-		this.mesh = new THREE.Mesh(this.geometry, this.material);
-		this.scene.add(this.mesh);
+		this.dest = new THREE.Mesh(this.geometry, this.material);
+		this.mainScene.add(this.dest);
 	}
 
 	/**
@@ -144,8 +220,6 @@ export default class MaskEffect {
 	 * @private
 	 */
 	_setupBase() {
-		let sw = window.innerWidth;
-		let sh = window.innerHeight;
 
 		// ベースとなるシーン
 		this.baseScene = new THREE.Scene();
@@ -179,77 +253,7 @@ export default class MaskEffect {
 		}
 	}
 
-  /**
-   * 更新
-   * @private
-   */
-  _Update() {
 
-		let sw = window.innerWidth;
-		let sh = window.innerHeight;
-
-		// カメラ設定
-		// ピクセル等倍になるように
-		this.camera.aspect = sw / sh;
-		this.camera.updateProjectionMatrix();
-		this.camera.position.z = sh / Math.tan(this.camera.fov * Math.PI / 360) / 2;
-
-		// レンダラーの設定
-		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-		this.renderer.setSize(sw, sh);
-
-
-		// マスクとなるシーンのアニメーション
-		let maskSize = sw * 0.3;
-		this.maskMesh.scale.set(maskSize, maskSize, maskSize);
-		this.maskMesh.rotation.x += 0.005;
-		this.maskMesh.rotation.y -= 0.006;
-		this.maskMesh.rotation.z += 0.011;
-
-		// マスク用シーンのレンダリング
-		this.renderer.setClearColor(0x131521, 0);
-		this.maskTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
-		this.renderer.setRenderTarget(this.maskTg, true);
-		this.renderer.render(this.maskScene, this.camera);
-
-		// ベースとなるシーンのアニメーション
-		for(let i = 0; i < this.baseMesh.length; i++) {
-			let o = this.baseMesh[i];
-			let m = o.mesh;
-			let scaleNoise = o.scaleNoise;
-			let posXNoise = o.posXNoise;
-			let posYNoise = o.posYNoise;
-			let speedNoise = o.speedNoise;
-
-			// くるくる
-			m.rotation.x += 0.005 * speedNoise;
-			m.rotation.y -= 0.006 * speedNoise;
-			m.rotation.z += 0.011 * speedNoise;
-
-			// 位置とサイズ
-			let bs = Math.min(sw, sh);
-			m.scale.set(bs * scaleNoise, bs * scaleNoise, bs * scaleNoise);
-			m.position.set(sw * posXNoise, sh * posYNoise, 0);
-		}
-
-		// ベースとなるシーンのレンダリング
-		this.renderer.setClearColor(0x131521, 1);
-		this.baseTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
-		this.renderer.setRenderTarget(this.baseTg, true);
-		this.renderer.render(this.baseScene, this.camera);
-
-		// 出力用メッシュを画面サイズに
-		this.mesh.scale.set(sw, sh, 1);
-
-		// レンダリング
-		this.renderer.setClearColor(0x131521, 1);
-		this.renderer.render(this.scene, this.camera);
-
-    // requestAnimationFrame( () => {
-    //   this.Update();
-    // });
-
-  }
 
   /**
    *　画面リサイズイベント
