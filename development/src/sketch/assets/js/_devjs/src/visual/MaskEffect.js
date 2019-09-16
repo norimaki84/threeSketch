@@ -76,9 +76,9 @@ export default class MaskEffect {
 		});
 		this.renderer.autoCLear = true;
 
-		this.video = document.getElementById( 'video' );
-		this.video.play();
-		this.videoTexture = new THREE.VideoTexture(this.video);
+		// this.video = document.getElementById( 'video' );
+		// this.video.play();
+		// this.videoTexture = new THREE.VideoTexture(this.video);
 
 		// メインシーン
 		this.mainScene = new THREE.Scene();
@@ -133,10 +133,10 @@ export default class MaskEffect {
 
 		// マスク用シーンのレンダリング
 		this.renderer.setClearColor(this.bgColor, 0);
-		// this.maskTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
-		// this.renderer.setRenderTarget(this.maskTg);
+		this.maskTg.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
+		this.renderer.setRenderTarget(this.maskTg);
 		// this.videoTexture.setSize(sw * window.devicePixelRatio, sh * window.devicePixelRatio);
-		this.renderer.setRenderTarget(this.videoTexture);
+		// this.renderer.setRenderTarget(this.videoTexture);
 		this.renderer.render(this.maskScene, this.mainCamera);
 		// this.renderer.setRenderTarget(null);
 
@@ -188,8 +188,8 @@ export default class MaskEffect {
 	_createMesh() {
 		this.uniforms = {
 			tDiffuse:{ value: this.baseTg.texture },
-			// tMask:{ value: this.maskTg.texture }
-			tMask:{ type : "t", value: this.maskTg.texture }
+			tMask:{  type : "t", value: this.maskTg.texture }
+			// tMask:{ type : "t", value: this.maskTg.texture }
 		};
 		this.geometry = new THREE.PlaneBufferGeometry(1, 1);
 		this.material = new THREE.ShaderMaterial({
@@ -200,12 +200,12 @@ export default class MaskEffect {
 		});
 
 		//テクスチャの拡大縮小用のフィルタ
-		this.material.uniforms.tMask.value.magFilter = THREE.LinearFilter;
-		this.material.uniforms.tMask.value.minFilter = THREE.LinearFilter;
+		// this.material.uniforms.tMask.value.magFilter = THREE.LinearFilter;
+		// this.material.uniforms.tMask.value.minFilter = THREE.LinearFilter;
 		// 動画テクスチャフォーマットの指定
-		this.material.uniforms.tMask.format = THREE.RGBFormat;
+		// this.material.uniforms.tMask.format = THREE.RGBFormat;
 		//テクスチャのアップデート
-		this.material.uniforms.tMask.value.needsUpdate = true;
+		// this.material.uniforms.tMask.value.needsUpdate = true;
 
 		this.dest = new THREE.Mesh(this.geometry, this.material);
 		this.mainScene.add(this.dest);
