@@ -25,7 +25,6 @@ export default class MorphingGLSL {
 		 * @type {PerspectiveCamera}
 		 */
 		this.camera = new THREE.PerspectiveCamera(60, this.width / this.height, 1, 1000);
-		// this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 
 		/**
 		 *
@@ -95,11 +94,11 @@ export default class MorphingGLSL {
 		this.Update();
 
 
-		this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
+		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 			// this.scene.add(this.mesh);
 			// this.updateStrength();
 			// this.Update();
-		});
+		// });
 
   }
 
@@ -175,18 +174,12 @@ export default class MorphingGLSL {
 	_Update() {
 
 		// let speed += 1;
-
 		// this.uniforms.u_time.value += 0.05;
 		// this.uniforms.u_time.value += 1;
-
 		// let now = performance.now();
 		// this.uniforms.u_time.value = (now - this.timeLoad) / 1000.0;
 
 		this.uniforms.u_time.value += 0.05;
-
-		window.console.log("this.uniforms.u_time.value ", this.uniforms.u_time.value);
-
-		// window.console.log(this.u_time);
 
 		this.renderer.render(this.scene, this.camera);
 
@@ -231,7 +224,6 @@ export default class MorphingGLSL {
   }
 
   onLoad() {
-
 		// this.mesh = this.createMesh();
 		// this.mesh.scale.set(512, 512, 512);
 	}

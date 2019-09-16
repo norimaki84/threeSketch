@@ -16,8 +16,6 @@ export default class MaskEffect {
   constructor() {
 
     this.canvas = document.getElementById('webgl-output');
-    // this.width = window.innerWidth;
-    // this.height = window.innerHeight;
 
     // 基本セット
 		this.utils = new Utils();
