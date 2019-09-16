@@ -47,7 +47,6 @@ export default class MorphingGLSL {
 
 		this.timeLoad = this.timePrev = performance.now();
 
-		this.updateStrength = this._updateStrength.bind(this);
 		this.draw = this._draw.bind(this);
 
 		this.uniforms = {};
@@ -93,43 +92,7 @@ export default class MorphingGLSL {
 		this.scene.add(this.mesh);
 		this.Update();
 
-
-		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
-			// this.scene.add(this.mesh);
-			// this.updateStrength();
-			// this.Update();
-		// });
-
   }
-
-	/**
-	 * マウスオーバー・マウスアウトでuniforms変数を更新
-	 * @private
-	 */
-	_updateStrength(){
-		let that = this;
-		this.canvasEl
-			.mouseover(() => {
-				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-					value: 15,
-					ease: Linear.easeNone,
-					overwrite: true,
-					onUpdate: () => {
-						return that.draw();
-					}
-				});
-			})
-			.mouseout(() => {
-				TweenMax.to(that.mesh.material.uniforms.strength, 0.8, {
-					value: 0,
-					ease: Linear.easeNone,
-					overwrite: true,
-					onUpdate: () => {
-						return that.draw();
-					}
-				});
-			});
-	}
 
 	/**
 	 * 再描画
