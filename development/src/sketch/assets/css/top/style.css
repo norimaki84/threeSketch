@@ -333,14 +333,19 @@ canvas
             transform: translate(-50%, -50%);
 }
 
+#textEffect
+{
+    background-color: #000;
+}
+
 #textEffect .sketchTitle
 {
-    color: #000;
+    color: #fff;
 }
 
 #textEffect .sketchDes
 {
-    color: #000;
+    color: #fff;
 }
 
 #textEffect #webgl-output

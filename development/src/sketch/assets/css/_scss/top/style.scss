@@ -124,13 +124,15 @@ canvas {
 }
 
 #textEffect {
+  background-color: #000;
   .sketchTitle {
-    color: #000;
+    color: #fff;
   }
   .sketchDes {
-    color: #000;
+    color: #fff;
   }
   #webgl-output {
+    //background-color: #000;
     margin: 0 auto;
     position: absolute;
     top: 50%;

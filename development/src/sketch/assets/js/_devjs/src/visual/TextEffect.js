@@ -75,7 +75,7 @@ export default class TextEffect {
 		this.camera.position.z = 1000;
 		this.camera.lookAt(new THREE.Vector3(0,0,0));
 
-		this.renderer.setClearColor(0xffffff, 0.0);
+		this.renderer.setClearColor(0x000000, 0.0);
 		this.renderer.setPixelRatio(window.devicePixelRatio || 1);
 		this.renderer.setSize(this.width, this.height);
 
@@ -85,9 +85,10 @@ export default class TextEffect {
 		// this.capText = new CaptureText('No', 256, 'sans-serif', '000000');
 		// this.scene.add(this.capText.planeTexture);
 		// let x = window.innerWidth / 2 - 300;
-		this.posX = this.width / 2 - 300;
+		// this.posX = this.width / 2 - 300;
+		this.posX = this.width / 2;
 		this.posY = this.height / 2 - 300;
-		this.mesh = this.createLabel('Norimaki.jp', this.posX, this.posY, 0, 100, '000', 'bold', 'sans-serif', 'ffff00', 50);
+		this.mesh = this.createLabel('Norimaki.jp', this.posX, this.posY, 0, 100, 'fff', 'bold', 'sans-serif', '000', 50);
 		this.scene.add(this.mesh);
 
 		this.Update();
@@ -204,7 +205,7 @@ export default class TextEffect {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;
 
-		this.posX = this.canvasWidth / 2;
+		// this.posX = this.canvasWidth / 2;
 
     // this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.aspect = this.width / this.height;
