@@ -58,7 +58,7 @@ export default class MaskEffect {
     this.createMesh = this._createMesh.bind(this);
 
     this.onResize = this._onResize.bind(this);
-		this.Update = this._Update.bind(this);
+		this.update = this._update.bind(this);
 
   }
 
@@ -86,9 +86,6 @@ export default class MaskEffect {
 		// メインカメラ
 		this.mainCamera = new THREE.PerspectiveCamera(80, 1, 0.1, 50000);
 
-		let sw = $(window).width();
-		let sh = window.innerHeight;
-
 		// マスク用のシーン作成
 		this.setupMask();
 
@@ -98,10 +95,10 @@ export default class MaskEffect {
 		// 描画部分
 		this.createMesh();
 
-		this.Update();
+		this.update();
 
 		// 毎フレーム実行
-		window.requestAnimationFrame(this.Update);
+		window.requestAnimationFrame(this.update);
 		// window.addEventListener('resize', this.onResize);
   }
 
@@ -109,7 +106,7 @@ export default class MaskEffect {
 	 * 更新
 	 * @private
 	 */
-	_Update() {
+	_update() {
 
 		let sw = window.innerWidth;
 		let sh = window.innerHeight;
@@ -176,7 +173,7 @@ export default class MaskEffect {
 		this.renderer.setRenderTarget(null); // TODO:RenderTargetをクリアするのを忘れない：その２
 
 		requestAnimationFrame( () => {
-		  this.Update();
+		  this.update();
 		});
 
 	}

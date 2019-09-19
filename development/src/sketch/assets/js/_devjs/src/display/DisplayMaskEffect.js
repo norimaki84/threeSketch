@@ -23,7 +23,6 @@ export default class DisplayMaskEffect {
 
 	setup() {
 		this.maskEffect.init();
-
 	}
 
 	onLoad() {
