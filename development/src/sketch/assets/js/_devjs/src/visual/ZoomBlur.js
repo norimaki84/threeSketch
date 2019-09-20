@@ -47,8 +47,8 @@ export default class ZoomBlur {
 			canvas: this.canvas
 		});
 
-		this.updateStrength = this._updateStrength.bind(this);
-		this.draw = this._draw.bind(this);
+		this.updateBlurStrength = this._updateBlurStrength.bind(this);
+		this.reDraw = this._reDraw.bind(this);
 
 		this.uniforms = {};
 		this.u_time = null;
@@ -57,7 +57,7 @@ export default class ZoomBlur {
 		this.createMesh = this._createMesh.bind(this);
 
     this.onResize = this._onResize.bind(this);
-		this.Update = this._Update.bind(this);
+		this.update = this._update.bind(this);
 		this.loadTexture = this._loadTexture.bind(this);
 
 
@@ -91,8 +91,8 @@ export default class ZoomBlur {
 		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 		this.loadTexture('/sketch/assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
-			this.updateStrength();
-			this.Update();
+			this.updateBlurStrength();
+			this.update();
 		});
 
   }
@@ -101,7 +101,7 @@ export default class ZoomBlur {
 	 * マウスオーバー・マウスアウトでuniforms変数を更新
 	 * @private
 	 */
-	_updateStrength(){
+	_updateBlurStrength(){
 		let that = this;
 		this.canvasEl
 			.mouseover(() => {
@@ -110,7 +110,7 @@ export default class ZoomBlur {
 					ease: Linear.easeNone,
 					overwrite: true,
 					onUpdate: () => {
-						return that.draw();
+						return that.reDraw();
 					}
 				});
 			})
@@ -120,7 +120,7 @@ export default class ZoomBlur {
 					ease: Linear.easeNone,
 					overwrite: true,
 					onUpdate: () => {
-						return that.draw();
+						return that.reDraw();
 					}
 				});
 			});
@@ -130,7 +130,7 @@ export default class ZoomBlur {
 	 * 再描画
 	 * @private
 	 */
-	_draw(){
+	_reDraw(){
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -163,12 +163,12 @@ export default class ZoomBlur {
 	 * 更新
 	 * @private
 	 */
-	_Update() {
+	_update() {
 
 		this.renderer.render(this.scene, this.camera);
 
 		requestAnimationFrame( () => {
-			this.Update();
+			this.update();
 		});
 
 	}
@@ -211,7 +211,6 @@ export default class ZoomBlur {
 
 	setEvents() {
 
-    $(window).on('load', this.onLoad.bind(this));
 
   }
 
