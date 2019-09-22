@@ -187,7 +187,6 @@ export default class ZoomBlur {
 			that.textureUnit = texture;
 			this.mesh = this.createMesh();
 			this.mesh.scale.set(512, 512, 512);
-			window.console.log();
 			callback();
 		})
 

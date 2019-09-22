@@ -93,15 +93,10 @@ export default class Floating {
 		this.createLight();
 		this.utilEvent();
 
-		// this.loadTexture('../../../../assets/resource/img/water.jpg', () => {
 		this.loadTexture('/sketch/assets/resource/img/water.jpg', () => {
-
 			this.offScreenEvent();
-
 			this.createPlane();
-
 			window.addEventListener('resize', this.onResize, false );
-
 			this.onResize();
 			this.Update();
 		});

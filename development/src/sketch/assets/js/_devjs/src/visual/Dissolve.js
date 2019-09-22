@@ -9,7 +9,6 @@
 'use strict';
 
 import * as THREE from 'three';
-// import Capture from "./Capture";
 
 export default class Dissolve {
 
