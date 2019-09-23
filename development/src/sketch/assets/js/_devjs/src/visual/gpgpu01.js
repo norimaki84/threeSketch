@@ -361,10 +361,4 @@ export default class gpgpu01 {
 
 	}
 
-	setEvents() {
-
-    $(window).on('load', this.onLoad.bind(this));
-
-  }
-
 }
