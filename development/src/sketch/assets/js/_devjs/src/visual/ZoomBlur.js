@@ -88,7 +88,6 @@ export default class ZoomBlur {
 			this.ratio = 2.0;
 		}
 
-		// this.loadTexture('../../../../assets/resource/img/sample.jpg', () => {
 		this.loadTexture('/sketch/assets/resource/img/sample.jpg', () => {
 			this.scene.add(this.mesh);
 			this.updateBlurStrength();
