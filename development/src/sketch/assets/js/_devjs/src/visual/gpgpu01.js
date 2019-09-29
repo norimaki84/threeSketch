@@ -326,39 +326,4 @@ export default class gpgpu01 {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-
-
-	/**
-	 * 画像をロード
-	 * @private
-	 */
-	_loadTextureEvent() {
-
-		// const texLoader = new THREE.TextureLoader();
-		// texLoader.crossOrigin = '*'; //クロスドメイン読み込みの許可
-		// texLoader.load('../../../../assets/resource/img/shibuya01.jpg',
-		// 	texture => { // onLoad
-		// 		// const geometry = new THREE.BoxGeometry(1, 1, 1);
-		// 		// const material = new MeshBasicMaterial({ map: texture });
-		// 		// const cube = new THREE.Mesh(geometry, material);
-		// 		// scene.add(cube);
-		// 		// ...
-		// 		window.console.log('完了');
-		// 	},
-		// 	xhr => { // onProgress
-		// 		window.console.log('');
-		// 	},
-		// 	xhr => { // onError
-		// 		// ...
-		// 	}
-		// );
-
-		// loadTexture(this.texsArray, function () {
-		//
-		// 	window.console.log('リソース読み込み完了');
-		//
-		// });
-
-	}
-
 }
