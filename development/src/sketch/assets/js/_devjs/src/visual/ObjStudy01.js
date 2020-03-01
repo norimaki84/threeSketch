@@ -232,7 +232,7 @@ export default class ObjStudy01 extends Entry {
 
 		// カメラ
 		let controls;
-		controls = new THREE.OrbitControls(this.camera);
+		controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 		controls.autoRotate = true;
 	}
 

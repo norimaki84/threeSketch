@@ -423,7 +423,7 @@ export default class dotMatrix {
 
 		// カメラ
 		let controls;
-		controls = new THREE.OrbitControls(this.camera);
+		controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 		controls.autoRotate = true;
 
 		//add stats

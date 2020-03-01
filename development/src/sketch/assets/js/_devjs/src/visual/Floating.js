@@ -10,7 +10,6 @@
 
 import * as THREE from 'three';
 const OrbitControls = require('three-orbitcontrols');
-// import Capture from "./Capture";
 
 export default class Floating {
 
@@ -235,7 +234,7 @@ export default class Floating {
 
 		// カメラ
 		let controls;
-		controls = new THREE.OrbitControls(this.camera);
+		controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 		controls.autoRotate = true;
 
 	}
