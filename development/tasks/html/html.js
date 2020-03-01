@@ -38,8 +38,7 @@ gulp.task("minifyHTML", ()=>{
 
 });
 
-
-gulp.task("copyPHP", function() {
-	gulp.src(PATH.dev.root + '**/*.php')
-    .pipe(gulp.dest(PATH.release.root));
-});
+// gulp.task("copyPHP", function() {
+// 	gulp.src(PATH.dev.root + '**/*.php')
+// 		.pipe(gulp.dest(PATH.release.root));
+// });

@@ -3,7 +3,6 @@ import imagemin from 'gulp-imagemin';
 import pngquant from 'imagemin-pngquant';
 import jpegoptim from 'imagemin-jpegoptim';
 import plumber from "gulp-plumber";
-import cache from 'gulp-cached';
 import changed from 'gulp-changed';
 import PATH from '../../config';
 
@@ -26,7 +25,6 @@ gulp.task('minifyIMG', ()=>{
 
   gulp.src(PATH.dev.resource + '**/*.+(jpg|jpeg|png|gif|svg)')
     .pipe(changed(PATH.release.resource))
-    // .pipe(cache('img_log'))
     .pipe(plumber())
     .pipe(imagemin(opt))
     .pipe(gulp.dest(PATH.release.resource));

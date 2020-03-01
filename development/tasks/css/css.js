@@ -17,7 +17,7 @@ gulp.task("compileSCSS", ()=>{
         .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(sassGlob())
         .pipe(sass({outputStyle : 'expanded'}))
-        .pipe(autoprefixer({browsers: ['last 2 versions', 'iOS >= 8.1', 'Android >= 4.4'],cascade: true}))
+        .pipe(autoprefixer({browsers: ['last 2 versions', 'iOS >= 11', 'Android >= 5.1'],cascade: true}))
         .pipe(csscomb())
         .pipe(gulp.dest(PATH.dev.css));
 

@@ -16,3 +16,7 @@ gulp.task('copyJS', ()=>{
 
 });
 
+gulp.task("copyPHP", function() {
+	gulp.src(PATH.dev.root + '**/*.php')
+		.pipe(gulp.dest(PATH.release.root));
+});

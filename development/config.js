@@ -3,7 +3,7 @@ let PROJECT_ROOT = './';
 
 let DEV = 'src/sketch/';
 
-let RELEASE = '../docs/sketch/';
+let RELEASE = '../htdocs/sketch/';
 
 let BUILD = 'build/';
 

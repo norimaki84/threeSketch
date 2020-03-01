@@ -6,11 +6,12 @@
  * Author: Teraguchi
  */
 
-import * as THREE from 'three'
-const OrbitControls = require('three-orbitcontrols');
+import * as THREE from 'three';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import Entry from '../Core/Entry';
 // require('../../libs/loaders/OBJLoader');
-require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js');
+// require('imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js');
 // require('three/examples/js/controls/TrackballControls.js');
 
 'use strict';
@@ -195,7 +196,7 @@ export default class ObjStudy01 extends Entry {
 		// let textureLoader = new THREE.TextureLoader( manager );
 		// let texture = textureLoader.load( '../../../../assets/resource/img/Banana.jpg' );
 
-		this.loader = new THREE.OBJLoader( manager );
+		this.loader = new OBJLoader( manager );
 		this.loader.load( '/sketch/assets/resource/model/banana03.obj', function ( object ) {
 			object.traverse( function ( child ) {
 
@@ -232,7 +233,7 @@ export default class ObjStudy01 extends Entry {
 
 		// カメラ
 		let controls;
-		controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+		controls = new OrbitControls(this.camera, this.renderer.domElement);
 		controls.autoRotate = true;
 	}
 

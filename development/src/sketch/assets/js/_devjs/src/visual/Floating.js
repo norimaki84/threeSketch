@@ -9,7 +9,7 @@
 'use strict';
 
 import * as THREE from 'three';
-const OrbitControls = require('three-orbitcontrols');
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default class Floating {
 
@@ -223,7 +223,7 @@ export default class Floating {
 	}
 
 	/**
-	 *
+	 * Utilクラスイベント
 	 * @private
 	 */
 	_utilEvent() {
@@ -234,14 +234,15 @@ export default class Floating {
 
 		// カメラ
 		let controls;
-		controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+		controls = new OrbitControls(this.camera, this.renderer.domElement);
 		controls.autoRotate = true;
 
 	}
 
-  /**
-   *　画面リサイズイベント
-   */
+	/**
+	 * 画面リサイズイベント
+	 * @private
+	 */
   _onResize() {
 		this.canvas.width = document.body.clientWidth;
     this.canvas.height = document.body.clientHeight;

@@ -7,6 +7,8 @@
  */
 
 import * as THREE from 'three';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 // import "imports-loader?THREE=three!three/examples/js/controls/TransformControls.js";
 import GPUComputationRenderer from "./Utils/GPUComputationRenderer";
 
@@ -135,7 +137,8 @@ export default class gpgpu01 {
 	 * @private
 	 */
 	_controlsUtil() {
-		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+		// this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 	}
 
 	/**
@@ -214,7 +217,6 @@ export default class gpgpu01 {
 		// attributeをgeometryに登録する
 		this.geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
 		this.geometry.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 2 ) );
-
 
 		// uniform変数をオブジェクトで定義
 		// 今回はカメラをマウスでいじれるように、計算に必要な情報もわたす。

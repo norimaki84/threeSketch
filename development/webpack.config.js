@@ -20,7 +20,7 @@ module.exports = {
 						loader: 'babel-loader',
 						options: {
 							presets: [
-								['env']
+								['@babel/preset-env']
 							]
 						}
 					}
@@ -53,11 +53,7 @@ module.exports = {
 						}
 					}
 				]
-			},
-			// {
-			// 	test: require.resolve("some-module"),
-			// 	use: "imports-loader?this=>window"
-			// }
+			}
 		]
 	},
 	resolve: {

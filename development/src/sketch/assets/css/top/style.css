@@ -307,8 +307,7 @@ canvas
 
     margin: 0 auto;
 
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #textTransform .sketchTitle
@@ -329,8 +328,7 @@ canvas
 
     margin: 0 auto;
 
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #textEffect
@@ -356,8 +354,7 @@ canvas
 
     margin: 0 auto;
 
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #Dissolve #webgl-output
@@ -368,8 +365,7 @@ canvas
 
     margin: 0 auto;
 
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #MorphingGLSL .sketchTitle
@@ -390,8 +386,7 @@ canvas
 
     margin: 0 auto;
 
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #maskEffect .sketchTitle

@@ -7,6 +7,7 @@
  */
 
 import * as THREE from 'three';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 'use strict';
 
@@ -190,7 +191,7 @@ export default class Canvas {
    * カメラコントロール
 	 */
 	_orbitControls(){
-		this.controls = new THREE.OrbitControls(this.camera);
+		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 		this.controls.autoRotate = true;
 		let clock = new THREE.Clock();
 
