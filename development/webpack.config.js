@@ -12,6 +12,19 @@ module.exports = {
 	devtool: 'inline-source-map',
 	module: {
 		rules: [
+			// {
+			// 	enforce: "pre", // babel-loader でES5に変換する前にコード検証させる
+			// 	test: /\.js$/,
+			// 	exclude: /node_modules/,
+			// 	use: [
+			// 		{
+			// 			loader: 'eslint-loader',
+			// 			options: {
+			// 				cache: true
+			// 			}
+			// 		}
+			// 	]
+			// },
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
