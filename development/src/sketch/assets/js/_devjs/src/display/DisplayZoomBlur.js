@@ -12,7 +12,7 @@ import ZoomBlur from '../visual/ZoomBlur';
 
 export default class DisplayZoomBlur {
 
-  constructor(){
+  constructor() {
 
 		this.zoomBlur = new ZoomBlur();
 

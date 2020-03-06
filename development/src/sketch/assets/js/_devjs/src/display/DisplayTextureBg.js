@@ -1,18 +1,20 @@
 /**
  * fileOverview:
  * Project:
- * File: Display
- * Date:
+ * File: DisplayTextureBg
+ * Date: 20/03/07
  * Author: Teraguchi
  */
 
-import TextureBg from "../visual/TextureBg";
+import TextureBg from '../visual/TextureBg';
 
 'use strict';
 
-export default class DisplayTop {
+export default class DisplayTextureBg {
 
-  constructor(){
+  constructor() {
+
+    this.textureBg = new TextureBg();
 
     this.setup();
     this.setEvents();
@@ -21,21 +23,13 @@ export default class DisplayTop {
 
   setup() {
 
-    // アニメーションループスタート
-    // gb.in.up.loop();
+
     
   }
 
   onLoad() {
 
-    gb.in.textureBg = new TextureBg();
-
-    gb.in.textureBg.init();
-
-
-  }
-
-  static run() {
+    this.textureBg.init();
 
   }
 

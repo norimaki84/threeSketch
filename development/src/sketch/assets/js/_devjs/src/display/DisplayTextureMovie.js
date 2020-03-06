@@ -1,20 +1,20 @@
 /**
  * fileOverview:
  * Project:
- * File: Display
- * Date:
+ * File: DisplayTextureMovie
+ * Date: 20/03/07
  * Author: Teraguchi
  */
 
-// import WebGLinit from './WebGLinit.js';
-
-import Canvas from "../visual/Canvas";
+import Canvas from '../visual/Canvas';
 
 'use strict';
 
-export default class DisplayTop {
+export default class DisplayTextureMovie {
 
   constructor(){
+
+    this.canvas = new Canvas();
 
     this.setup();
     this.setEvents();
@@ -23,23 +23,11 @@ export default class DisplayTop {
 
   setup() {
 
-    // アニメーションループスタート
-    // gb.in.up.loop();
+    this.canvas.init();
     
   }
 
   onLoad() {
-
-    gb.in.canvas = new Canvas();
-
-    gb.in.canvas.init();
-
-
-  }
-
-  static run() {
-
-		// window.console.log('static_Run');
 
   }
 

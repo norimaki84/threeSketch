@@ -14,6 +14,8 @@ export default class DisplayClockTransform {
 
   constructor(){
 
+    this.clockTransform = new ClockTransform();
+
     this.setup();
     this.setEvents();
 
@@ -21,19 +23,11 @@ export default class DisplayClockTransform {
 
   setup() {
 
-    
+    this.clockTransform.init();
+
   }
 
   onLoad() {
-
-    gb.in.clockTransform = new ClockTransform();
-
-    gb.in.clockTransform.init();
-
-
-  }
-
-  static run() {
 
   }
 

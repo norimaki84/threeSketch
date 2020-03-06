@@ -6,13 +6,15 @@
  * Author: Teraguchi
  */
 
-import TextTransform from "../visual/TextTransform";
+import TextTransform from '../visual/TextTransform';
 
 'use strict';
 
 export default class DisplayTextTransform {
 
   constructor(){
+
+    this.textTransform = new TextTransform();
 
     this.setup();
     this.setEvents();
@@ -21,19 +23,11 @@ export default class DisplayTextTransform {
 
   setup() {
 
+    this.textTransform.init();
     
   }
 
   onLoad() {
-
-    gb.in.textTransform = new TextTransform();
-
-    gb.in.textTransform.init();
-
-
-  }
-
-  static run() {
 
   }
 

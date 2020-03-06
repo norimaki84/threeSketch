@@ -6,13 +6,15 @@
  * Author: Teraguchi
  */
 
-import TextEffect from "../visual/TextEffect";
+import TextEffect from '../visual/TextEffect';
 
 'use strict';
 
 export default class DisplayTextEffect {
 
   constructor(){
+
+    this.textEffect = new TextEffect();
 
     this.setup();
     this.setEvents();
@@ -21,19 +23,11 @@ export default class DisplayTextEffect {
 
   setup() {
 
+    this.textEffect.init();
 
   }
 
   onLoad() {
-
-    gb.in.textEffect = new TextEffect();
-
-    gb.in.textEffect.init();
-
-
-  }
-
-  static run() {
 
   }
 
