@@ -20,11 +20,11 @@
 //      "no-console": 0, //コンソールを使用している
 //      "no-alert": 0, //アラートを使用している
 //      "quotes": [0, "single"], //シングルクオートを使用していない
-      "consistent-return": 0, //関数の戻り値に何も指定していない
-      "default-case": 0, //switch文でdefaultが設定されていない
-      "eqeqeq": 0, //「===, !==」ではなく「==,!=」を使用している
+//      "consistent-return": 0, //関数の戻り値に何も指定していない
+//      "default-case": 0, //switch文でdefaultが設定されていない
+//      "eqeqeq": 0, //「===, !==」ではなく「==,!=」を使用している
 //      "camelcase": [0, {"properties": "always"}], //キャメルケースを使用していない
-      "no-unused-vars": 0, //使用していない変数がある
-      "no-undef": 0
+//      "no-unused-vars": 0, //使用していない変数がある
+//      "no-undef": 0
   }
 }
